@@ -23,6 +23,8 @@ async function carregarOfertas() {
 
         carregarLojas();
 
+        criarCardsDeLojas();
+
         filtrarOfertas();
 
     } catch (erro) {
@@ -42,6 +44,7 @@ async function carregarOfertas() {
             lista.innerHTML = `
                 <div class="card">
                     <div class="card-content">
+
                         <h3>
                             Não foi possível carregar as ofertas.
                         </h3>
@@ -49,6 +52,7 @@ async function carregarOfertas() {
                         <p>
                             Tente atualizar a página.
                         </p>
+
                     </div>
                 </div>
             `;
@@ -61,7 +65,7 @@ async function carregarOfertas() {
 
 
 /* =========================
-   CARREGAR LOJAS
+   FILTRO DE LOJAS
 ========================= */
 
 function carregarLojas() {
@@ -74,6 +78,13 @@ function carregarLojas() {
     if (!filtroLoja) {
         return;
     }
+
+
+    filtroLoja.innerHTML = `
+        <option value="todas">
+            Todas as lojas
+        </option>
+    `;
 
 
     const lojas = [
@@ -127,6 +138,177 @@ function carregarLojas() {
 
 
 /* =========================
+   CARDS DAS LOJAS
+========================= */
+
+function criarCardsDeLojas() {
+
+    const container =
+        document.getElementById(
+            "lista-lojas"
+        );
+
+    if (!container) {
+        return;
+    }
+
+
+    const mapaLojas = {};
+
+
+    todasAsOfertas.forEach(
+        function(oferta) {
+
+            const loja =
+                oferta.loja;
+
+            if (!loja) {
+                return;
+            }
+
+
+            if (!mapaLojas[loja]) {
+
+                mapaLojas[loja] = 0;
+
+            }
+
+
+            mapaLojas[loja]++;
+
+        }
+    );
+
+
+    const lojas =
+        Object.keys(
+            mapaLojas
+        ).sort(
+            function(a, b) {
+
+                return a.localeCompare(
+                    b,
+                    "pt-BR"
+                );
+
+            }
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (lojas.length === 0) {
+
+        container.innerHTML = `
+            <div class="store-card">
+
+                <h3>
+                    Nenhuma loja encontrada
+                </h3>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    lojas.forEach(
+        function(loja) {
+
+            const card =
+                document.createElement(
+                    "button"
+                );
+
+
+            card.type = "button";
+
+            card.classList.add(
+                "store-card"
+            );
+
+
+            card.innerHTML = `
+
+                <span class="store-icon">
+                    🏪
+                </span>
+
+                <span class="store-info">
+
+                    <strong>
+                        ${loja}
+                    </strong>
+
+                    <small>
+                        ${mapaLojas[loja]}
+                        ${mapaLojas[loja] === 1
+                            ? " oferta"
+                            : " ofertas"}
+                    </small>
+
+                </span>
+
+                <span class="store-arrow">
+                    →
+                </span>
+
+            `;
+
+
+            card.addEventListener(
+                "click",
+                function() {
+
+                    const filtroLoja =
+                        document.getElementById(
+                            "filtro-loja"
+                        );
+
+
+                    if (filtroLoja) {
+
+                        filtroLoja.value =
+                            loja;
+
+                    }
+
+
+                    filtrarOfertas();
+
+
+                    const ofertas =
+                        document.getElementById(
+                            "ofertas"
+                        );
+
+
+                    if (ofertas) {
+
+                        ofertas.scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                    }
+
+                }
+            );
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
    MOSTRAR OFERTAS
 ========================= */
 
@@ -149,6 +331,7 @@ function mostrarOfertas(ofertas) {
 
         lista.innerHTML = `
             <div class="card">
+
                 <div class="card-content">
 
                     <h3>
@@ -160,12 +343,20 @@ function mostrarOfertas(ofertas) {
                     </p>
 
                 </div>
+
             </div>
         `;
+
+        atualizarContador(0);
 
         return;
 
     }
+
+
+    atualizarContador(
+        ofertas.length
+    );
 
 
     ofertas.forEach(
@@ -212,6 +403,12 @@ function mostrarOfertas(ofertas) {
                 Number(
                     oferta.desconto
                 ) || 0;
+
+
+            const linkOferta =
+                oferta.linkAfiliado ||
+                oferta.link ||
+                "#";
 
 
             card.innerHTML = `
@@ -280,7 +477,7 @@ function mostrarOfertas(ofertas) {
 
                     <a
                         class="botao"
-                        href="${oferta.link || "#"}"
+                        href="${linkOferta}"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -305,7 +502,37 @@ function mostrarOfertas(ofertas) {
 
 
 /* =========================
-   FILTROS
+   CONTADOR
+========================= */
+
+function atualizarContador(
+    quantidade
+) {
+
+    const contador =
+        document.getElementById(
+            "contador-ofertas"
+        );
+
+    if (!contador) {
+        return;
+    }
+
+
+    contador.textContent =
+        "🔥 " +
+        quantidade +
+        (
+            quantidade === 1
+                ? " oferta encontrada"
+                : " ofertas encontradas"
+        );
+
+}
+
+
+/* =========================
+   FILTRAR OFERTAS
 ========================= */
 
 function filtrarOfertas() {
@@ -397,8 +624,6 @@ function filtrarOfertas() {
         );
 
 
-    /* MAIOR DESCONTO */
-
     if (
         tipoOrdenacao ===
         "desconto"
@@ -421,8 +646,6 @@ function filtrarOfertas() {
 
     }
 
-
-    /* MENOR PREÇO */
 
     if (
         tipoOrdenacao ===
@@ -447,8 +670,6 @@ function filtrarOfertas() {
     }
 
 
-    /* MAIOR PREÇO */
-
     if (
         tipoOrdenacao ===
         "maior-preco"
@@ -471,8 +692,6 @@ function filtrarOfertas() {
 
     }
 
-
-    /* NOME */
 
     if (
         tipoOrdenacao ===
@@ -505,7 +724,50 @@ function filtrarOfertas() {
 
 
 /* =========================
-   STATUS DO GAVIX
+   CATEGORIAS
+========================= */
+
+function selecionarPlataforma(
+    plataforma
+) {
+
+    const filtro =
+        document.getElementById(
+            "filtro-plataforma"
+        );
+
+
+    if (!filtro) {
+        return;
+    }
+
+
+    filtro.value =
+        plataforma;
+
+
+    filtrarOfertas();
+
+
+    const ofertas =
+        document.getElementById(
+            "ofertas"
+        );
+
+
+    if (ofertas) {
+
+        ofertas.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+/* =========================
+   STATUS
 ========================= */
 
 async function carregarStatusGavix() {
@@ -630,7 +892,7 @@ if (ordenacao) {
 
 
 /* =========================
-   INICIALIZAÇÃO
+   INICIAR
 ========================= */
 
 carregarOfertas();

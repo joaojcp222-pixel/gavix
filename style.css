@@ -514,4 +514,101 @@ footer {
         grid-template-columns: 1fr;
     }
 
+}/* =========================
+   LOJAS
+========================= */
+
+.stores-section {
+    padding-top: 80px;
+}
+
+.lista-lojas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.store-card {
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    border: 1px solid #282931;
+    border-radius: 14px;
+    background: #111116;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.store-card:hover {
+    transform: translateY(-5px);
+    border-color: #555660;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.store-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #202127;
+    font-size: 21px;
+}
+
+.store-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.store-info strong {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.store-info small {
+    color: #85858f;
+    font-size: 12px;
+}
+
+.store-arrow {
+    margin-left: auto;
+    color: #888893;
+    font-size: 20px;
+}
+
+
+/* =========================
+   RESPONSIVO - LOJAS
+========================= */
+
+@media (max-width: 1000px) {
+
+    .lista-lojas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .lista-lojas {
+        grid-template-columns: 1fr;
+    }
+
 }

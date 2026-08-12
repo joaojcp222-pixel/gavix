@@ -19,7 +19,13 @@
 
 </head>
 
+
 <body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
 
     <header class="header">
 
@@ -32,10 +38,15 @@
                 GAVIX
             </a>
 
+
             <nav class="menu">
 
                 <a href="#ofertas">
                     Ofertas
+                </a>
+
+                <a href="#lojas">
+                    Lojas
                 </a>
 
                 <a href="#categorias">
@@ -48,7 +59,11 @@
 
             </nav>
 
-            <button class="menu-button">
+
+            <button
+                class="menu-button"
+                type="button"
+            >
                 ☰
             </button>
 
@@ -56,6 +71,11 @@
 
     </header>
 
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
 
     <section class="hero">
 
@@ -67,18 +87,26 @@
                     🔥 PROMOÇÕES DE JOGOS
                 </span>
 
+
                 <h1>
+
                     Encontre os melhores
+
                     <span>
                         preços em jogos.
                     </span>
+
                 </h1>
 
+
                 <p>
+
                     O Gavix reúne promoções de jogos
                     em um só lugar, ajudando você a
                     encontrar aquela oferta que vale a pena.
+
                 </p>
+
 
                 <a
                     href="#ofertas"
@@ -94,14 +122,22 @@
     </section>
 
 
+
     <main class="container">
+
+
+        <!-- =========================
+             OFERTAS
+        ========================== -->
 
         <section
             id="ofertas"
             class="offers-section"
         >
 
+
             <div class="section-header">
+
 
                 <div>
 
@@ -109,28 +145,45 @@
                         OFERTAS
                     </span>
 
+
                     <h2>
                         Promoções em destaque
                     </h2>
 
                 </div>
 
-                <span class="offer-count">
+
+                <span
+                    class="offer-count"
+                    id="contador-ofertas"
+                >
+
                     🔥 Ofertas encontradas
+
                 </span>
+
 
             </div>
 
+
+
+            <!-- STATUS -->
 
             <div
                 id="status-gavix"
                 class="status-gavix"
             >
+
                 🔄 Carregando informações...
+
             </div>
 
 
+
+            <!-- FILTROS -->
+
             <div class="filtros">
+
 
                 <input
                     type="text"
@@ -145,23 +198,28 @@
                         Todas as plataformas
                     </option>
 
+
                     <option value="PC">
                         PC
                     </option>
+
 
                     <option value="PlayStation">
                         PlayStation
                     </option>
 
+
                     <option value="Xbox">
                         Xbox
                     </option>
+
 
                     <option value="Nintendo">
                         Nintendo
                     </option>
 
                 </select>
+
 
 
                 <select id="filtro-loja">
@@ -173,23 +231,28 @@
                 </select>
 
 
+
                 <select id="ordenacao">
 
                     <option value="padrao">
                         Ordenar por
                     </option>
 
+
                     <option value="desconto">
                         🔥 Maior desconto
                     </option>
+
 
                     <option value="menor-preco">
                         💰 Menor preço
                     </option>
 
+
                     <option value="maior-preco">
                         💎 Maior preço
                     </option>
+
 
                     <option value="nome">
                         🔤 Nome A-Z
@@ -200,96 +263,190 @@
             </div>
 
 
+
+            <!-- LISTA -->
+
             <div
                 id="lista-ofertas"
                 class="lista-ofertas"
             ></div>
 
+
         </section>
 
+
+
+        <!-- =========================
+             LOJAS
+        ========================== -->
+
+        <section
+            id="lojas"
+            class="stores-section"
+        >
+
+
+            <div class="section-header">
+
+
+                <div>
+
+                    <span class="section-tag">
+                        LOJAS
+                    </span>
+
+
+                    <h2>
+                        Encontre ofertas por loja
+                    </h2>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div
+                id="lista-lojas"
+                class="lista-lojas"
+            ></div>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             CATEGORIAS
+        ========================== -->
 
         <section
             id="categorias"
             class="categories"
         >
 
+
             <span class="section-tag">
                 CATEGORIAS
             </span>
+
 
             <h2>
                 Encontre seu próximo jogo
             </h2>
 
+
             <div class="category-list">
 
-                <button>
+
+                <button
+                    type="button"
+                    onclick="selecionarPlataforma('PC')"
+                >
                     🎮 PC
                 </button>
 
-                <button>
+
+                <button
+                    type="button"
+                    onclick="selecionarPlataforma('PlayStation')"
+                >
                     🕹️ PlayStation
                 </button>
 
-                <button>
+
+                <button
+                    type="button"
+                    onclick="selecionarPlataforma('Xbox')"
+                >
                     🟢 Xbox
                 </button>
 
-                <button>
+
+                <button
+                    type="button"
+                    onclick="selecionarPlataforma('Nintendo')"
+                >
                     🎮 Nintendo
                 </button>
 
+
             </div>
+
 
         </section>
 
+
+
+        <!-- =========================
+             SOBRE
+        ========================== -->
 
         <section
             id="sobre"
             class="about"
         >
 
+
             <span class="section-tag">
                 SOBRE O GAVIX
             </span>
+
 
             <h2>
                 Promoções de jogos em um só lugar.
             </h2>
 
+
             <p>
+
                 O Gavix está sendo desenvolvido para
                 reunir ofertas de jogos e facilitar a busca
                 pelos melhores preços.
+
             </p>
+
 
         </section>
 
+
     </main>
 
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
     <footer>
 
         <div class="container footer-content">
 
+
             <strong>
                 GAVIX
             </strong>
+
 
             <span>
                 Promoções de jogos
             </span>
 
+
             <span>
                 © 2026 Gavix
             </span>
+
 
         </div>
 
     </footer>
 
 
+
     <script src="script.js"></script>
+
 
 </body>
 

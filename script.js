@@ -1,50 +1,146 @@
 let todasAsOfertas = [];
 
+
+/* =========================
+   CARREGAR OFERTAS
+========================= */
+
 async function carregarOfertas() {
+
     try {
+
         const resposta = await fetch(
             "data/ofertas.json?nocache=" + Date.now()
         );
 
         if (!resposta.ok) {
-            throw new Error("Não foi possível carregar as ofertas.");
+            throw new Error(
+                "Não foi possível carregar as ofertas."
+            );
         }
 
         todasAsOfertas = await resposta.json();
 
+        carregarLojas();
+
         filtrarOfertas();
 
     } catch (erro) {
+
         console.error(
             "Erro ao carregar ofertas:",
             erro
         );
 
         const lista =
-            document.getElementById("lista-ofertas");
+            document.getElementById(
+                "lista-ofertas"
+            );
 
         if (lista) {
+
             lista.innerHTML = `
                 <div class="card">
                     <div class="card-content">
-                        <h3>Não foi possível carregar as ofertas.</h3>
-                        <p>Tente atualizar a página.</p>
+                        <h3>
+                            Não foi possível carregar as ofertas.
+                        </h3>
+
+                        <p>
+                            Tente atualizar a página.
+                        </p>
                     </div>
                 </div>
             `;
+
         }
+
     }
+
 }
 
+
+/* =========================
+   CARREGAR LOJAS
+========================= */
+
+function carregarLojas() {
+
+    const filtroLoja =
+        document.getElementById(
+            "filtro-loja"
+        );
+
+    if (!filtroLoja) {
+        return;
+    }
+
+
+    const lojas = [
+        ...new Set(
+            todasAsOfertas
+                .map(
+                    oferta =>
+                        oferta.loja
+                )
+                .filter(
+                    loja =>
+                        loja &&
+                        loja.trim() !== ""
+                )
+        )
+    ];
+
+
+    lojas.sort(
+        function(a, b) {
+
+            return a.localeCompare(
+                b,
+                "pt-BR"
+            );
+
+        }
+    );
+
+
+    lojas.forEach(
+        function(loja) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = loja;
+
+            option.textContent = loja;
+
+            filtroLoja.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   MOSTRAR OFERTAS
+========================= */
 
 function mostrarOfertas(ofertas) {
 
     const lista =
-        document.getElementById("lista-ofertas");
+        document.getElementById(
+            "lista-ofertas"
+        );
 
     if (!lista) {
         return;
     }
+
 
     lista.innerHTML = "";
 
@@ -54,133 +150,163 @@ function mostrarOfertas(ofertas) {
         lista.innerHTML = `
             <div class="card">
                 <div class="card-content">
-                    <h3>Nenhuma oferta encontrada.</h3>
-                    <p>Tente pesquisar outro jogo.</p>
+
+                    <h3>
+                        Nenhuma oferta encontrada.
+                    </h3>
+
+                    <p>
+                        Tente mudar os filtros.
+                    </p>
+
                 </div>
             </div>
         `;
 
         return;
+
     }
 
 
-    ofertas.forEach(function(oferta) {
+    ofertas.forEach(
+        function(oferta) {
 
-        const card =
-            document.createElement("div");
-
-        card.classList.add("card");
-
-
-        const simbolo =
-            oferta.moeda === "USD"
-                ? "US$"
-                : "R$";
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        const precoAntigo =
-            Number(oferta.preco_antigo) || 0;
-
-
-        const precoAtual =
-            Number(oferta.preco) || 0;
-
-
-        const economia =
-            Math.max(
-                0,
-                precoAntigo - precoAtual
+            card.classList.add(
+                "card"
             );
 
 
-        const desconto =
-            Number(oferta.desconto) || 0;
+            const simbolo =
+                oferta.moeda === "USD"
+                    ? "US$"
+                    : "R$";
 
 
-        card.innerHTML = `
-
-            <img
-                src="${oferta.imagem || ""}"
-                alt="${oferta.nome || "Jogo"}"
-                loading="lazy"
-            >
+            const precoAntigo =
+                Number(
+                    oferta.preco_antigo
+                ) || 0;
 
 
-            <div class="card-content">
-
-                <h3>
-                    ${oferta.nome || "Jogo sem nome"}
-                </h3>
-
-
-                <div class="desconto">
-
-                    🔥 ${desconto}% OFF
-
-                </div>
+            const precoAtual =
+                Number(
+                    oferta.preco
+                ) || 0;
 
 
-                <div class="preco-antigo">
-
-                    ${simbolo}
-                    ${precoAntigo.toFixed(2)}
-
-                </div>
-
-
-                <div class="preco">
-
-                    ${simbolo}
-                    ${precoAtual.toFixed(2)}
-
-                </div>
+            const economia =
+                Math.max(
+                    0,
+                    precoAntigo -
+                    precoAtual
+                );
 
 
-                <div class="economia">
-
-                    💰 Economize
-                    ${simbolo}
-                    ${economia.toFixed(2)}
-
-                </div>
+            const desconto =
+                Number(
+                    oferta.desconto
+                ) || 0;
 
 
-                <div class="loja">
+            card.innerHTML = `
 
-                    🏪 ${oferta.loja || "Loja"}
-
-                </div>
-
-
-                <div class="plataforma">
-
-                    🎮 ${oferta.plataforma || "PC"}
-
-                </div>
-
-
-                <a
-                    class="botao"
-                    href="${oferta.link || "#"}"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                <img
+                    src="${oferta.imagem || ""}"
+                    alt="${oferta.nome || "Jogo"}"
+                    loading="lazy"
                 >
 
-                    VER OFERTA
 
-                </a>
+                <div class="card-content">
 
-            </div>
+                    <h3>
+                        ${oferta.nome || "Jogo sem nome"}
+                    </h3>
 
-        `;
+
+                    <div class="desconto">
+
+                        🔥 ${desconto}% OFF
+
+                    </div>
 
 
-        lista.appendChild(card);
+                    <div class="preco-antigo">
 
-    });
+                        ${simbolo}
+                        ${precoAntigo.toFixed(2)}
+
+                    </div>
+
+
+                    <div class="preco">
+
+                        ${simbolo}
+                        ${precoAtual.toFixed(2)}
+
+                    </div>
+
+
+                    <div class="economia">
+
+                        💰 Economize
+                        ${simbolo}
+                        ${economia.toFixed(2)}
+
+                    </div>
+
+
+                    <div class="loja">
+
+                        🏪
+                        ${oferta.loja || "Loja"}
+
+                    </div>
+
+
+                    <div class="plataforma">
+
+                        🎮
+                        ${oferta.plataforma || "PC"}
+
+                    </div>
+
+
+                    <a
+                        class="botao"
+                        href="${oferta.link || "#"}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        VER OFERTA →
+
+                    </a>
+
+                </div>
+
+            `;
+
+
+            lista.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
+
+/* =========================
+   FILTROS
+========================= */
 
 function filtrarOfertas() {
 
@@ -196,6 +322,12 @@ function filtrarOfertas() {
         );
 
 
+    const filtroLoja =
+        document.getElementById(
+            "filtro-loja"
+        );
+
+
     const ordenacao =
         document.getElementById(
             "ordenacao"
@@ -204,13 +336,21 @@ function filtrarOfertas() {
 
     const pesquisa =
         campoPesquisa
-            ? campoPesquisa.value.toLowerCase().trim()
+            ? campoPesquisa.value
+                .toLowerCase()
+                .trim()
             : "";
 
 
     const plataforma =
         filtroPlataforma
             ? filtroPlataforma.value
+            : "todas";
+
+
+    const loja =
+        filtroLoja
+            ? filtroLoja.value
             : "todas";
 
 
@@ -242,23 +382,38 @@ function filtrarOfertas() {
                     oferta.plataforma === plataforma;
 
 
+                const correspondeLoja =
+                    loja === "todas" ||
+                    oferta.loja === loja;
+
+
                 return (
                     correspondeNome &&
-                    correspondePlataforma
+                    correspondePlataforma &&
+                    correspondeLoja
                 );
 
             }
         );
 
 
-    if (tipoOrdenacao === "desconto") {
+    /* MAIOR DESCONTO */
+
+    if (
+        tipoOrdenacao ===
+        "desconto"
+    ) {
 
         resultados.sort(
             function(a, b) {
 
                 return (
-                    Number(b.desconto || 0) -
-                    Number(a.desconto || 0)
+                    Number(
+                        b.desconto || 0
+                    ) -
+                    Number(
+                        a.desconto || 0
+                    )
                 );
 
             }
@@ -267,14 +422,23 @@ function filtrarOfertas() {
     }
 
 
-    if (tipoOrdenacao === "menor-preco") {
+    /* MENOR PREÇO */
+
+    if (
+        tipoOrdenacao ===
+        "menor-preco"
+    ) {
 
         resultados.sort(
             function(a, b) {
 
                 return (
-                    Number(a.preco || 0) -
-                    Number(b.preco || 0)
+                    Number(
+                        a.preco || 0
+                    ) -
+                    Number(
+                        b.preco || 0
+                    )
                 );
 
             }
@@ -283,14 +447,23 @@ function filtrarOfertas() {
     }
 
 
-    if (tipoOrdenacao === "maior-preco") {
+    /* MAIOR PREÇO */
+
+    if (
+        tipoOrdenacao ===
+        "maior-preco"
+    ) {
 
         resultados.sort(
             function(a, b) {
 
                 return (
-                    Number(b.preco || 0) -
-                    Number(a.preco || 0)
+                    Number(
+                        b.preco || 0
+                    ) -
+                    Number(
+                        a.preco || 0
+                    )
                 );
 
             }
@@ -299,7 +472,12 @@ function filtrarOfertas() {
     }
 
 
-    if (tipoOrdenacao === "nome") {
+    /* NOME */
+
+    if (
+        tipoOrdenacao ===
+        "nome"
+    ) {
 
         resultados.sort(
             function(a, b) {
@@ -319,59 +497,8 @@ function filtrarOfertas() {
     }
 
 
-    mostrarOfertas(resultados);
-
-}
-
-
-/* =========================
-   EVENTOS
-========================= */
-
-
-const campoPesquisa =
-    document.getElementById(
-        "campo-pesquisa"
-    );
-
-
-if (campoPesquisa) {
-
-    campoPesquisa.addEventListener(
-        "input",
-        filtrarOfertas
-    );
-
-}
-
-
-const filtroPlataforma =
-    document.getElementById(
-        "filtro-plataforma"
-    );
-
-
-if (filtroPlataforma) {
-
-    filtroPlataforma.addEventListener(
-        "change",
-        filtrarOfertas
-    );
-
-}
-
-
-const ordenacao =
-    document.getElementById(
-        "ordenacao"
-    );
-
-
-if (ordenacao) {
-
-    ordenacao.addEventListener(
-        "change",
-        filtrarOfertas
+    mostrarOfertas(
+        resultados
     );
 
 }
@@ -380,7 +507,6 @@ if (ordenacao) {
 /* =========================
    STATUS DO GAVIX
 ========================= */
-
 
 async function carregarStatusGavix() {
 
@@ -423,11 +549,10 @@ async function carregarStatusGavix() {
 
         }
 
-
     } catch (erro) {
 
         console.error(
-            "Erro ao carregar status do Gavix:",
+            "Erro ao carregar status:",
             erro
         );
 
@@ -437,9 +562,76 @@ async function carregarStatusGavix() {
 
 
 /* =========================
-   INICIALIZAÇÃO
+   EVENTOS
 ========================= */
 
+const campoPesquisa =
+    document.getElementById(
+        "campo-pesquisa"
+    );
+
+
+if (campoPesquisa) {
+
+    campoPesquisa.addEventListener(
+        "input",
+        filtrarOfertas
+    );
+
+}
+
+
+const filtroPlataforma =
+    document.getElementById(
+        "filtro-plataforma"
+    );
+
+
+if (filtroPlataforma) {
+
+    filtroPlataforma.addEventListener(
+        "change",
+        filtrarOfertas
+    );
+
+}
+
+
+const filtroLoja =
+    document.getElementById(
+        "filtro-loja"
+    );
+
+
+if (filtroLoja) {
+
+    filtroLoja.addEventListener(
+        "change",
+        filtrarOfertas
+    );
+
+}
+
+
+const ordenacao =
+    document.getElementById(
+        "ordenacao"
+    );
+
+
+if (ordenacao) {
+
+    ordenacao.addEventListener(
+        "change",
+        filtrarOfertas
+    );
+
+}
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
 
 carregarOfertas();
 

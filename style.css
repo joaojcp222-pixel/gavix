@@ -10,8 +10,9 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #090909;
+    background: #0b0b0f;
     color: #ffffff;
+    line-height: 1.5;
 }
 
 a {
@@ -19,15 +20,16 @@ a {
     color: inherit;
 }
 
-button {
-    font-family: inherit;
+button,
+input,
+select {
+    font: inherit;
 }
 
 .container {
-    width: min(1200px, 92%);
-    margin: auto;
+    width: min(1180px, 92%);
+    margin: 0 auto;
 }
-
 
 /* =========================
    HEADER
@@ -37,39 +39,34 @@ button {
     position: sticky;
     top: 0;
     z-index: 1000;
-
-    background: rgba(9, 9, 9, 0.92);
-    border-bottom: 1px solid #242424;
-
+    background: rgba(11, 11, 15, 0.94);
+    border-bottom: 1px solid #22232a;
     backdrop-filter: blur(12px);
 }
 
 .header-content {
-    height: 76px;
-
+    min-height: 76px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 30px;
 }
 
 .logo {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 900;
-    letter-spacing: 3px;
-
-    color: #ffffff;
+    letter-spacing: 2px;
 }
 
 .menu {
     display: flex;
-    gap: 32px;
+    align-items: center;
+    gap: 30px;
 }
 
 .menu a {
-    color: #bdbdbd;
+    color: #b7b7c0;
     font-size: 15px;
-    font-weight: 600;
-
     transition: 0.2s;
 }
 
@@ -79,133 +76,163 @@ button {
 
 .menu-button {
     display: none;
-
-    background: transparent;
     border: 0;
-
-    color: white;
-    font-size: 24px;
+    background: transparent;
+    color: #ffffff;
+    font-size: 26px;
+    cursor: pointer;
 }
-
 
 /* =========================
    HERO
 ========================= */
 
 .hero {
-    min-height: 480px;
-
-    display: flex;
-    align-items: center;
-
+    padding: 100px 0 85px;
     background:
         radial-gradient(
-            circle at 80% 30%,
+            circle at 15% 20%,
             rgba(255, 255, 255, 0.08),
-            transparent 35%
+            transparent 30%
         ),
-        linear-gradient(
-            135deg,
-            #101010,
-            #050505
-        );
-
-    border-bottom: 1px solid #202020;
+        radial-gradient(
+            circle at 85% 30%,
+            rgba(255, 255, 255, 0.05),
+            transparent 30%
+        ),
+        #0b0b0f;
 }
 
 .hero-content {
-    max-width: 720px;
-    padding: 80px 0;
+    max-width: 760px;
 }
 
 .hero-tag,
 .section-tag {
     display: inline-block;
-
+    color: #bdbdc7;
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 2px;
-
-    color: #bdbdbd;
-
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .hero h1 {
     font-size: clamp(42px, 7vw, 76px);
-    line-height: 0.98;
-
+    line-height: 1.02;
     letter-spacing: -3px;
-
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .hero h1 span {
-    color: #8f8f8f;
+    color: #9b9ba5;
 }
 
 .hero p {
-    max-width: 620px;
-
-    color: #a7a7a7;
-
-    font-size: 17px;
-    line-height: 1.7;
-
-    margin-bottom: 34px;
+    max-width: 650px;
+    color: #a7a7b1;
+    font-size: 18px;
+    margin-bottom: 32px;
 }
 
 .hero-button {
-    display: inline-block;
-
-    padding: 15px 24px;
-
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 0 24px;
+    border-radius: 10px;
     background: #ffffff;
-    color: #000000;
-
-    border-radius: 8px;
-
-    font-size: 13px;
-    font-weight: 900;
-    letter-spacing: 1px;
-
+    color: #0b0b0f;
+    font-weight: 800;
     transition: 0.2s;
 }
 
 .hero-button:hover {
     transform: translateY(-2px);
-    background: #dddddd;
 }
 
-
 /* =========================
-   OFERTAS
+   SEÇÕES
 ========================= */
 
-.offers-section {
-    padding: 80px 0;
+main {
+    padding-bottom: 80px;
+}
+
+.offers-section,
+.categories,
+.about {
+    padding-top: 80px;
 }
 
 .section-header {
     display: flex;
     align-items: end;
     justify-content: space-between;
-
-    margin-bottom: 30px;
+    gap: 25px;
+    margin-bottom: 24px;
 }
 
 .section-header h2,
 .categories h2,
 .about h2 {
-    font-size: 34px;
-    letter-spacing: -1px;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
 }
 
 .offer-count {
-    color: #777777;
+    color: #92929c;
     font-size: 14px;
 }
 
+/* =========================
+   STATUS
+========================= */
+
+.status-gavix {
+    display: block;
+    width: 100%;
+    margin: 0 0 25px;
+    padding: 13px 16px;
+    border: 1px solid #25262e;
+    border-radius: 10px;
+    background: #111116;
+    color: #a9a9b2;
+    font-size: 14px;
+}
+
+/* =========================
+   FILTROS
+========================= */
+
+.filtros {
+    display: grid;
+    grid-template-columns: 1fr 220px 220px;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.filtros input,
+.filtros select {
+    width: 100%;
+    height: 48px;
+    padding: 0 15px;
+    border: 1px solid #282931;
+    border-radius: 10px;
+    outline: none;
+    background: #111116;
+    color: #ffffff;
+}
+
+.filtros input::placeholder {
+    color: #777782;
+}
+
+.filtros input:focus,
+.filtros select:focus {
+    border-color: #666672;
+}
 
 /* =========================
    CARDS
@@ -213,221 +240,184 @@ button {
 
 .lista-ofertas {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 22px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
 }
 
 .card {
     overflow: hidden;
-
-    background: #111111;
-
-    border: 1px solid #262626;
-
+    border: 1px solid #24252c;
     border-radius: 14px;
-
+    background: #111116;
     transition:
-        transform 0.25s,
-        border-color 0.25s,
-        box-shadow 0.25s;
+        transform 0.2s,
+        border-color 0.2s,
+        box-shadow 0.2s;
 }
 
 .card:hover {
-    transform: translateY(-6px);
-
-    border-color: #555555;
-
-    box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.35);
+    transform: translateY(-5px);
+    border-color: #454650;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
 }
 
 .card > img {
     display: block;
-
     width: 100%;
-    height: 220px;
-
+    height: 190px;
     object-fit: cover;
-
-    background: #1b1b1b;
+    background: #18181e;
 }
 
 .card-content {
-    padding: 20px;
+    padding: 17px;
 }
 
 .card h3 {
-    font-size: 20px;
-
-    margin-bottom: 14px;
-}
-
-.preco-antigo {
-    color: #777777;
-
-    font-size: 14px;
-
-    text-decoration: line-through;
-
-    margin-bottom: 4px;
-}
-
-.preco {
-    font-size: 28px;
-
-    font-weight: 900;
-
-    margin-bottom: 12px;
+    min-height: 48px;
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.4;
 }
 
 .desconto {
     display: inline-block;
-
-    padding: 6px 9px;
-
-    background: #ffffff;
-    color: #000000;
-
+    margin-bottom: 12px;
+    padding: 5px 8px;
     border-radius: 6px;
-
+    background: #25262d;
+    color: #ffffff;
     font-size: 12px;
-    font-weight: 900;
-
-    margin-bottom: 14px;
+    font-weight: 800;
 }
 
-.loja {
-    color: #888888;
-
+.preco-antigo {
+    color: #777782;
     font-size: 13px;
+    text-decoration: line-through;
+}
 
-    margin-bottom: 18px;
+.preco {
+    margin-top: 2px;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.loja,
+.plataforma {
+    margin-top: 7px;
+    color: #92929c;
+    font-size: 13px;
 }
 
 .botao {
-    display: block;
-
-    width: 100%;
-
-    padding: 13px;
-
-    text-align: center;
-
-    background: #202020;
-
-    border: 1px solid #333333;
-
-    border-radius: 7px;
-
-    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 43px;
+    margin-top: 16px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #0b0b0f;
+    font-size: 13px;
     font-weight: 900;
-
     transition: 0.2s;
 }
 
 .botao:hover {
-    background: #ffffff;
-    color: #000000;
+    transform: translateY(-1px);
 }
-
 
 /* =========================
    CATEGORIAS
 ========================= */
 
-.categories {
-    padding: 20px 0 80px;
-}
-
 .category-list {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 12px;
-
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
     margin-top: 25px;
 }
 
 .category-list button {
-    padding: 13px 18px;
-
-    background: #121212;
-
+    min-height: 70px;
+    border: 1px solid #282931;
+    border-radius: 12px;
+    background: #111116;
     color: #ffffff;
-
-    border: 1px solid #292929;
-
-    border-radius: 8px;
-
     cursor: pointer;
-
     transition: 0.2s;
 }
 
 .category-list button:hover {
-    background: #ffffff;
-    color: #000000;
+    transform: translateY(-3px);
+    border-color: #555660;
 }
-
 
 /* =========================
    SOBRE
 ========================= */
 
 .about {
-    padding: 20px 0 100px;
-
-    max-width: 750px;
+    max-width: 850px;
 }
 
 .about p {
-    color: #888888;
-
-    font-size: 16px;
-    line-height: 1.7;
-
-    margin-top: 18px;
+    margin-top: 20px;
+    color: #9999a3;
+    font-size: 17px;
 }
-
 
 /* =========================
    FOOTER
 ========================= */
 
 footer {
-    border-top: 1px solid #222222;
-
-    background: #050505;
+    border-top: 1px solid #22232a;
+    background: #08080b;
 }
 
 .footer-content {
     min-height: 90px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    color: #777777;
-
+    gap: 20px;
+    color: #777782;
     font-size: 13px;
 }
 
 .footer-content strong {
     color: #ffffff;
-
-    letter-spacing: 2px;
+    font-size: 18px;
+    letter-spacing: 1px;
 }
-
 
 /* =========================
    RESPONSIVO
 ========================= */
 
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
+
+    .lista-ofertas {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .filtros {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filtros input {
+        grid-column: 1 / -1;
+    }
+
+}
+
+@media (max-width: 720px) {
+
+    .header-content {
+        min-height: 68px;
+    }
 
     .menu {
         display: none;
@@ -437,35 +427,55 @@ footer {
         display: block;
     }
 
-    .lista-ofertas {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+    .hero {
+        padding: 75px 0 65px;
+    }
+
+    .hero h1 {
+        letter-spacing: -2px;
     }
 
     .section-header {
         align-items: start;
         flex-direction: column;
-        gap: 12px;
     }
+
+    .lista-ofertas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .category-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-content {
+        flex-direction: column;
+        justify-content: center;
+        padding: 25px 0;
+    }
+
 }
 
+@media (max-width: 500px) {
 
-@media (max-width: 560px) {
-
-    .hero {
-        min-height: 430px;
-    }
-
-    .hero-content {
-        padding: 60px 0;
+    .container {
+        width: min(94%, 1180px);
     }
 
     .hero h1 {
-        font-size: 44px;
+        font-size: 42px;
     }
 
     .hero p {
-        font-size: 15px;
+        font-size: 16px;
+    }
+
+    .filtros {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros input {
+        grid-column: auto;
     }
 
     .lista-ofertas {
@@ -476,88 +486,8 @@ footer {
         height: 210px;
     }
 
-    .section-header h2,
-    .categories h2,
-    .about h2 {
-        font-size: 28px;
+    .category-list {
+        grid-template-columns: 1fr;
     }
-
-    .footer-content {
-        flex-direction: column;
-        justify-content: center;
-
-        gap: 8px;
-
-        padding: 25px 0;
-    }
-}/* =========================
-   FILTROS
-========================= */
-
-.filtros {
-
-    display: flex;
-
-    gap: 12px;
-
-    margin-bottom: 30px;
-
-}
-
-
-.filtros input,
-.filtros select {
-
-    height: 48px;
-
-    padding: 0 15px;
-
-    background: #111111;
-
-    color: #ffffff;
-
-    border: 1px solid #292929;
-
-    border-radius: 8px;
-
-    outline: none;
-
-    font-size: 14px;
-
-}
-
-
-.filtros input {
-
-    flex: 1;
-
-}
-
-
-.filtros select {
-
-    min-width: 220px;
-
-}
-
-
-.filtros input:focus,
-.filtros select:focus {
-
-    border-color: #666666;
-
-}
-
-
-@media (max-width: 600px) {
-
-    .filtros {
-
-        flex-direction: column;
-
-    }
-.filtros select {
-    min-width: 200px;
-}    }
 
 }

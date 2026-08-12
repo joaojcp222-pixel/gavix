@@ -285,3 +285,38 @@ document
 
 
 carregarOfertas();
+async function carregarStatusGavix() {
+    try {
+        const resposta = await fetch(
+            "data/status.json?nocache=" + Date.now()
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Status não encontrado.");
+        }
+
+        const status = await resposta.json();
+
+        const elemento = document.getElementById(
+            "status-gavix"
+        );
+
+        if (elemento) {
+            elemento.innerHTML =
+                "🔄 Última atualização: " +
+                status.ultima_atualizacao +
+                " • " +
+                status.quantidade_ofertas +
+                " ofertas encontradas";
+        }
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar status do Gavix:",
+            erro
+        );
+    }
+}
+
+carregarStatusGavix();

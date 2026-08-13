@@ -168,9 +168,7 @@ function criarCardsDeLojas() {
 
 
             if (!mapaLojas[loja]) {
-
                 mapaLojas[loja] = 0;
-
             }
 
 
@@ -411,6 +409,21 @@ function mostrarOfertas(ofertas) {
                 "#";
 
 
+            /*
+             * Página individual do jogo
+             */
+
+            const nomeCodificado =
+                encodeURIComponent(
+                    oferta.nome || ""
+                );
+
+
+            const paginaJogo =
+                "jogo.html?nome=" +
+                nomeCodificado;
+
+
             card.innerHTML = `
 
                 <img
@@ -489,6 +502,41 @@ function mostrarOfertas(ofertas) {
                 </div>
 
             `;
+
+
+            /*
+             * Clique no card
+             */
+
+            card.style.cursor = "pointer";
+
+
+            card.addEventListener(
+                "click",
+                function(event) {
+
+                    /*
+                     * Se clicou no botão
+                     * VER OFERTA, não abre
+                     * a página individual.
+                     */
+
+                    if (
+                        event.target.closest(
+                            ".botao"
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    window.location.href =
+                        paginaJogo;
+
+                }
+            );
 
 
             lista.appendChild(
@@ -892,7 +940,7 @@ if (ordenacao) {
 
 
 /* =========================
-   INICIAR
+   INICIALIZAÇÃO
 ========================= */
 
 carregarOfertas();

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Gavix - Oferta</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="container header-content">
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+                GAVIX
+            </a>
+
+            <nav class="menu">
+
+                <a href="index.html#ofertas">
+                    Ofertas
+                </a>
+
+                <a href="index.html#lojas">
+                    Lojas
+                </a>
+
+                <a href="index.html#categorias">
+                    Categorias
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main class="container pagina-jogo">
+
+        <a
+            href="index.html"
+            class="voltar"
+        >
+            ← Voltar para ofertas
+        </a>
+
+
+        <section
+            id="detalhes-jogo"
+            class="detalhes-jogo"
+        >
+
+            <div class="carregando">
+
+                🔄 Carregando oferta...
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <div class="container footer-content">
+
+            <strong>
+                GAVIX
+            </strong>
+
+            <span>
+                Promoções de jogos
+            </span>
+
+            <span>
+                © 2026 Gavix
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script>
+
+        async function carregarJogo() {
+
+            const parametros =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+            const nomeJogo =
+                parametros.get("nome");
+
+
+            const container =
+                document.getElementById(
+                    "detalhes-jogo"
+                );
+
+
+            if (!nomeJogo) {
+
+                container.innerHTML = `
+                    <div class="card">
+                        <div class="card-content">
+                            <h2>
+                                Jogo não encontrado
+                            </h2>
+
+                            <p>
+                                Nenhum jogo foi informado.
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            try {
+
+                const resposta =
+                    await fetch(
+                        "data/ofertas.json?nocache=" +
+                        Date.now()
+                    );
+
+
+                if (!resposta.ok) {
+
+                    throw new Error(
+                        "Erro ao carregar ofertas."
+                    );
+
+                }
+
+
+                const ofertas =
+                    await resposta.json();
+
+
+                const oferta =
+                    ofertas.find(
+                        function(item) {
+
+                            return (
+                                String(
+                                    item.nome
+                                ).toLowerCase() ===
+                                String(
+                                    nomeJogo
+                                ).toLowerCase()
+                            );
+
+                        }
+                    );
+
+
+                if (!oferta) {
+
+                    container.innerHTML = `
+                        <div class="card">
+                            <div class="card-content">
+
+                                <h2>
+                                    Oferta não encontrada
+                                </h2>
+
+                                <p>
+                                    Essa oferta pode ter expirado.
+                                </p>
+
+                            </div>
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                const precoAntigo =
+                    Number(
+                        oferta.preco_antigo
+                    ) || 0;
+
+
+                const precoAtual =
+                    Number(
+                        oferta.preco
+                    ) || 0;
+
+
+                const economia =
+                    Math.max(
+                        0,
+                        precoAntigo -
+                        precoAtual
+                    );
+
+
+                const desconto =
+                    Number(
+                        oferta.desconto
+                    ) || 0;
+
+
+                const simbolo =
+                    oferta.moeda === "USD"
+                        ? "US$"
+                        : "R$";
+
+
+                const linkOferta =
+                    oferta.linkAfiliado ||
+                    oferta.link ||
+                    "#";
+
+
+                container.innerHTML = `
+
+                    <div class="jogo-imagem">
+
+                        <img
+                            src="${oferta.imagem || ""}"
+                            alt="${oferta.nome}"
+                        >
+
+                    </div>
+
+
+                    <div class="jogo-info">
+
+                        <span class="section-tag">
+                            OFERTA ENCONTRADA
+                        </span>
+
+
+                        <h1>
+                            ${oferta.nome}
+                        </h1>
+
+
+                        <div class="desconto">
+
+                            🔥 ${desconto}% OFF
+
+                        </div>
+
+
+                        <div class="jogo-preco-antigo">
+
+                            ${simbolo}
+                            ${precoAntigo.toFixed(2)}
+
+                        </div>
+
+
+                        <div class="jogo-preco">
+
+                            ${simbolo}
+                            ${precoAtual.toFixed(2)}
+
+                        </div>
+
+
+                        <div class="jogo-economia">
+
+                            💰 Você economiza
+                            ${simbolo}
+                            ${economia.toFixed(2)}
+
+                        </div>
+
+
+                        <div class="jogo-detalhes">
+
+                            <div>
+                                🏪
+                                <strong>
+                                    Loja
+                                </strong>
+
+                                <span>
+                                    ${oferta.loja || "Não informado"}
+                                </span>
+                            </div>
+
+
+                            <div>
+                                🎮
+                                <strong>
+                                    Plataforma
+                                </strong>
+
+                                <span>
+                                    ${oferta.plataforma || "PC"}
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <a
+                            href="${linkOferta}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="botao jogo-botao"
+                        >
+
+                            VER OFERTA →
+
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                document.title =
+                    "Gavix - " +
+                    oferta.nome;
+
+
+            } catch (erro) {
+
+                console.error(
+                    erro
+                );
+
+
+                container.innerHTML = `
+                    <div class="card">
+                        <div class="card-content">
+
+                            <h2>
+                                Erro ao carregar oferta
+                            </h2>
+
+                            <p>
+                                Tente atualizar a página.
+                            </p>
+
+                        </div>
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        carregarJogo();
+
+    </script>
+
+</body>
+
+</html>

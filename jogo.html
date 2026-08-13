@@ -21,6 +21,7 @@
 
 <body>
 
+
     <header class="header">
 
         <div class="container header-content">
@@ -31,6 +32,7 @@
             >
                 GAVIX
             </a>
+
 
             <nav class="menu">
 
@@ -53,7 +55,9 @@
     </header>
 
 
+
     <main class="container pagina-jogo">
+
 
         <a
             href="index.html"
@@ -76,7 +80,17 @@
 
         </section>
 
+
+        <section
+            id="outras-ofertas"
+            class="outras-ofertas"
+        >
+
+        </section>
+
+
     </main>
+
 
 
     <footer>
@@ -100,6 +114,7 @@
     </footer>
 
 
+
     <script>
 
         async function carregarJogo() {
@@ -108,6 +123,7 @@
                 new URLSearchParams(
                     window.location.search
                 );
+
 
             const nomeJogo =
                 parametros.get("nome");
@@ -119,11 +135,19 @@
                 );
 
 
+            const outras =
+                document.getElementById(
+                    "outras-ofertas"
+                );
+
+
             if (!nomeJogo) {
 
                 container.innerHTML = `
                     <div class="card">
+
                         <div class="card-content">
+
                             <h2>
                                 Jogo não encontrado
                             </h2>
@@ -131,7 +155,9 @@
                             <p>
                                 Nenhum jogo foi informado.
                             </p>
+
                         </div>
+
                     </div>
                 `;
 
@@ -162,13 +188,18 @@
                     await resposta.json();
 
 
-                const oferta =
-                    ofertas.find(
+                /*
+                 * Procura todas as ofertas
+                 * que possuem o mesmo nome.
+                 */
+
+                const ofertasDoJogo =
+                    ofertas.filter(
                         function(item) {
 
                             return (
                                 String(
-                                    item.nome
+                                    item.nome || ""
                                 ).toLowerCase() ===
                                 String(
                                     nomeJogo
@@ -179,10 +210,13 @@
                     );
 
 
-                if (!oferta) {
+                if (
+                    ofertasDoJogo.length === 0
+                ) {
 
                     container.innerHTML = `
                         <div class="card">
+
                             <div class="card-content">
 
                                 <h2>
@@ -194,6 +228,7 @@
                                 </p>
 
                             </div>
+
                         </div>
                     `;
 
@@ -202,15 +237,36 @@
                 }
 
 
+                /*
+                 * Melhor oferta
+                 */
+
+                const melhorOferta =
+                    [...ofertasDoJogo].sort(
+                        function(a, b) {
+
+                            return (
+                                Number(
+                                    a.preco || 0
+                                ) -
+                                Number(
+                                    b.preco || 0
+                                )
+                            );
+
+                        }
+                    )[0];
+
+
                 const precoAntigo =
                     Number(
-                        oferta.preco_antigo
+                        melhorOferta.preco_antigo
                     ) || 0;
 
 
                 const precoAtual =
                     Number(
-                        oferta.preco
+                        melhorOferta.preco
                     ) || 0;
 
 
@@ -224,29 +280,33 @@
 
                 const desconto =
                     Number(
-                        oferta.desconto
+                        melhorOferta.desconto
                     ) || 0;
 
 
                 const simbolo =
-                    oferta.moeda === "USD"
+                    melhorOferta.moeda === "USD"
                         ? "US$"
                         : "R$";
 
 
-                const linkOferta =
-                    oferta.linkAfiliado ||
-                    oferta.link ||
+                const linkMelhorOferta =
+                    melhorOferta.linkAfiliado ||
+                    melhorOferta.link ||
                     "#";
 
+
+                /*
+                 * Página principal do jogo
+                 */
 
                 container.innerHTML = `
 
                     <div class="jogo-imagem">
 
                         <img
-                            src="${oferta.imagem || ""}"
-                            alt="${oferta.nome}"
+                            src="${melhorOferta.imagem || ""}"
+                            alt="${melhorOferta.nome}"
                         >
 
                     </div>
@@ -255,12 +315,12 @@
                     <div class="jogo-info">
 
                         <span class="section-tag">
-                            OFERTA ENCONTRADA
+                            🔥 MELHOR OFERTA
                         </span>
 
 
                         <h1>
-                            ${oferta.nome}
+                            ${melhorOferta.nome}
                         </h1>
 
 
@@ -299,39 +359,45 @@
                         <div class="jogo-detalhes">
 
                             <div>
+
                                 🏪
+
                                 <strong>
                                     Loja
                                 </strong>
 
                                 <span>
-                                    ${oferta.loja || "Não informado"}
+                                    ${melhorOferta.loja || "Não informado"}
                                 </span>
+
                             </div>
 
 
                             <div>
+
                                 🎮
+
                                 <strong>
                                     Plataforma
                                 </strong>
 
                                 <span>
-                                    ${oferta.plataforma || "PC"}
+                                    ${melhorOferta.plataforma || "PC"}
                                 </span>
+
                             </div>
 
                         </div>
 
 
                         <a
-                            href="${linkOferta}"
+                            href="${linkMelhorOferta}"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="botao jogo-botao"
                         >
 
-                            VER OFERTA →
+                            VER MELHOR OFERTA →
 
                         </a>
 
@@ -340,9 +406,123 @@
                 `;
 
 
+                /*
+                 * Outras lojas
+                 */
+
+                if (
+                    ofertasDoJogo.length > 1
+                ) {
+
+                    outras.innerHTML = `
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <span class="section-tag">
+                                    COMPARAR PREÇOS
+                                </span>
+
+                                <h2>
+                                    Outras lojas
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="comparacao-lojas">
+
+                            ${ofertasDoJogo
+                                .sort(
+                                    function(a, b) {
+
+                                        return (
+                                            Number(
+                                                a.preco || 0
+                                            ) -
+                                            Number(
+                                                b.preco || 0
+                                            )
+                                        );
+
+                                    }
+                                )
+                                .map(
+                                    function(oferta) {
+
+                                        const preco =
+                                            Number(
+                                                oferta.preco
+                                            ) || 0;
+
+                                        const link =
+                                            oferta.linkAfiliado ||
+                                            oferta.link ||
+                                            "#";
+
+                                        return `
+
+                                            <div class="oferta-loja">
+
+                                                <div>
+
+                                                    <strong>
+                                                        🏪
+                                                        ${oferta.loja || "Loja"}
+                                                    </strong>
+
+                                                    <span>
+                                                        🎮
+                                                        ${oferta.plataforma || "PC"}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <strong class="preco-comparacao">
+
+                                                        ${oferta.moeda === "USD"
+                                                            ? "US$"
+                                                            : "R$"}
+                                                        ${preco.toFixed(2)}
+
+                                                    </strong>
+
+
+                                                    <a
+                                                        href="${link}"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        class="botao"
+                                                    >
+                                                        VER OFERTA →
+                                                    </a>
+
+                                                </div>
+
+                                            </div>
+
+                                        `;
+
+                                    }
+                                )
+                                .join("")}
+
+                        </div>
+
+                    `;
+
+                }
+
+
                 document.title =
                     "Gavix - " +
-                    oferta.nome;
+                    melhorOferta.nome;
 
 
             } catch (erro) {
@@ -353,7 +533,9 @@
 
 
                 container.innerHTML = `
+
                     <div class="card">
+
                         <div class="card-content">
 
                             <h2>
@@ -365,7 +547,9 @@
                             </p>
 
                         </div>
+
                     </div>
+
                 `;
 
             }

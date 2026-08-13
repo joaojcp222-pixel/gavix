@@ -611,4 +611,205 @@ footer {
         grid-template-columns: 1fr;
     }
 
+}/* =========================
+   PÁGINA INDIVIDUAL
+========================= */
+
+.pagina-jogo {
+    padding-top: 45px;
+    padding-bottom: 80px;
+}
+
+.voltar {
+    display: inline-block;
+    margin-bottom: 30px;
+    color: #a5a5af;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.voltar:hover {
+    color: #ffffff;
+    transform: translateX(-3px);
+}
+
+.detalhes-jogo {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.9fr) minmax(300px, 1.1fr);
+    gap: 45px;
+    align-items: center;
+    padding: 35px;
+    border: 1px solid #282931;
+    border-radius: 18px;
+    background: #111116;
+}
+
+.jogo-imagem img {
+    display: block;
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #18181e;
+}
+
+.jogo-info h1 {
+    margin: 10px 0 20px;
+    font-size: clamp(32px, 5vw, 54px);
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+}
+
+.jogo-preco-antigo {
+    color: #777782;
+    font-size: 15px;
+    text-decoration: line-through;
+}
+
+.jogo-preco {
+    margin-top: 3px;
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.jogo-economia {
+    margin-top: 8px;
+    color: #b8b8c2;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.jogo-detalhes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.jogo-detalhes > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px;
+    border: 1px solid #282931;
+    border-radius: 10px;
+    background: #0d0d11;
+}
+
+.jogo-detalhes strong {
+    color: #ffffff;
+    font-size: 13px;
+}
+
+.jogo-detalhes span {
+    color: #888893;
+    font-size: 13px;
+}
+
+.jogo-botao {
+    margin-top: 25px;
+    min-height: 52px;
+    font-size: 14px;
+}
+
+
+/* =========================
+   COMPARAÇÃO DE LOJAS
+========================= */
+
+.outras-ofertas {
+    padding-top: 70px;
+}
+
+.comparacao-lojas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.oferta-loja {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 18px;
+    border: 1px solid #282931;
+    border-radius: 13px;
+    background: #111116;
+    transition: 0.2s;
+}
+
+.oferta-loja:hover {
+    border-color: #555660;
+    transform: translateY(-2px);
+}
+
+.oferta-loja > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.oferta-loja > div:first-child strong {
+    font-size: 16px;
+}
+
+.oferta-loja > div:first-child span {
+    color: #85858f;
+    font-size: 13px;
+}
+
+.oferta-loja > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.preco-comparacao {
+    font-size: 21px;
+    white-space: nowrap;
+}
+
+
+/* =========================
+   RESPONSIVO - PÁGINA
+========================= */
+
+@media (max-width: 800px) {
+
+    .detalhes-jogo {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 22px;
+    }
+
+    .jogo-imagem img {
+        max-height: 400px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .jogo-detalhes {
+        grid-template-columns: 1fr;
+    }
+
+    .oferta-loja {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .oferta-loja > div:last-child {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .preco-comparacao {
+        font-size: 18px;
+    }
+
 }

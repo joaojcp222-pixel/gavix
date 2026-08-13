@@ -25,6 +25,8 @@ async function carregarOfertas() {
 
         criarCardsDeLojas();
 
+        mostrarImperdiveis();
+
         filtrarOfertas();
 
     } catch (erro) {
@@ -60,6 +62,289 @@ async function carregarOfertas() {
         }
 
     }
+
+}
+
+
+/* =========================
+   OFERTAS IMPERDÍVEIS
+========================= */
+
+function mostrarImperdiveis() {
+
+    const container =
+        document.getElementById(
+            "lista-imperdiveis"
+        );
+
+    if (!container) {
+        return;
+    }
+
+
+    /*
+     * Pega as ofertas que possuem
+     * maior porcentagem de desconto.
+     */
+
+    const melhores =
+        [...todasAsOfertas]
+            .sort(
+                function(a, b) {
+
+                    return (
+                        Number(
+                            b.desconto || 0
+                        ) -
+                        Number(
+                            a.desconto || 0
+                        )
+                    );
+
+                }
+            )
+            .slice(0, 4);
+
+
+    container.innerHTML = "";
+
+
+    if (melhores.length === 0) {
+
+        container.innerHTML = `
+            <div class="card">
+
+                <div class="card-content">
+
+                    <h3>
+                        Nenhuma oferta disponível.
+                    </h3>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    melhores.forEach(
+        function(oferta) {
+
+            const card =
+                criarCardOferta(
+                    oferta,
+                    true
+                );
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   CRIAR CARD
+========================= */
+
+function criarCardOferta(
+    oferta,
+    destaque = false
+) {
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.classList.add(
+        "card"
+    );
+
+
+    if (destaque) {
+
+        card.classList.add(
+            "card-destaque"
+        );
+
+    }
+
+
+    const simbolo =
+        oferta.moeda === "USD"
+            ? "US$"
+            : "R$";
+
+
+    const precoAntigo =
+        Number(
+            oferta.preco_antigo
+        ) || 0;
+
+
+    const precoAtual =
+        Number(
+            oferta.preco
+        ) || 0;
+
+
+    const economia =
+        Math.max(
+            0,
+            precoAntigo -
+            precoAtual
+        );
+
+
+    const desconto =
+        Number(
+            oferta.desconto
+        ) || 0;
+
+
+    const linkOferta =
+        oferta.linkAfiliado ||
+        oferta.link ||
+        "#";
+
+
+    const nomeCodificado =
+        encodeURIComponent(
+            oferta.nome || ""
+        );
+
+
+    const paginaJogo =
+        "jogo.html?nome=" +
+        nomeCodificado;
+
+
+    card.innerHTML = `
+
+        <img
+            src="${oferta.imagem || ""}"
+            alt="${oferta.nome || "Jogo"}"
+            loading="lazy"
+        >
+
+
+        <div class="card-content">
+
+            ${
+                destaque
+                    ? `
+                        <span class="badge-imperdivel">
+                            🔥 IMPERDÍVEL
+                        </span>
+                    `
+                    : ""
+            }
+
+
+            <h3>
+                ${oferta.nome || "Jogo sem nome"}
+            </h3>
+
+
+            <div class="desconto">
+
+                🔥 ${desconto}% OFF
+
+            </div>
+
+
+            <div class="preco-antigo">
+
+                ${simbolo}
+                ${precoAntigo.toFixed(2)}
+
+            </div>
+
+
+            <div class="preco">
+
+                ${simbolo}
+                ${precoAtual.toFixed(2)}
+
+            </div>
+
+
+            <div class="economia">
+
+                💰 Economize
+                ${simbolo}
+                ${economia.toFixed(2)}
+
+            </div>
+
+
+            <div class="loja">
+
+                🏪
+                ${oferta.loja || "Loja"}
+
+            </div>
+
+
+            <div class="plataforma">
+
+                🎮
+                ${oferta.plataforma || "PC"}
+
+            </div>
+
+
+            <a
+                class="botao"
+                href="${linkOferta}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                VER OFERTA →
+
+            </a>
+
+        </div>
+
+    `;
+
+
+    card.style.cursor =
+        "pointer";
+
+
+    card.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target.closest(
+                    ".botao"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            window.location.href =
+                paginaJogo;
+
+        }
+    );
+
+
+    return card;
 
 }
 
@@ -123,9 +408,11 @@ function carregarLojas() {
                     "option"
                 );
 
-            option.value = loja;
+            option.value =
+                loja;
 
-            option.textContent = loja;
+            option.textContent =
+                loja;
 
             filtroLoja.appendChild(
                 option
@@ -168,7 +455,10 @@ function criarCardsDeLojas() {
 
 
             if (!mapaLojas[loja]) {
-                mapaLojas[loja] = 0;
+
+                mapaLojas[loja] =
+                    0;
+
             }
 
 
@@ -196,23 +486,6 @@ function criarCardsDeLojas() {
     container.innerHTML = "";
 
 
-    if (lojas.length === 0) {
-
-        container.innerHTML = `
-            <div class="store-card">
-
-                <h3>
-                    Nenhuma loja encontrada
-                </h3>
-
-            </div>
-        `;
-
-        return;
-
-    }
-
-
     lojas.forEach(
         function(loja) {
 
@@ -222,7 +495,9 @@ function criarCardsDeLojas() {
                 );
 
 
-            card.type = "button";
+            card.type =
+                "button";
+
 
             card.classList.add(
                 "store-card"
@@ -243,9 +518,11 @@ function criarCardsDeLojas() {
 
                     <small>
                         ${mapaLojas[loja]}
-                        ${mapaLojas[loja] === 1
-                            ? " oferta"
-                            : " ofertas"}
+                        ${
+                            mapaLojas[loja] === 1
+                                ? " oferta"
+                                : " ofertas"
+                        }
                     </small>
 
                 </span>
@@ -310,7 +587,9 @@ function criarCardsDeLojas() {
    MOSTRAR OFERTAS
 ========================= */
 
-function mostrarOfertas(ofertas) {
+function mostrarOfertas(
+    ofertas
+) {
 
     const lista =
         document.getElementById(
@@ -345,7 +624,11 @@ function mostrarOfertas(ofertas) {
             </div>
         `;
 
-        atualizarContador(0);
+
+        atualizarContador(
+            0
+        );
+
 
         return;
 
@@ -361,182 +644,10 @@ function mostrarOfertas(ofertas) {
         function(oferta) {
 
             const card =
-                document.createElement(
-                    "div"
+                criarCardOferta(
+                    oferta,
+                    false
                 );
-
-
-            card.classList.add(
-                "card"
-            );
-
-
-            const simbolo =
-                oferta.moeda === "USD"
-                    ? "US$"
-                    : "R$";
-
-
-            const precoAntigo =
-                Number(
-                    oferta.preco_antigo
-                ) || 0;
-
-
-            const precoAtual =
-                Number(
-                    oferta.preco
-                ) || 0;
-
-
-            const economia =
-                Math.max(
-                    0,
-                    precoAntigo -
-                    precoAtual
-                );
-
-
-            const desconto =
-                Number(
-                    oferta.desconto
-                ) || 0;
-
-
-            const linkOferta =
-                oferta.linkAfiliado ||
-                oferta.link ||
-                "#";
-
-
-            /*
-             * Página individual do jogo
-             */
-
-            const nomeCodificado =
-                encodeURIComponent(
-                    oferta.nome || ""
-                );
-
-
-            const paginaJogo =
-                "jogo.html?nome=" +
-                nomeCodificado;
-
-
-            card.innerHTML = `
-
-                <img
-                    src="${oferta.imagem || ""}"
-                    alt="${oferta.nome || "Jogo"}"
-                    loading="lazy"
-                >
-
-
-                <div class="card-content">
-
-                    <h3>
-                        ${oferta.nome || "Jogo sem nome"}
-                    </h3>
-
-
-                    <div class="desconto">
-
-                        🔥 ${desconto}% OFF
-
-                    </div>
-
-
-                    <div class="preco-antigo">
-
-                        ${simbolo}
-                        ${precoAntigo.toFixed(2)}
-
-                    </div>
-
-
-                    <div class="preco">
-
-                        ${simbolo}
-                        ${precoAtual.toFixed(2)}
-
-                    </div>
-
-
-                    <div class="economia">
-
-                        💰 Economize
-                        ${simbolo}
-                        ${economia.toFixed(2)}
-
-                    </div>
-
-
-                    <div class="loja">
-
-                        🏪
-                        ${oferta.loja || "Loja"}
-
-                    </div>
-
-
-                    <div class="plataforma">
-
-                        🎮
-                        ${oferta.plataforma || "PC"}
-
-                    </div>
-
-
-                    <a
-                        class="botao"
-                        href="${linkOferta}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-
-                        VER OFERTA →
-
-                    </a>
-
-                </div>
-
-            `;
-
-
-            /*
-             * Clique no card
-             */
-
-            card.style.cursor = "pointer";
-
-
-            card.addEventListener(
-                "click",
-                function(event) {
-
-                    /*
-                     * Se clicou no botão
-                     * VER OFERTA, não abre
-                     * a página individual.
-                     */
-
-                    if (
-                        event.target.closest(
-                            ".botao"
-                        )
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    window.location.href =
-                        paginaJogo;
-
-                }
-            );
 
 
             lista.appendChild(
@@ -561,6 +672,7 @@ function atualizarContador(
         document.getElementById(
             "contador-ofertas"
         );
+
 
     if (!contador) {
         return;

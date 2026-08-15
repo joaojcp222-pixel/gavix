@@ -1,77 +1,104 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAVIX | Jogo</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAVIX | Jogo</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header class="header">
-    <div class="container header-content">
+<div class="container nav">
 
-        <a href="index.html" class="logo">
-            GAVIX
-        </a>
+<a href="index.html" class="logo">GAVIX</a>
 
-        <nav class="menu">
-            <a href="index.html">Início</a>
-        </nav>
+<nav>
+<a href="index.html">Início</a>
+<a href="#relacionados">Relacionados</a>
+</nav>
 
-    </div>
+</div>
 </header>
 
 <main class="container">
 
-    <!-- HERO DO JOGO -->
-    <section id="game-page"></section>
+<!-- HERO -->
+<div id="game-page"></div>
 
-    <!-- GALERIA -->
-    <section class="galeria-section">
+<!-- GALERIA -->
+<section class="gallery">
 
-        <div class="section-header">
-            <h2>📸 Imagens do jogo</h2>
-        </div>
+<div class="title-row">
+<h2>📸 Galeria</h2>
+</div>
 
-        <div class="galeria-grid">
+<div class="gallery-grid">
 
-            <img id="galeria1" src="" alt="Imagem 1">
+<img id="g1" src="">
+<img id="g2" src="">
+<img id="g3" src="">
+<img id="g4" src="">
 
-            <img id="galeria2" src="" alt="Imagem 2">
+</div>
 
-            <img id="galeria3" src="" alt="Imagem 3">
+</section>
 
-            <img id="galeria4" src="" alt="Imagem 4">
+<!-- ESPECIFICAÇÕES -->
+<section class="specs">
 
-        </div>
+<div class="title-row">
+<h2>🎮 Informações</h2>
+</div>
 
-    </section>
+<div class="spec-grid">
 
-    <!-- INFORMAÇÕES -->
-    <section class="sobre-jogo">
+<div class="spec-card">
+<span>Plataforma</span>
+<strong id="spec-plataforma">PC</strong>
+</div>
 
-        <div class="section-header">
-            <h2>🎮 Sobre este jogo</h2>
-        </div>
+<div class="spec-card">
+<span>Loja</span>
+<strong id="spec-loja">Steam</strong>
+</div>
 
-        <p id="descricao-jogo">
-            Carregando descrição...
-        </p>
+<div class="spec-card">
+<span>Desconto</span>
+<strong id="spec-desconto">0%</strong>
+</div>
 
-    </section>
+<div class="spec-card">
+<span>Preço</span>
+<strong id="spec-preco">R$ 0,00</strong>
+</div>
 
-    <!-- RELACIONADOS -->
-    <section>
+</div>
 
-        <div class="section-header">
-            <h2>🔥 Jogos relacionados</h2>
-        </div>
+</section>
 
-        <div id="jogos-relacionados" class="lista-ofertas"></div>
+<!-- DESCRIÇÃO -->
+<section class="description">
 
-    </section>
+<div class="title-row">
+<h2>📖 Sobre este jogo</h2>
+</div>
+
+<p id="descricao"></p>
+
+</section>
+
+<!-- RELACIONADOS -->
+<section id="relacionados">
+
+<div class="title-row">
+<h2>🔥 Jogos Relacionados</h2>
+</div>
+
+<div id="rel-grid" class="grid"></div>
+
+</section>
 
 </main>
 

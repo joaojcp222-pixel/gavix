@@ -1,6 +1,6 @@
-// =====================================
-// GAVIX V6 - PÁGINA DO JOGO
-// =====================================
+// =======================================
+// GAVIX V7 - PÁGINA DO JOGO
+// =======================================
 
 const params = new URLSearchParams(window.location.search);
 const id = Number(params.get("id"));
@@ -8,32 +8,32 @@ const id = Number(params.get("id"));
 let jogos = [];
 
 const descricoes = [
-"Explore um mundo incrível repleto de ação, desafios e gráficos impressionantes.",
-"Enfrente inimigos poderosos e evolua seu personagem durante uma grande aventura.",
-"Corra em alta velocidade com veículos detalhados e física realista.",
-"Viva uma campanha envolvente e aproveite modos online cheios de adrenalina.",
-"Um dos jogos mais populares da atualidade com excelente custo-benefício."
+"Explore um universo cheio de ação, gráficos incríveis e uma campanha envolvente. Ideal para quem procura dezenas de horas de diversão.",
+"Viva batalhas intensas, evolução de personagem e um mundo rico em detalhes. Uma excelente escolha para fãs de aventura.",
+"Entre em corridas, combates e desafios com jogabilidade moderna e ótima otimização para PC.",
+"Uma experiência imersiva com trilha sonora marcante, personagens memoráveis e excelente custo-benefício.",
+"Um dos títulos mais populares dos últimos anos, perfeito para aproveitar com um grande desconto."
 ];
 
 async function iniciar(){
 
     const resposta = await fetch("data/ofertas.json?" + Date.now());
-
     jogos = await resposta.json();
 
     const jogo = jogos[id];
 
     if(!jogo){
         document.body.innerHTML = `
-        <div style="padding:40px;color:white;background:#0b0d12;height:100vh">
+        <div style="padding:40px;color:white">
             <h1>Jogo não encontrado</h1>
-            <a href="index.html" style="color:#4f8cff">Voltar ao GAVIX</a>
+            <a href="index.html" style="color:#4f8cff">Voltar ao Gavix</a>
         </div>`;
         return;
     }
 
     renderizarHero(jogo);
     renderizarGaleria(jogo);
+    renderizarInfo(jogo);
     renderizarDescricao(jogo);
     renderizarRelacionados(jogo);
 
@@ -43,79 +43,87 @@ function renderizarHero(j){
 
     const economia = (j.preco_antigo - j.preco).toFixed(2);
 
-    document.title = `GAVIX | ${j.nome}`;
+    document.title = "GAVIX | " + j.nome;
 
     document.getElementById("game-page").innerHTML = `
 
     <section class="game-hero">
 
-        <img class="game-capa" src="${j.imagem}" alt="${j.nome}">
+        <div class="game-cover">
+            <img src="${j.imagem}" alt="${j.nome}">
+        </div>
 
-        <div class="game-info">
+        <div class="game-content">
 
-            <span class="game-tag">${j.loja}</span>
+            <span class="game-badge">${j.loja}</span>
 
             <h1>${j.nome}</h1>
 
-            <div class="game-desconto">
+            <div style="color:#72ff91;font-size:20px;font-weight:700;">
                 🔥 ${j.desconto}% OFF
             </div>
 
-            <div class="game-preco-antigo">
+            <div class="game-price-old">
                 R$ ${Number(j.preco_antigo).toFixed(2)}
             </div>
 
-            <div class="game-preco">
+            <div class="game-price">
                 R$ ${Number(j.preco).toFixed(2)}
             </div>
 
-            <div class="game-economia">
+            <div class="game-save">
                 Você economiza R$ ${economia}
             </div>
 
-            <p><strong>Plataforma:</strong> ${j.plataforma}</p>
-
-            <a class="game-botao"
+            <a class="buy-btn"
                href="${j.link}"
                target="_blank">
-                COMPRAR AGORA →
+
+               COMPRAR AGORA →
+
             </a>
 
         </div>
 
     </section>
+
     `;
 
 }
 
 function renderizarGaleria(j){
 
-    document.getElementById("galeria1").src = j.imagem;
-    document.getElementById("galeria2").src = j.imagem;
-    document.getElementById("galeria3").src = j.imagem;
-    document.getElementById("galeria4").src = j.imagem;
+    g1.src = j.imagem;
+    g2.src = j.imagem;
+    g3.src = j.imagem;
+    g4.src = j.imagem;
+
+}
+
+function renderizarInfo(j){
+
+    spec_plataforma.textContent = j.plataforma;
+    spec_loja.textContent = j.loja;
+    spec_desconto.textContent = j.desconto + "%";
+    spec_preco.textContent = "R$ " + Number(j.preco).toFixed(2);
 
 }
 
 function renderizarDescricao(j){
 
-    const texto =
-    descricoes[id % descricoes.length];
+    const texto = descricoes[id % descricoes.length];
 
-    document.getElementById("descricao-jogo").textContent =
-    `${texto} Aproveite esta oferta na ${j.loja} com ${j.desconto}% de desconto.`;
+    descricao.textContent =
+    `${texto} Disponível na ${j.loja} com ${j.desconto}% de desconto. Aproveite esta oferta enquanto ela estiver ativa.`;
 
 }
 
 function renderizarRelacionados(atual){
 
-    const grid =
-    document.getElementById("jogos-relacionados");
-
-    grid.innerHTML = "";
+    rel_grid.innerHTML = "";
 
     const lista = jogos
-    .filter(j => j.nome !== atual.nome)
+    .filter(x => x.nome !== atual.nome)
     .sort(() => Math.random() - 0.5)
     .slice(0,4);
 
@@ -123,27 +131,29 @@ function renderizarRelacionados(atual){
 
         const indice = jogos.indexOf(j);
 
-        grid.innerHTML += `
+        rel_grid.innerHTML += `
 
         <div class="card">
 
-            <img src="${j.imagem}" alt="${j.nome}">
+            <img src="${j.imagem}">
 
-            <div class="card-content">
+            <div class="card-body">
 
-                <div class="desconto">
+                <span class="discount">
                     🔥 ${j.desconto}% OFF
-                </div>
+                </span>
 
                 <h3>${j.nome}</h3>
 
-                <div class="preco">
+                <div class="price">
                     R$ ${Number(j.preco).toFixed(2)}
                 </div>
 
-                <a class="botao"
+                <a class="btn"
                    href="game.html?id=${indice}">
+
                    VER JOGO
+
                 </a>
 
             </div>

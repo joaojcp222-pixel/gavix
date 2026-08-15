@@ -5,37 +5,34 @@
     font-family:Arial,Helvetica,sans-serif;
 }
 
-html{
-    scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth;}
 
 body{
-    background:#08090d;
+    background:#0b0d12;
     color:#fff;
 }
 
 .container{
     width:92%;
-    max-width:1250px;
+    max-width:1200px;
     margin:auto;
 }
 
 /* HEADER */
 
 .header{
+    background:#11151d;
+    border-bottom:1px solid #252b35;
     position:sticky;
     top:0;
-    z-index:1000;
-    backdrop-filter:blur(18px);
-    background:rgba(8,9,13,.92);
-    border-bottom:1px solid #23252c;
+    z-index:999;
 }
 
 .header-content{
-    height:75px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
+    height:70px;
 }
 
 .logo{
@@ -43,201 +40,195 @@ body{
     text-decoration:none;
     font-size:28px;
     font-weight:900;
-    letter-spacing:1px;
 }
 
 .menu{
     display:flex;
-    gap:28px;
+    gap:25px;
 }
 
 .menu a{
-    color:#a8acb6;
+    color:#bbb;
     text-decoration:none;
-    font-weight:700;
-    transition:.2s;
 }
 
 .menu a:hover{
     color:#fff;
 }
 
-.menu-button{
-    display:none;
-}
-
 /* HERO */
 
 .hero{
-    padding:90px 0;
-    background:
-    radial-gradient(circle at top right,#1d2333,transparent 35%),
-    radial-gradient(circle at bottom left,#131826,transparent 30%),
-    #08090d;
-}
-
-.hero-content{
-    max-width:700px;
+    padding:70px 0;
+    background:linear-gradient(135deg,#131827,#1d2435);
 }
 
 .hero-tag{
     display:inline-block;
-    background:#13141b;
-    border:1px solid #292b34;
-    padding:8px 15px;
+    background:#24314d;
+    padding:8px 14px;
     border-radius:30px;
+    margin-bottom:18px;
     font-size:12px;
-    font-weight:800;
-    margin-bottom:20px;
+    font-weight:700;
 }
 
 .hero h1{
-    font-size:68px;
-    line-height:1;
-    margin-bottom:20px;
-    letter-spacing:-3px;
-}
-
-.hero h1 span{
-    color:#7aa5ff;
+    font-size:52px;
+    margin-bottom:18px;
 }
 
 .hero p{
-    color:#9ca1ad;
-    font-size:18px;
-    line-height:1.7;
+    color:#b9c1d2;
     margin-bottom:30px;
+    font-size:18px;
 }
 
 .hero-button{
-    background:#fff;
-    color:#000;
-    padding:16px 28px;
-    text-decoration:none;
-    border-radius:12px;
-    font-weight:900;
     display:inline-block;
-    transition:.2s;
-}
-
-.hero-button:hover{
-    transform:translateY(-3px);
+    background:#4f8cff;
+    color:#fff;
+    padding:14px 24px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:700;
 }
 
 /* BANNER */
 
 .banner-destaque{
-    margin:40px 0 60px;
-    background:linear-gradient(135deg,#11131a,#1b2130);
-    border:1px solid #2d3340;
-    border-radius:22px;
-    overflow:hidden;
+    margin:45px 0;
     display:grid;
-    grid-template-columns:1.1fr .9fr;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    background:#141922;
+    padding:25px;
+    border-radius:18px;
     align-items:center;
-    min-height:340px;
 }
 
-.banner-info{
-    padding:45px;
+.banner-destaque img{
+    width:100%;
+    border-radius:14px;
 }
 
 .banner-tag{
-    display:inline-block;
-    background:#1b2130;
-    border:1px solid #3b4356;
-    padding:8px 14px;
-    border-radius:30px;
-    font-size:11px;
-    font-weight:900;
-    margin-bottom:18px;
+    color:#6ea7ff;
+    font-size:13px;
+    font-weight:700;
 }
 
 .banner-info h2{
-    font-size:42px;
-    margin-bottom:15px;
-    line-height:1.1;
+    font-size:36px;
+    margin:14px 0;
 }
 
 .banner-info p{
-    color:#aab0bb;
-    line-height:1.7;
-    margin-bottom:28px;
+    color:#b5bfd3;
+    margin-bottom:25px;
 }
 
 .banner-botao{
     background:#4f8cff;
     color:#fff;
-    text-decoration:none;
-    padding:14px 24px;
+    padding:14px 22px;
     border-radius:10px;
-    font-weight:900;
+    text-decoration:none;
     display:inline-block;
 }
 
-.banner-botao:hover{
-    background:#3d7ef8;
-}
-
-.banner-destaque img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-/* TITULOS */
+/* TÍTULOS */
 
 .section-header{
     display:flex;
     justify-content:space-between;
-    align-items:end;
+    align-items:center;
+    margin:35px 0 20px;
+}
+
+/* TOP10 */
+
+.top10-lista{
+    display:grid;
+    gap:12px;
+}
+
+.top10-card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    background:#141922;
+    padding:14px;
+    border-radius:12px;
+}
+
+.rank{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:900;
+    background:#2d3648;
+}
+
+.rank1{background:#d4af37;color:#000;}
+.rank2{background:#c0c0c0;color:#000;}
+.rank3{background:#cd7f32;}
+
+.top10-img{
+    width:90px;
+    height:50px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.top10-info{flex:1;}
+
+.top10-preco{
+    font-size:22px;
+    font-weight:900;
+}
+
+/* FILTROS */
+
+.filtros{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:12px;
     margin-bottom:25px;
 }
 
-.section-tag{
-    color:#6d7483;
-    font-size:12px;
-    font-weight:900;
-    letter-spacing:1px;
+.filtros input,
+.filtros select{
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    background:#181e29;
+    color:#fff;
 }
 
-.section-header h2{
-    font-size:34px;
-    margin-top:6px;
-}
-
-.offer-count{
-    color:#8f96a5;
-    font-size:14px;
-    font-weight:700;
-}
-
-/* IMPERDIVEIS */
-
-.imperdiveis-section{
-    margin-bottom:70px;
-}
+/* GRID */
 
 .lista-ofertas{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:18px;
 }
 
 /* CARD */
 
 .card{
-    background:#11131a;
-    border:1px solid #272b35;
-    border-radius:18px;
+    background:#151b24;
+    border-radius:14px;
     overflow:hidden;
+    position:relative;
     transition:.25s;
 }
 
 .card:hover{
-    transform:translateY(-6px);
-    border-color:#4f8cff;
-    box-shadow:0 20px 40px rgba(0,0,0,.35);
+    transform:translateY(-5px);
 }
 
 .card img{
@@ -246,472 +237,146 @@ body{
     object-fit:cover;
 }
 
-.card-content{
-    padding:18px;
+.favorito{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:rgba(0,0,0,.65);
     display:flex;
-    flex-direction:column;
-    gap:8px;
-    min-height:230px;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
 }
 
-.card-content h3{
-    font-size:18px;
-    line-height:1.35;
+.card-content{
+    padding:15px;
 }
 
 .desconto{
     display:inline-block;
-    background:#18321d;
-    color:#6dff88;
-    padding:6px 10px;
-    border-radius:7px;
+    background:#1d3b24;
+    color:#6dff8f;
+    padding:5px 8px;
+    border-radius:8px;
     font-size:12px;
-    font-weight:900;
-    width:fit-content;
-}
-
-.preco-antigo{
-    color:#7b808d;
-    text-decoration:line-through;
-    font-size:13px;
-}
-
-.preco{
-    font-size:30px;
-    font-weight:900;
-}
-
-.economia{
-    color:#73f19b;
-    font-size:13px;
     font-weight:700;
 }
 
-.loja,.plataforma{
-    color:#8d93a2;
+.card-content h3{
+    margin:12px 0;
+    font-size:17px;
+}
+
+.preco-antigo{
+    color:#8c96a9;
+    text-decoration:line-through;
+}
+
+.preco{
+    font-size:28px;
+    font-weight:900;
+    margin:6px 0;
+}
+
+.economia{
+    color:#77ff9f;
     font-size:13px;
+    margin-bottom:8px;
+}
+
+.loja,
+.plataforma{
+    color:#b0bacd;
+    font-size:13px;
+    margin-top:3px;
 }
 
 .botao{
-    margin-top:auto;
-    background:#fff;
-    color:#000;
+    display:block;
+    margin-top:14px;
     text-align:center;
+    background:#4f8cff;
+    color:#fff;
     padding:12px;
     border-radius:9px;
     text-decoration:none;
-    font-weight:900;
+    font-weight:700;
+}
+
+/* LOJAS */
+
+.lista-lojas{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:14px;
+}
+
+.store-card{
+    background:#151b24;
+    padding:16px;
+    border-radius:12px;
+    cursor:pointer;
 }
 
 /* STATUS */
 
 .status-gavix{
-    background:#101218;
-    border:1px solid #242832;
-    padding:14px 16px;
-    border-radius:10px;
-    margin-bottom:22px;
-    color:#98a0af;
-}
-
-/* FILTROS */
-
-.filtros{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr 1fr;
-    gap:12px;
-    margin-bottom:28px;
-}
-
-.filtros input,
-.filtros select{
-    background:#11131a;
-    border:1px solid #2b303b;
-    color:#fff;
+    background:#151b24;
     padding:14px;
     border-radius:10px;
-    outline:none;
-}
-
-/* LOJAS */
-
-.stores-section{
-    margin-top:70px;
-}
-
-.lista-lojas{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:16px;
-}
-
-.store-card{
-    background:#11131a;
-    border:1px solid #2b303b;
-    color:#fff;
-    border-radius:14px;
-    padding:18px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    cursor:pointer;
-}
-
-.store-card:hover{
-    border-color:#4f8cff;
-}
-
-.store-icon{
-    font-size:24px;
-}
-
-.store-info{
-    display:flex;
-    flex-direction:column;
-}
-
-/* CATEGORIAS */
-
-.categories{
-    margin-top:70px;
-}
-
-.category-list{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:16px;
-    margin-top:24px;
-}
-
-.category-list button{
-    background:#11131a;
-    border:1px solid #2b303b;
-    color:#fff;
-    padding:22px;
-    border-radius:14px;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:800;
-}
-
-.category-list button:hover{
-    border-color:#4f8cff;
+    margin-bottom:20px;
 }
 
 /* SOBRE */
 
 .about{
-    margin:80px 0;
-    max-width:850px;
+    margin:60px 0;
 }
 
 .about p{
-    color:#9ba3b2;
+    color:#b7bfd1;
     line-height:1.8;
-    margin-top:16px;
+    margin-top:12px;
 }
 
 /* FOOTER */
 
 footer{
-    border-top:1px solid #252932;
-    padding:30px 0;
-    color:#8b92a2;
+    border-top:1px solid #222933;
+    padding:25px 0;
 }
 
 .footer-content{
     display:flex;
     justify-content:space-between;
-    align-items:center;
 }
 
 /* RESPONSIVO */
 
-@media(max-width:900px){
-
-.hero h1{
-    font-size:48px;
-}
+@media(max-width:850px){
 
 .banner-destaque{
-    grid-template-columns:1fr;
+grid-template-columns:1fr;
 }
 
-.banner-destaque img{
-    height:260px;
+.hero h1{
+font-size:36px;
 }
 
 .filtros{
-    grid-template-columns:1fr 1fr;
-}
-
-.category-list{
-    grid-template-columns:repeat(2,1fr);
+grid-template-columns:1fr;
 }
 
 .menu{
-    display:none;
-}
-
-.menu-button{
-    display:block;
-}
-
-}
-
-@media(max-width:600px){
-
-.filtros{
-    grid-template-columns:1fr;
-}
-
-.category-list{
-    grid-template-columns:1fr;
+display:none;
 }
 
 .footer-content{
-    flex-direction:column;
-    gap:10px;
+flex-direction:column;
+gap:10px;
 }
-
-.hero h1{
-    font-size:38px;
-}
-
-.banner-info{
-    padding:30px;
-}
-
-.banner-info h2{
-    font-size:30px;
-}
-
-}.favorito{
-    position:absolute;
-    top:12px;
-    right:12px;
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    background:rgba(0,0,0,.65);
-    backdrop-filter:blur(8px);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    font-size:20px;
-    z-index:10;
-    transition:.2s;
-}
-
-.favorito:hover{
-    transform:scale(1.1);
-}
-
-.card{
-    position:relative;
-}/* =========================
-   FAVORITOS
-========================= */
-
-.card{
-    position:relative;
-}
-
-.favorito{
-    position:absolute;
-    top:12px;
-    right:12px;
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    background:rgba(0,0,0,.65);
-    backdrop-filter:blur(8px);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    font-size:20px;
-    z-index:5;
-    transition:.2s;
-    border:1px solid rgba(255,255,255,.15);
-}
-
-.favorito:hover{
-    transform:scale(1.12);
-    background:rgba(20,20,20,.9);
-}/* ===========================
-   TOP 10
-=========================== */
-
-.top10{
-    margin:45px 0;
-}
-
-.top10-lista{
-    display:grid;
-    gap:14px;
-}
-
-.top10-card{
-    display:flex;
-    align-items:center;
-    gap:18px;
-    padding:14px 18px;
-    background:#11131a;
-    border:1px solid #272b35;
-    border-radius:14px;
-    transition:.25s;
-}
-
-.top10-card:hover{
-    border-color:#4f8cff;
-    transform:translateY(-2px);
-}
-
-.rank{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    font-weight:900;
-    background:#333;
-}
-
-.rank1{
-    background:#d4af37;
-    color:#000;
-}
-
-.rank2{
-    background:#c0c0c0;
-    color:#000;
-}
-
-.rank3{
-    background:#cd7f32;
-}
-
-.top10-img{
-    width:90px;
-    height:52px;
-    object-fit:cover;
-    border-radius:8px;
-}
-
-.top10-info{
-    flex:1;
-}
-
-.top10-info h3{
-    font-size:16px;
-    margin-bottom:4px;
-}
-
-.top10-desconto{
-    color:#71ff94;
-    font-weight:700;
-}
-
-.top10-preco{
-    font-size:22px;
-    font-weight:900;
-}/* =====================================
-   GAME PAGE
-===================================== */
-
-.game-hero{
-    display:grid;
-    grid-template-columns:420px 1fr;
-    gap:40px;
-    align-items:center;
-    margin:50px 0 70px;
-}
-
-.game-capa{
-    width:100%;
-    border-radius:18px;
-    box-shadow:0 25px 50px rgba(0,0,0,.45);
-}
-
-.game-info{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-}
-
-.game-tag{
-    width:max-content;
-    padding:8px 14px;
-    border-radius:999px;
-    background:#1b2230;
-    color:#7aa5ff;
-    font-size:13px;
-    font-weight:700;
-}
-
-.game-info h1{
-    font-size:46px;
-    line-height:1.1;
-    margin:6px 0;
-}
-
-.game-desconto{
-    color:#63ff8f;
-    font-weight:800;
-    font-size:18px;
-}
-
-.game-preco-antigo{
-    color:#8d93a2;
-    text-decoration:line-through;
-    font-size:22px;
-}
-
-.game-preco{
-    font-size:56px;
-    font-weight:900;
-    color:#fff;
-}
-
-.game-economia{
-    color:#73f19b;
-    font-size:17px;
-    font-weight:700;
-}
-
-.game-botao{
-    margin-top:14px;
-    width:max-content;
-    background:#4f8cff;
-    color:#fff;
-    text-decoration:none;
-    padding:16px 28px;
-    border-radius:12px;
-    font-weight:900;
-    transition:.2s;
-}
-
-.game-botao:hover{
-    background:#3c7ef5;
-    transform:translateY(-2px);
-}
-
-@media(max-width:900px){
-
-    .game-hero{
-        grid-template-columns:1fr;
-    }
-
-    .game-info h1{
-        font-size:34px;
-    }
-
-    .game-preco{
-        font-size:42px;
-    }
 
 }

@@ -1,6 +1,6 @@
-// =======================================
-// GAVIX V8 - GAME PAGE DEFINITIVO
-// =======================================
+// ===========================================
+// GAVIX V12 - GAME PAGE + ANALYTICS
+// ===========================================
 
 const id = Number(new URLSearchParams(location.search).get("id"));
 let jogos = [];
@@ -21,185 +21,154 @@ const trailers = [
   "https://www.youtube.com/embed/4WnO93TQkE0"
 ];
 
-const categorias = [
-  ["Ação","RPG","Mundo Aberto"],
-  ["FPS","Multiplayer","Online"],
-  ["Corrida","Simulação","Esportes"],
-  ["Terror","Sobrevivência","Co-op"],
-  ["Aventura","História","Single Player"]
-];
+async function iniciar(){
 
-async function carregar(){
+    const r = await fetch("data/ofertas.json?" + Date.now());
+    jogos = await r.json();
 
-  const resposta = await fetch("data/ofertas.json?" + Date.now());
-  jogos = await resposta.json();
+    const jogo = jogos[id];
 
-  const jogo = jogos[id];
+    if(!jogo){
+        document.body.innerHTML = "<h1>Jogo não encontrado</h1>";
+        return;
+    }
 
-  if(!jogo){
-    document.body.innerHTML = `
-      <div style="padding:40px">
-        <h1>Jogo não encontrado</h1>
-        <a href="index.html">Voltar</a>
-      </div>`;
-    return;
-  }
+    document.title = "GAVIX | " + jogo.nome;
 
-  document.title = "GAVIX | " + jogo.nome;
+    hero(jogo);
+    trailer();
+    galeria(jogo);
+    info(jogo);
+    descricao(jogo);
+    relacionados(jogo);
 
-  renderHero(jogo);
-  renderTrailer();
-  renderGaleria(jogo);
-  renderInfo(jogo);
-  renderDescricao(jogo);
-  renderScore();
-  renderTags();
-  renderRelacionados(jogo);
 }
 
-function renderHero(j){
+function hero(j){
 
-  const economia = (j.preco_antigo - j.preco).toFixed(2);
-
-  document.getElementById("game-page").innerHTML = `
+    document.getElementById("game-page").innerHTML = `
     <section class="game-hero">
 
-      <div class="game-cover">
-        <img src="${j.imagem}" alt="${j.nome}">
-      </div>
-
-      <div class="game-content">
-
-        <span class="game-badge">${j.loja}</span>
-
-        <h1>${j.nome}</h1>
-
-        <div style="color:#72ff91;font-weight:700;font-size:18px;">
-          🔥 ${j.desconto}% OFF
+        <div class="game-cover">
+            <img src="${j.imagem}">
         </div>
 
-        <div class="game-price-old">
-          R$ ${Number(j.preco_antigo).toFixed(2)}
-        </div>
+        <div class="game-content">
 
-        <div class="game-price">
-          R$ ${Number(j.preco).toFixed(2)}
-        </div>
+            <span class="game-badge">${j.loja}</span>
 
-        <div class="game-save">
-          Você economiza R$ ${economia}
-        </div>
+            <h1>${j.nome}</h1>
 
-        <a class="buy-btn"
-           href="${j.link}"
-           target="_blank">
-          COMPRAR AGORA →
-        </a>
+            <div style="color:#72ff91;font-weight:700;">
+                🔥 ${j.desconto}% OFF
+            </div>
 
-      </div>
+            <div class="game-price-old">
+                R$ ${Number(j.preco_antigo).toFixed(2)}
+            </div>
 
-    </section>
-  `;
-}
+            <div class="game-price">
+                R$ ${Number(j.preco).toFixed(2)}
+            </div>
 
-function renderTrailer(){
-  document.getElementById("trailer-frame").src =
-    trailers[id % trailers.length];
-}
+            <div class="game-save">
+                Você economiza R$ ${(j.preco_antigo-j.preco).toFixed(2)}
+            </div>
 
-function renderGaleria(j){
-
-  ["g1","g2","g3","g4"].forEach(el=>{
-    document.getElementById(el).src = j.imagem;
-  });
-
-}
-
-function renderInfo(j){
-
-  document.getElementById("spec-plataforma").textContent = j.plataforma;
-  document.getElementById("spec-loja").textContent = j.loja;
-  document.getElementById("spec-desconto").textContent = j.desconto + "%";
-  document.getElementById("spec-preco").textContent =
-    "R$ " + Number(j.preco).toFixed(2);
-
-}
-
-function renderDescricao(j){
-
-  document.getElementById("descricao").textContent =
-    descricoes[id % descricoes.length] +
-    " Aproveite esta promoção disponível na " + j.loja + ".";
-
-}
-
-function renderScore(){
-
-  const nota = 88 + (id % 11);
-
-  document.getElementById("score").textContent = nota;
-
-  document.getElementById("avaliacao").textContent =
-    nota >= 95 ? "Extremamente Positivo" :
-    nota >= 90 ? "Muito Positivo" : "Positivo";
-
-}
-
-function renderTags(){
-
-  const box = document.getElementById("tags");
-
-  box.innerHTML = "";
-
-  categorias[id % categorias.length].forEach(tag=>{
-
-    box.innerHTML += `
-      <div class="tag-item">${tag}</div>
-    `;
-
-  });
-
-}
-
-function renderRelacionados(atual){
-
-  const grid = document.getElementById("rel-grid");
-
-  grid.innerHTML = "";
-
-  jogos
-    .filter(j=>j.nome!==atual.nome)
-    .sort(()=>Math.random()-0.5)
-    .slice(0,4)
-    .forEach(j=>{
-
-      grid.innerHTML += `
-      <div class="card">
-
-        <img src="${j.imagem}" alt="${j.nome}">
-
-        <div class="card-body">
-
-          <span class="discount">
-            🔥 ${j.desconto}% OFF
-          </span>
-
-          <h3>${j.nome}</h3>
-
-          <div class="price">
-            R$ ${Number(j.preco).toFixed(2)}
-          </div>
-
-          <a class="btn"
-             href="game.html?id=${jogos.indexOf(j)}">
-             VER JOGO
-          </a>
+            <button class="buy-btn" id="comprar-btn">
+                COMPRAR AGORA →
+            </button>
 
         </div>
 
-      </div>`;
+    </section>`;
+
+    document.getElementById("comprar-btn")
+    .addEventListener("click",()=>{
+
+        registrarClique();
+
+        window.open(j.link,"_blank");
+
     });
 
 }
 
-carregar();
+function trailer(){
+
+    document.getElementById("trailer-frame").src =
+        trailers[id % trailers.length];
+
+}
+
+function galeria(j){
+
+    ["g1","g2","g3","g4"].forEach(i=>{
+
+        document.getElementById(i).src = j.imagem;
+
+    });
+
+}
+
+function info(j){
+
+    document.getElementById("spec-plataforma").textContent = j.plataforma;
+    document.getElementById("spec-loja").textContent = j.loja;
+    document.getElementById("spec-desconto").textContent = j.desconto + "%";
+    document.getElementById("spec-preco").textContent =
+        "R$ " + Number(j.preco).toFixed(2);
+
+}
+
+function descricao(j){
+
+    document.getElementById("descricao").textContent =
+        descricoes[id % descricoes.length] +
+        " Aproveite esta promoção disponível na " + j.loja + ".";
+
+}
+
+function relacionados(atual){
+
+    const grid = document.getElementById("rel-grid");
+    grid.innerHTML = "";
+
+    jogos
+    .filter(j=>j.nome!==atual.nome)
+    .slice(0,4)
+    .forEach(j=>{
+
+        grid.innerHTML += `
+        <div class="card">
+
+            <img src="${j.imagem}">
+
+            <div class="card-body">
+
+                <span class="discount">
+                    🔥 ${j.desconto}% OFF
+                </span>
+
+                <h3>${j.nome}</h3>
+
+                <div class="price">
+                    R$ ${Number(j.preco).toFixed(2)}
+                </div>
+
+                <a class="btn"
+                   href="game.html?id=${jogos.indexOf(j)}">
+
+                   VER JOGO
+
+                </a>
+
+            </div>
+
+        </div>`;
+
+    });
+
+}
+
+iniciar();

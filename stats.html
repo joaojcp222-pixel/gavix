@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GAVIX | Estatísticas</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+    background:#070b12;
+}
+
+.dashboard{
+    padding:40px 0;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.stat-card{
+    background:#101826;
+    border:1px solid #22304a;
+    border-radius:18px;
+    padding:24px;
+}
+
+.stat-card span{
+    color:#8fa1c1;
+    font-size:14px;
+}
+
+.stat-card h2{
+    font-size:38px;
+    margin-top:10px;
+    color:#fff;
+}
+
+.revenue{
+    color:#72ff91 !important;
+}
+
+.panel{
+    margin-top:30px;
+    background:#101826;
+    border:1px solid #22304a;
+    border-radius:18px;
+    padding:24px;
+}
+
+.progress{
+    width:100%;
+    height:16px;
+    background:#1b263c;
+    border-radius:999px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#2f6df6,#72ff91);
+    transition:.4s;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th,td{
+    padding:14px;
+    border-bottom:1px solid #22304a;
+    text-align:left;
+}
+
+th{
+    color:#9db9e6;
+}
+
+.back{
+    display:inline-block;
+    margin-top:20px;
+    color:#fff;
+    text-decoration:none;
+    background:#2f6df6;
+    padding:12px 18px;
+    border-radius:10px;
+    font-weight:700;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="container nav">
+
+<a href="index.html" class="logo">GAVIX</a>
+
+</div>
+
+</header>
+
+<main class="container dashboard">
+
+<h1>📊 Painel de Estatísticas</h1>
+
+<p style="color:#b8c6df;margin:8px 0 30px;">
+Monitore visitas, cliques e receita estimada.
+</p>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+<span>👀 Visitas</span>
+<h2 id="visitas">0</h2>
+</div>
+
+<div class="stat-card">
+<span>🖱️ Cliques</span>
+<h2 id="cliques">0</h2>
+</div>
+
+<div class="stat-card">
+<span>📈 Conversão</span>
+<h2 id="conversao">0%</h2>
+</div>
+
+<div class="stat-card">
+<span>💰 Receita Estimada</span>
+<h2 id="receita" class="revenue">R$ 0,00</h2>
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>Taxa de Conversão</h2>
+
+<p>
+Quanto maior a porcentagem, melhor o desempenho das ofertas.
+</p>
+
+<div class="progress">
+
+<div id="barra" class="progress-bar"></div>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>Resumo</h2>
+
+<table>
+
+<tr>
+<th>Métrica</th>
+<th>Valor</th>
+</tr>
+
+<tr>
+<td>Total de visitas</td>
+<td id="t1">0</td>
+</tr>
+
+<tr>
+<td>Cliques em Comprar</td>
+<td id="t2">0</td>
+</tr>
+
+<tr>
+<td>Conversão</td>
+<td id="t3">0%</td>
+</tr>
+
+<tr>
+<td>Comissão estimada*</td>
+<td id="t4">R$ 0,00</td>
+</tr>
+
+</table>
+
+<p style="margin-top:15px;color:#9db0ce;">
+* Estimativa considerando R$ 2,50 por clique de afiliado.
+</p>
+
+</div>
+
+<a href="index.html" class="back">
+⬅ Voltar ao Gavix
+</a>
+
+</main>
+
+<script src="analytics.js"></script>
+
+<script>
+
+const stats = carregarStats();
+
+const visitas = stats.visitas;
+const cliques = stats.cliques;
+
+const conversao = visitas===0
+?0
+:((cliques/visitas)*100);
+
+const receita = (cliques*2.5);
+
+document.getElementById("visitas").textContent = visitas;
+document.getElementById("cliques").textContent = cliques;
+document.getElementById("conversao").textContent = conversao.toFixed(1)+"%";
+document.getElementById("receita").textContent = "R$ "+receita.toFixed(2);
+
+document.getElementById("t1").textContent = visitas;
+document.getElementById("t2").textContent = cliques;
+document.getElementById("t3").textContent = conversao.toFixed(1)+"%";
+document.getElementById("t4").textContent = "R$ "+receita.toFixed(2);
+
+document.getElementById("barra").style.width =
+Math.min(conversao,100)+"%";
+
+</script>
+
+</body>
+</html>

@@ -1,1060 +1,359 @@
 let todasAsOfertas = [];
 
-
 /* =========================
    CARREGAR OFERTAS
 ========================= */
 
-async function carregarOfertas() {
+async function carregarOfertas(){
 
-    try {
+    const resposta = await fetch(
+        "data/ofertas.json?nocache=" + Date.now()
+    );
 
-        const resposta = await fetch(
-            "data/ofertas.json?nocache=" + Date.now()
-        );
+    todasAsOfertas = await resposta.json();
 
-        if (!resposta.ok) {
-            throw new Error(
-                "Não foi possível carregar as ofertas."
-            );
+    mostrarBanner();
+
+    mostrarImperdiveis();
+
+    carregarLojas();
+
+    criarCardsDeLojas();
+
+    filtrarOfertas();
+}
+
+/* =========================
+   BANNER PREMIUM
+========================= */
+
+let bannerAtual = 0;
+
+function mostrarBanner(){
+
+    const melhores = [...todasAsOfertas]
+    .sort((a,b)=>b.desconto-a.desconto)
+    .slice(0,5);
+
+    atualizarBanner(melhores);
+
+    setInterval(()=>{
+
+        bannerAtual++;
+
+        if(bannerAtual>=melhores.length){
+            bannerAtual=0;
         }
 
-        todasAsOfertas = await resposta.json();
+        atualizarBanner(melhores);
 
-        carregarLojas();
-
-        criarCardsDeLojas();
-
-        mostrarImperdiveis();
-
-        filtrarOfertas();
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao carregar ofertas:",
-            erro
-        );
-
-        const lista =
-            document.getElementById(
-                "lista-ofertas"
-            );
-
-        if (lista) {
-
-            lista.innerHTML = `
-                <div class="card">
-                    <div class="card-content">
-
-                        <h3>
-                            Não foi possível carregar as ofertas.
-                        </h3>
-
-                        <p>
-                            Tente atualizar a página.
-                        </p>
-
-                    </div>
-                </div>
-            `;
-
-        }
-
-    }
+    },5000);
 
 }
 
+function atualizarBanner(lista){
+
+    const jogo = lista[bannerAtual];
+
+    document.getElementById("banner-titulo").textContent = jogo.nome;
+
+    document.getElementById("banner-descricao").textContent =
+    `${jogo.desconto}% OFF • ${jogo.loja}`;
+
+    document.getElementById("banner-imagem").src = jogo.imagem;
+
+    document.getElementById("banner-botao").href = jogo.link;
+
+}
 
 /* =========================
    OFERTAS IMPERDÍVEIS
 ========================= */
 
-function mostrarImperdiveis() {
-
-    const container =
-        document.getElementById(
-            "lista-imperdiveis"
-        );
-
-    if (!container) {
-        return;
-    }
-
-
-    /*
-     * Pega as ofertas que possuem
-     * maior porcentagem de desconto.
-     */
-
-    const melhores =
-        [...todasAsOfertas]
-            .sort(
-                function(a, b) {
-
-                    return (
-                        Number(
-                            b.desconto || 0
-                        ) -
-                        Number(
-                            a.desconto || 0
-                        )
-                    );
-
-                }
-            )
-            .slice(0, 4);
-
-
-    container.innerHTML = "";
-
-
-    if (melhores.length === 0) {
-
-        container.innerHTML = `
-            <div class="card">
-
-                <div class="card-content">
-
-                    <h3>
-                        Nenhuma oferta disponível.
-                    </h3>
-
-                </div>
-
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    melhores.forEach(
-        function(oferta) {
-
-            const card =
-                criarCardOferta(
-                    oferta,
-                    true
-                );
-
-            container.appendChild(
-                card
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================
-   CRIAR CARD
-========================= */
-
-function criarCardOferta(
-    oferta,
-    destaque = false
-) {
-
-    const card =
-        document.createElement(
-            "div"
-        );
-
-
-    card.classList.add(
-        "card"
-    );
-
-
-    if (destaque) {
-
-        card.classList.add(
-            "card-destaque"
-        );
-
-    }
-
-
-    const simbolo =
-        oferta.moeda === "USD"
-            ? "US$"
-            : "R$";
-
-
-    const precoAntigo =
-        Number(
-            oferta.preco_antigo
-        ) || 0;
-
-
-    const precoAtual =
-        Number(
-            oferta.preco
-        ) || 0;
-
-
-    const economia =
-        Math.max(
-            0,
-            precoAntigo -
-            precoAtual
-        );
-
-
-    const desconto =
-        Number(
-            oferta.desconto
-        ) || 0;
-
-
-    const linkOferta =
-        oferta.linkAfiliado ||
-        oferta.link ||
-        "#";
-
-
-    const nomeCodificado =
-        encodeURIComponent(
-            oferta.nome || ""
-        );
-
-
-    const paginaJogo =
-        "jogo.html?nome=" +
-        nomeCodificado;
-
-
-    card.innerHTML = `
-
-        <img
-            src="${oferta.imagem || ""}"
-            alt="${oferta.nome || "Jogo"}"
-            loading="lazy"
-        >
-
-
-        <div class="card-content">
-
-            ${
-                destaque
-                    ? `
-                        <span class="badge-imperdivel">
-                            🔥 IMPERDÍVEL
-                        </span>
-                    `
-                    : ""
-            }
-
-
-            <h3>
-                ${oferta.nome || "Jogo sem nome"}
-            </h3>
-
-
-            <div class="desconto">
-
-                🔥 ${desconto}% OFF
-
-            </div>
-
-
-            <div class="preco-antigo">
-
-                ${simbolo}
-                ${precoAntigo.toFixed(2)}
-
-            </div>
-
-
-            <div class="preco">
-
-                ${simbolo}
-                ${precoAtual.toFixed(2)}
-
-            </div>
-
-
-            <div class="economia">
-
-                💰 Economize
-                ${simbolo}
-                ${economia.toFixed(2)}
-
-            </div>
-
-
-            <div class="loja">
-
-                🏪
-                ${oferta.loja || "Loja"}
-
-            </div>
-
-
-            <div class="plataforma">
-
-                🎮
-                ${oferta.plataforma || "PC"}
-
-            </div>
-
-
-            <a
-                class="botao"
-                href="${linkOferta}"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-
-                VER OFERTA →
-
-            </a>
-
-        </div>
-
-    `;
-
-
-    card.style.cursor =
-        "pointer";
-
-
-    card.addEventListener(
-        "click",
-        function(event) {
-
-            if (
-                event.target.closest(
-                    ".botao"
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            window.location.href =
-                paginaJogo;
-
-        }
-    );
-
-
-    return card;
-
-}
-
-
-/* =========================
-   FILTRO DE LOJAS
-========================= */
-
-function carregarLojas() {
-
-    const filtroLoja =
-        document.getElementById(
-            "filtro-loja"
-        );
-
-    if (!filtroLoja) {
-        return;
-    }
-
-
-    filtroLoja.innerHTML = `
-        <option value="todas">
-            Todas as lojas
-        </option>
-    `;
-
-
-    const lojas = [
-        ...new Set(
-            todasAsOfertas
-                .map(
-                    oferta =>
-                        oferta.loja
-                )
-                .filter(
-                    loja =>
-                        loja &&
-                        loja.trim() !== ""
-                )
-        )
-    ];
-
-
-    lojas.sort(
-        function(a, b) {
-
-            return a.localeCompare(
-                b,
-                "pt-BR"
-            );
-
-        }
-    );
-
-
-    lojas.forEach(
-        function(loja) {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-            option.value =
-                loja;
-
-            option.textContent =
-                loja;
-
-            filtroLoja.appendChild(
-                option
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================
-   CARDS DAS LOJAS
-========================= */
-
-function criarCardsDeLojas() {
-
-    const container =
-        document.getElementById(
-            "lista-lojas"
-        );
-
-    if (!container) {
-        return;
-    }
-
-
-    const mapaLojas = {};
-
-
-    todasAsOfertas.forEach(
-        function(oferta) {
-
-            const loja =
-                oferta.loja;
-
-            if (!loja) {
-                return;
-            }
-
-
-            if (!mapaLojas[loja]) {
-
-                mapaLojas[loja] =
-                    0;
-
-            }
-
-
-            mapaLojas[loja]++;
-
-        }
-    );
-
-
-    const lojas =
-        Object.keys(
-            mapaLojas
-        ).sort(
-            function(a, b) {
-
-                return a.localeCompare(
-                    b,
-                    "pt-BR"
-                );
-
-            }
-        );
-
-
-    container.innerHTML = "";
-
-
-    lojas.forEach(
-        function(loja) {
-
-            const card =
-                document.createElement(
-                    "button"
-                );
-
-
-            card.type =
-                "button";
-
-
-            card.classList.add(
-                "store-card"
-            );
-
-
-            card.innerHTML = `
-
-                <span class="store-icon">
-                    🏪
-                </span>
-
-                <span class="store-info">
-
-                    <strong>
-                        ${loja}
-                    </strong>
-
-                    <small>
-                        ${mapaLojas[loja]}
-                        ${
-                            mapaLojas[loja] === 1
-                                ? " oferta"
-                                : " ofertas"
-                        }
-                    </small>
-
-                </span>
-
-                <span class="store-arrow">
-                    →
-                </span>
-
-            `;
-
-
-            card.addEventListener(
-                "click",
-                function() {
-
-                    const filtroLoja =
-                        document.getElementById(
-                            "filtro-loja"
-                        );
-
-
-                    if (filtroLoja) {
-
-                        filtroLoja.value =
-                            loja;
-
-                    }
-
-
-                    filtrarOfertas();
-
-
-                    const ofertas =
-                        document.getElementById(
-                            "ofertas"
-                        );
-
-
-                    if (ofertas) {
-
-                        ofertas.scrollIntoView({
-                            behavior: "smooth"
-                        });
-
-                    }
-
-                }
-            );
-
-
-            container.appendChild(
-                card
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================
-   MOSTRAR OFERTAS
-========================= */
-
-function mostrarOfertas(
-    ofertas
-) {
+function mostrarImperdiveis(){
 
     const lista =
-        document.getElementById(
-            "lista-ofertas"
-        );
-
-    if (!lista) {
-        return;
-    }
-
+    document.getElementById("lista-imperdiveis");
 
     lista.innerHTML = "";
 
+    const jogos = [...todasAsOfertas]
+    .sort((a,b)=>b.desconto-a.desconto)
+    .slice(0,4);
 
-    if (ofertas.length === 0) {
+    jogos.forEach(jogo=>{
 
-        lista.innerHTML = `
-            <div class="card">
+        lista.innerHTML += criarCard(jogo);
 
-                <div class="card-content">
-
-                    <h3>
-                        Nenhuma oferta encontrada.
-                    </h3>
-
-                    <p>
-                        Tente mudar os filtros.
-                    </p>
-
-                </div>
-
-            </div>
-        `;
-
-
-        atualizarContador(
-            0
-        );
-
-
-        return;
-
-    }
-
-
-    atualizarContador(
-        ofertas.length
-    );
-
-
-    ofertas.forEach(
-        function(oferta) {
-
-            const card =
-                criarCardOferta(
-                    oferta,
-                    false
-                );
-
-
-            lista.appendChild(
-                card
-            );
-
-        }
-    );
+    });
 
 }
-
 
 /* =========================
-   CONTADOR
+   CARD
 ========================= */
 
-function atualizarContador(
-    quantidade
-) {
+function criarCard(jogo){
 
-    const contador =
-        document.getElementById(
-            "contador-ofertas"
-        );
+return `
+<div class="card">
 
+<img src="${jogo.imagem}" alt="${jogo.nome}">
 
-    if (!contador) {
-        return;
-    }
+<div class="card-content">
 
+<div class="desconto">
+🔥 ${jogo.desconto}% OFF
+</div>
 
-    contador.textContent =
-        "🔥 " +
-        quantidade +
-        (
-            quantidade === 1
-                ? " oferta encontrada"
-                : " ofertas encontradas"
-        );
+<h3>${jogo.nome}</h3>
+
+<div class="preco-antigo">
+R$ ${Number(jogo.preco_antigo).toFixed(2)}
+</div>
+
+<div class="preco">
+R$ ${Number(jogo.preco).toFixed(2)}
+</div>
+
+<div class="economia">
+Economize R$ ${(jogo.preco_antigo-jogo.preco).toFixed(2)}
+</div>
+
+<div class="loja">
+🏪 ${jogo.loja}
+</div>
+
+<div class="plataforma">
+🎮 ${jogo.plataforma}
+</div>
+
+<a
+class="botao"
+href="${jogo.link}"
+target="_blank">
+
+VER OFERTA →
+
+</a>
+
+</div>
+
+</div>
+`;
 
 }
-
 
 /* =========================
-   FILTRAR OFERTAS
+   LOJAS
 ========================= */
 
-function filtrarOfertas() {
+function carregarLojas(){
 
-    const campoPesquisa =
-        document.getElementById(
-            "campo-pesquisa"
-        );
+const select =
+document.getElementById("filtro-loja");
 
+select.innerHTML =
+'<option value="todas">Todas lojas</option>';
 
-    const filtroPlataforma =
-        document.getElementById(
-            "filtro-plataforma"
-        );
+const lojas = [
+...new Set(
+todasAsOfertas.map(x=>x.loja)
+)
+].sort();
 
+lojas.forEach(loja=>{
 
-    const filtroLoja =
-        document.getElementById(
-            "filtro-loja"
-        );
+select.innerHTML +=
+`<option value="${loja}">${loja}</option>`;
 
+});
 
-    const ordenacao =
-        document.getElementById(
-            "ordenacao"
-        );
+}/* =========================
+   CARDS DAS LOJAS
+========================= */
 
+function criarCardsDeLojas(){
 
-    const pesquisa =
-        campoPesquisa
-            ? campoPesquisa.value
-                .toLowerCase()
-                .trim()
-            : "";
+const container =
+document.getElementById("lista-lojas");
 
+container.innerHTML="";
 
-    const plataforma =
-        filtroPlataforma
-            ? filtroPlataforma.value
-            : "todas";
+const mapa={};
 
+todasAsOfertas.forEach(j=>{
 
-    const loja =
-        filtroLoja
-            ? filtroLoja.value
-            : "todas";
+if(!mapa[j.loja]){
+mapa[j.loja]=0;
+}
 
+mapa[j.loja]++;
 
-    const tipoOrdenacao =
-        ordenacao
-            ? ordenacao.value
-            : "padrao";
+});
 
+Object.keys(mapa)
+.sort()
+.forEach(loja=>{
 
-    let resultados =
-        todasAsOfertas.filter(
-            function(oferta) {
+container.innerHTML+=`
 
-                const nome =
-                    String(
-                        oferta.nome || ""
-                    ).toLowerCase();
+<button
+class="store-card"
+onclick="filtrarLoja('${loja}')">
 
+<div class="store-icon">🏪</div>
 
-                const correspondeNome =
-                    nome.includes(
-                        pesquisa
-                    );
+<div class="store-info">
 
+<strong>${loja}</strong>
 
-                const correspondePlataforma =
-                    plataforma === "todas" ||
-                    !oferta.plataforma ||
-                    oferta.plataforma === plataforma;
+<small>${mapa[loja]} ofertas</small>
 
+</div>
 
-                const correspondeLoja =
-                    loja === "todas" ||
-                    oferta.loja === loja;
+</button>
 
+`;
 
-                return (
-                    correspondeNome &&
-                    correspondePlataforma &&
-                    correspondeLoja
-                );
-
-            }
-        );
-
-
-    if (
-        tipoOrdenacao ===
-        "desconto"
-    ) {
-
-        resultados.sort(
-            function(a, b) {
-
-                return (
-                    Number(
-                        b.desconto || 0
-                    ) -
-                    Number(
-                        a.desconto || 0
-                    )
-                );
-
-            }
-        );
-
-    }
-
-
-    if (
-        tipoOrdenacao ===
-        "menor-preco"
-    ) {
-
-        resultados.sort(
-            function(a, b) {
-
-                return (
-                    Number(
-                        a.preco || 0
-                    ) -
-                    Number(
-                        b.preco || 0
-                    )
-                );
-
-            }
-        );
-
-    }
-
-
-    if (
-        tipoOrdenacao ===
-        "maior-preco"
-    ) {
-
-        resultados.sort(
-            function(a, b) {
-
-                return (
-                    Number(
-                        b.preco || 0
-                    ) -
-                    Number(
-                        a.preco || 0
-                    )
-                );
-
-            }
-        );
-
-    }
-
-
-    if (
-        tipoOrdenacao ===
-        "nome"
-    ) {
-
-        resultados.sort(
-            function(a, b) {
-
-                return String(
-                    a.nome || ""
-                ).localeCompare(
-                    String(
-                        b.nome || ""
-                    ),
-                    "pt-BR"
-                );
-
-            }
-        );
-
-    }
-
-
-    mostrarOfertas(
-        resultados
-    );
+});
 
 }
 
+function filtrarLoja(loja){
+
+document.getElementById("filtro-loja").value=loja;
+
+filtrarOfertas();
+
+window.location.href="#ofertas";
+
+}
+
+/* =========================
+   FILTROS
+========================= */
+
+function filtrarOfertas(){
+
+const pesquisa =
+document.getElementById("campo-pesquisa")
+.value.toLowerCase();
+
+const plataforma =
+document.getElementById("filtro-plataforma")
+.value;
+
+const loja =
+document.getElementById("filtro-loja")
+.value;
+
+const ordem =
+document.getElementById("ordenacao")
+.value;
+
+let lista =
+todasAsOfertas.filter(j=>{
+
+const okNome =
+j.nome.toLowerCase().includes(pesquisa);
+
+const okPlat =
+plataforma==="todas" ||
+j.plataforma===plataforma;
+
+const okLoja =
+loja==="todas" ||
+j.loja===loja;
+
+return okNome && okPlat && okLoja;
+
+});
+
+if(ordem==="desconto"){
+lista.sort((a,b)=>b.desconto-a.desconto);
+}
+
+if(ordem==="menor-preco"){
+lista.sort((a,b)=>a.preco-b.preco);
+}
+
+if(ordem==="maior-preco"){
+lista.sort((a,b)=>b.preco-a.preco);
+}
+
+if(ordem==="nome"){
+lista.sort((a,b)=>a.nome.localeCompare(b.nome));
+}
+
+document.getElementById("contador-ofertas")
+.textContent=`${lista.length} ofertas encontradas`;
+
+const grid =
+document.getElementById("lista-ofertas");
+
+grid.innerHTML="";
+
+lista.forEach(j=>{
+
+grid.innerHTML+=criarCard(j);
+
+});
+
+}
 
 /* =========================
    CATEGORIAS
 ========================= */
 
-function selecionarPlataforma(
-    plataforma
-) {
+function selecionarPlataforma(p){
 
-    const filtro =
-        document.getElementById(
-            "filtro-plataforma"
-        );
+document.getElementById("filtro-plataforma").value=p;
 
+filtrarOfertas();
 
-    if (!filtro) {
-        return;
-    }
-
-
-    filtro.value =
-        plataforma;
-
-
-    filtrarOfertas();
-
-
-    const ofertas =
-        document.getElementById(
-            "ofertas"
-        );
-
-
-    if (ofertas) {
-
-        ofertas.scrollIntoView({
-            behavior: "smooth"
-        });
-
-    }
+window.location.href="#ofertas";
 
 }
-
 
 /* =========================
    STATUS
 ========================= */
 
-async function carregarStatusGavix() {
+async function carregarStatus(){
 
-    try {
+const r = await fetch(
+"data/status.json?"+Date.now()
+);
 
-        const resposta =
-            await fetch(
-                "data/status.json?nocache=" +
-                Date.now()
-            );
+const status = await r.json();
 
-
-        if (!resposta.ok) {
-
-            throw new Error(
-                "Status não encontrado."
-            );
-
-        }
-
-
-        const status =
-            await resposta.json();
-
-
-        const elemento =
-            document.getElementById(
-                "status-gavix"
-            );
-
-
-        if (elemento) {
-
-            elemento.innerHTML =
-                "🔄 Última atualização: " +
-                status.ultima_atualizacao +
-                " • " +
-                status.quantidade_ofertas +
-                " ofertas encontradas";
-
-        }
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao carregar status:",
-            erro
-        );
-
-    }
+document.getElementById("status-gavix")
+.innerHTML=`
+🟢 ${status.quantidade_ofertas} jogos • Atualizado em ${status.ultima_atualizacao}
+`;
 
 }
-
 
 /* =========================
    EVENTOS
 ========================= */
 
-const campoPesquisa =
-    document.getElementById(
-        "campo-pesquisa"
-    );
+document.getElementById("campo-pesquisa")
+.addEventListener("input",filtrarOfertas);
 
+document.getElementById("filtro-plataforma")
+.addEventListener("change",filtrarOfertas);
 
-if (campoPesquisa) {
+document.getElementById("filtro-loja")
+.addEventListener("change",filtrarOfertas);
 
-    campoPesquisa.addEventListener(
-        "input",
-        filtrarOfertas
-    );
-
-}
-
-
-const filtroPlataforma =
-    document.getElementById(
-        "filtro-plataforma"
-    );
-
-
-if (filtroPlataforma) {
-
-    filtroPlataforma.addEventListener(
-        "change",
-        filtrarOfertas
-    );
-
-}
-
-
-const filtroLoja =
-    document.getElementById(
-        "filtro-loja"
-    );
-
-
-if (filtroLoja) {
-
-    filtroLoja.addEventListener(
-        "change",
-        filtrarOfertas
-    );
-
-}
-
-
-const ordenacao =
-    document.getElementById(
-        "ordenacao"
-    );
-
-
-if (ordenacao) {
-
-    ordenacao.addEventListener(
-        "change",
-        filtrarOfertas
-    );
-
-}
-
+document.getElementById("ordenacao")
+.addEventListener("change",filtrarOfertas);
 
 /* =========================
-   INICIALIZAÇÃO
+   INICIAR
 ========================= */
 
+carregarStatus();
 carregarOfertas();
-
-carregarStatusGavix();

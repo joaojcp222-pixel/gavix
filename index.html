@@ -1,159 +1,202 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GAVIX | Promoções de Jogos</title>
+
+<title>GAVIX | Promoções de Jogos para PC</title>
+
+<meta name="description" content="As melhores promoções de jogos para PC. Steam, Nuuvem, Epic Games e GOG atualizadas diariamente.">
+
+<meta name="keywords" content="steam, nuuvem, promoções, jogos baratos, jogos PC">
+
+<meta name="author" content="GAVIX">
+
+<meta property="og:title" content="GAVIX | Jogos em Promoção">
+
+<meta property="og:description" content="Economize com as melhores ofertas de jogos para PC.">
+
+<meta property="og:type" content="website">
+
+<meta property="og:url" content="https://gavix.app.br">
+
+<meta property="og:image" content="https://gavix.app.br/img/banner.jpg">
+
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.ico">
+
 </head>
 
 <body>
 
 <header class="header">
-  <div class="container nav">
 
-    <a href="index.html" class="logo">GAVIX</a>
+<div class="container nav">
 
-    <nav>
-      <a href="#ofertas">Ofertas</a>
-      <a href="#categorias">Categorias</a>
-      <a href="#top10">Top 10</a>
-    </nav>
+<a href="index.html" class="logo">GAVIX</a>
 
-    <div class="search-top">
-      <input id="campo-pesquisa-topo" placeholder="Pesquisar jogo...">
-    </div>
+<nav>
+<a href="#ofertas">Ofertas</a>
+<a href="#categorias">Categorias</a>
+<a href="#top10">Top 10</a>
+</nav>
 
-  </div>
+<div class="search-top">
+<input id="campo-pesquisa-topo" placeholder="Pesquisar jogo...">
+</div>
+
+</div>
+
 </header>
 
 <section class="hero">
 
-  <div class="container">
+<div class="container hero-grid">
 
-    <span class="tag">🎮 GAVIX V10</span>
+<div>
 
-    <h1>As melhores promoções de jogos para PC</h1>
+<span class="tag">🎮 GAVIX V11</span>
 
-    <p>
-      Steam • Nuuvem • Epic Games • GOG
-    </p>
+<h1>
+As melhores promoções de jogos para PC
+</h1>
 
-  </div>
+<p>
+Steam • Nuuvem • Epic Games • GOG
+</p>
+
+<a href="#ofertas" class="btn">
+VER OFERTAS
+</a>
+
+</div>
+
+<div class="status-box">
+
+<div class="status-dot"></div>
+
+<div>
+
+<strong>Atualização diária</strong>
+
+<p id="status-gavix">
+179 ofertas carregadas
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
-<!-- CARROSSEL -->
 <section class="container">
 
-  <div class="carousel" id="carousel">
+<div class="carousel" id="carousel">
 
-    <div class="carousel-image">
-      <img id="carousel-img" src="" alt="">
-    </div>
+<div class="carousel-image">
+<img id="carousel-img" src="">
+</div>
 
-    <div class="carousel-info">
+<div class="carousel-info">
 
-      <span class="carousel-tag">
-        JOGO EM DESTAQUE
-      </span>
+<span class="carousel-tag">
+🔥 DESTAQUE
+</span>
 
-      <h2 id="carousel-title">
-        Carregando...
-      </h2>
+<h2 id="carousel-title">
+Carregando...
+</h2>
 
-      <p id="carousel-desc">
-        Carregando promoção...
-      </p>
+<p id="carousel-desc"></p>
 
-      <div id="carousel-price" class="carousel-price">
-        R$ 0,00
-      </div>
+<div id="carousel-price" class="carousel-price">
+R$ 0,00
+</div>
 
-      <a id="carousel-btn" class="btn" href="#">
-        VER OFERTA →
-      </a>
+<a id="carousel-btn" class="btn" href="#">
+VER OFERTA →
+</a>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 </section>
 
-<!-- CATEGORIAS -->
 <section id="categorias" class="container">
 
-  <div class="title-row">
-    <h2>🏷️ Categorias</h2>
-  </div>
+<div class="title-row">
+<h2>🏷️ Categorias</h2>
+</div>
 
-  <div class="category-grid">
+<div class="category-grid">
 
-    <button class="cat active" data-cat="Todos">Todos</button>
-    <button class="cat" data-cat="RPG">RPG</button>
-    <button class="cat" data-cat="FPS">FPS</button>
-    <button class="cat" data-cat="Ação">Ação</button>
-    <button class="cat" data-cat="Corrida">Corrida</button>
-    <button class="cat" data-cat="Terror">Terror</button>
+<button class="cat active" data-cat="Todos">Todos</button>
+<button class="cat" data-cat="RPG">RPG</button>
+<button class="cat" data-cat="FPS">FPS</button>
+<button class="cat" data-cat="Ação">Ação</button>
+<button class="cat" data-cat="Corrida">Corrida</button>
+<button class="cat" data-cat="Terror">Terror</button>
 
-  </div>
+</div>
 
 </section>
 
-<!-- TOP 10 -->
 <section id="top10" class="container">
 
-  <div class="title-row">
-    <h2>🏆 Top 10 Descontos</h2>
-  </div>
+<div class="title-row">
+<h2>🏆 Top 10 Descontos</h2>
+</div>
 
-  <div id="top10-lista"></div>
+<div id="top10-lista"></div>
 
 </section>
 
-<!-- OFERTAS -->
 <section id="ofertas" class="container">
 
-  <div class="title-row">
+<div class="title-row">
 
-    <h2>🔥 Todas as Ofertas</h2>
+<h2>🔥 Todas as Ofertas</h2>
 
-    <span id="contador-ofertas">
-      179 ofertas
-    </span>
+<span id="contador-ofertas">
+179 ofertas
+</span>
 
-  </div>
+</div>
 
-  <div class="filtros">
+<div class="filtros">
 
-    <input id="campo-pesquisa" placeholder="Pesquisar jogo...">
+<input id="campo-pesquisa" placeholder="Pesquisar jogo...">
 
-    <select id="filtro-loja">
-      <option value="todas">Todas as lojas</option>
-    </select>
+<select id="filtro-loja">
+<option value="todas">Todas as lojas</option>
+</select>
 
-    <select id="ordenacao">
-      <option value="desconto">Maior desconto</option>
-      <option value="menor-preco">Menor preço</option>
-      <option value="maior-preco">Maior preço</option>
-      <option value="nome">A-Z</option>
-    </select>
+<select id="ordenacao">
+<option value="desconto">Maior desconto</option>
+<option value="menor-preco">Menor preço</option>
+<option value="maior-preco">Maior preço</option>
+<option value="nome">A-Z</option>
+</select>
 
-  </div>
+</div>
 
-  <div id="lista-ofertas" class="grid"></div>
+<div id="lista-ofertas" class="grid"></div>
 
 </section>
 
 <footer>
 
-  <div class="container footer">
+<div class="container footer">
 
-    <strong>© 2026 GAVIX</strong>
+<strong>© 2026 GAVIX</strong>
 
-    <span>Desenvolvido por João Carlos</span>
+<span>gavix.app.br</span>
 
-  </div>
+</div>
 
 </footer>
 

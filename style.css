@@ -559,4 +559,106 @@ flex-direction:column;
 gap:10px;
 }
 
+}/* ==========================================
+   GAVIX V10 - CARROSSEL E CATEGORIAS
+========================================== */
+
+.carousel{
+    margin:35px 0;
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:25px;
+    background:#101826;
+    border:1px solid #22304a;
+    border-radius:22px;
+    overflow:hidden;
+}
+
+.carousel-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.carousel-info{
+    padding:28px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.carousel-tag{
+    color:#8db7ff;
+    font-size:13px;
+    font-weight:700;
+}
+
+.carousel-info h2{
+    font-size:36px;
+    margin:12px 0;
+}
+
+.carousel-info p{
+    color:#c7d0e2;
+    line-height:1.6;
+}
+
+.carousel-price{
+    font-size:42px;
+    color:#72ff91;
+    font-weight:900;
+    margin:18px 0;
+}
+
+/* CATEGORIAS */
+
+.category-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.cat{
+    padding:12px 18px;
+    border-radius:999px;
+    border:1px solid #29406d;
+    background:#18233b;
+    color:#9dc3ff;
+    cursor:pointer;
+    font-weight:700;
+    transition:.2s;
+}
+
+.cat:hover{
+    background:#244377;
+}
+
+.cat.active{
+    background:#2f6df6;
+    color:#fff;
+    border-color:#2f6df6;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:900px){
+
+.carousel{
+    grid-template-columns:1fr;
+}
+
+.carousel-info{
+    padding:20px;
+}
+
+.carousel-info h2{
+    font-size:28px;
+}
+
+.category-grid{
+    justify-content:center;
+}
+
 }

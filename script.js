@@ -1,71 +1,87 @@
+// ===========================================
+// GAVIX V10 - SCRIPT DEFINITIVO
+// ===========================================
 
 let jogos = [];
-
-// =============================
-// INICIAR
-// =============================
+let jogosFiltrados = [];
+let destaque = [];
+let indiceCarousel = 0;
 
 async function iniciar(){
 
-    const ofertas = await fetch("data/ofertas.json?" + Date.now());
-    jogos = await ofertas.json();
+    const resposta = await fetch("data/ofertas.json?" + Date.now());
+    jogos = await resposta.json();
 
-    const status = await fetch("data/status.json?" + Date.now());
-    const info = await status.json();
-
-    document.getElementById("status-gavix").textContent =
-        `${info.quantidade_ofertas} jogos • Atualizado em ${info.ultima_atualizacao}`;
+    jogosFiltrados = [...jogos];
 
     preencherLojas();
-    atualizarBanner();
+
+    destaque = [...jogos]
+        .sort((a,b)=>b.desconto-a.desconto)
+        .slice(0,5);
+
+    atualizarCarousel();
+    setInterval(proximoSlide,5000);
+
     atualizarTop10();
-    renderizar(jogos);
+    renderizar(jogosFiltrados);
+
 }
 
 iniciar();
 
-// =============================
-// BANNER
-// =============================
+// =========================
+// CARROSSEL
+// =========================
 
-function atualizarBanner(){
+function atualizarCarousel(){
 
-    const destaque = [...jogos]
-        .sort((a,b)=>b.desconto-a.desconto)[0];
+    const j = destaque[indiceCarousel];
 
-    document.getElementById("banner-imagem").src = destaque.imagem;
-    document.getElementById("banner-titulo").textContent = destaque.nome;
-    document.getElementById("banner-descricao").textContent =
-        `${destaque.desconto}% OFF • ${destaque.loja}`;
+    document.getElementById("carousel-img").src = j.imagem;
+    document.getElementById("carousel-title").textContent = j.nome;
+    document.getElementById("carousel-desc").textContent =
+        `${j.desconto}% OFF • ${j.loja}`;
 
-    document.getElementById("banner-preco").textContent =
-        `R$ ${Number(destaque.preco).toFixed(2)}`;
+    document.getElementById("carousel-price").textContent =
+        `R$ ${Number(j.preco).toFixed(2)}`;
 
-    document.getElementById("banner-botao").href =
-        `game.html?id=${jogos.indexOf(destaque)}`;
+    document.getElementById("carousel-btn").href =
+        `game.html?id=${jogos.indexOf(j)}`;
+
 }
 
-// =============================
-// TOP 10
-// =============================
+function proximoSlide(){
+
+    indiceCarousel++;
+
+    if(indiceCarousel>=destaque.length)
+        indiceCarousel=0;
+
+    atualizarCarousel();
+
+}
+
+// =========================
+// TOP10
+// =========================
 
 function atualizarTop10(){
 
     const lista = document.getElementById("top10-lista");
-    lista.innerHTML = "";
+
+    lista.innerHTML="";
 
     [...jogos]
         .sort((a,b)=>b.desconto-a.desconto)
         .slice(0,10)
         .forEach((j,i)=>{
 
-            const medalhas=["🥇","🥈","🥉"];
-
             lista.innerHTML += `
             <div class="top-item">
 
                 <div class="top-rank">
-                    ${medalhas[i] || "#" + (i+1)}
+                    ${i+1}
                 </div>
 
                 <img src="${j.imagem}">
@@ -79,41 +95,37 @@ function atualizarTop10(){
                     R$ ${Number(j.preco).toFixed(2)}
                 </div>
 
-            </div>
-            `;
+            </div>`;
         });
+
 }
 
-// =============================
+// =========================
 // LOJAS
-// =============================
+// =========================
 
 function preencherLojas(){
 
     const select = document.getElementById("filtro-loja");
-    const grid = document.getElementById("lista-lojas");
 
     const lojas = [...new Set(jogos.map(j=>j.loja))].sort();
 
     lojas.forEach(loja=>{
 
-        select.innerHTML += `<option value="${loja}">${loja}</option>`;
+        select.innerHTML += `
+        <option value="${loja}">
+            ${loja}
+        </option>`;
 
-        grid.innerHTML += `
-        <div class="store-box">
-            <div style="font-size:40px">🏪</div>
-            <h3>${loja}</h3>
-        </div>`;
     });
+
 }
 
-// =============================
+// =========================
 // CARD
-// =============================
+// =========================
 
 function criarCard(j){
-
-    const id = jogos.indexOf(j);
 
     return `
     <div class="card">
@@ -140,8 +152,11 @@ function criarCard(j){
                 🏪 ${j.loja}
             </div>
 
-            <a class="btn" href="game.html?id=${id}">
-                VER OFERTA
+            <a class="btn"
+               href="game.html?id=${jogos.indexOf(j)}">
+
+               VER OFERTA
+
             </a>
 
         </div>
@@ -149,25 +164,30 @@ function criarCard(j){
     </div>`;
 }
 
-// =============================
-// RENDER
-// =============================
+// =========================
+// GRID
+// =========================
 
 function renderizar(lista){
 
+    document.getElementById("contador-ofertas").textContent =
+        `${lista.length} ofertas`;
+
     const grid = document.getElementById("lista-ofertas");
 
-    document.getElementById("contador-ofertas").textContent =
-        `${lista.length} ofertas encontradas`;
+    grid.innerHTML="";
 
-    grid.innerHTML = "";
+    lista.forEach(j=>{
 
-    lista.forEach(j=> grid.innerHTML += criarCard(j));
+        grid.innerHTML += criarCard(j);
+
+    });
+
 }
 
-// =============================
+// =========================
 // FILTROS
-// =============================
+// =========================
 
 document.getElementById("campo-pesquisa")
 .addEventListener("input", aplicarFiltros);
@@ -176,6 +196,7 @@ document.getElementById("campo-pesquisa-topo")
 .addEventListener("input", e=>{
 
     document.getElementById("campo-pesquisa").value = e.target.value;
+
     aplicarFiltros();
 
 });
@@ -198,28 +219,79 @@ function aplicarFiltros(){
     const ordem =
         document.getElementById("ordenacao").value;
 
-    let lista = jogos.filter(j=>{
+    jogosFiltrados = jogos.filter(j=>{
 
-        const okNome =
+        const nome =
             j.nome.toLowerCase().includes(texto);
 
         const okLoja =
             loja==="todas" || j.loja===loja;
 
-        return okNome && okLoja;
+        return nome && okLoja;
+
     });
 
     if(ordem==="desconto")
-        lista.sort((a,b)=>b.desconto-a.desconto);
+        jogosFiltrados.sort((a,b)=>b.desconto-a.desconto);
 
     if(ordem==="menor-preco")
-        lista.sort((a,b)=>a.preco-b.preco);
+        jogosFiltrados.sort((a,b)=>a.preco-b.preco);
 
     if(ordem==="maior-preco")
-        lista.sort((a,b)=>b.preco-a.preco);
+        jogosFiltrados.sort((a,b)=>b.preco-a.preco);
 
     if(ordem==="nome")
-        lista.sort((a,b)=>a.nome.localeCompare(b.nome));
+        jogosFiltrados.sort((a,b)=>a.nome.localeCompare(b.nome));
 
-    renderizar(lista);
+    renderizar(jogosFiltrados);
+
 }
+
+// =========================
+// CATEGORIAS
+// =========================
+
+document.querySelectorAll(".cat").forEach(botao=>{
+
+    botao.addEventListener("click",()=>{
+
+        document.querySelectorAll(".cat")
+            .forEach(b=>b.classList.remove("active"));
+
+        botao.classList.add("active");
+
+        const categoria = botao.dataset.cat;
+
+        if(categoria==="Todos"){
+
+            jogosFiltrados=[...jogos];
+
+        }else{
+
+            jogosFiltrados=jogos.filter(j=>{
+
+                const nome=j.nome.toLowerCase();
+
+                if(categoria==="RPG")
+                    return nome.includes("rpg")||nome.includes("elder");
+
+                if(categoria==="FPS")
+                    return nome.includes("call")||nome.includes("battlefield");
+
+                if(categoria==="Corrida")
+                    return nome.includes("forza")||nome.includes("need");
+
+                if(categoria==="Terror")
+                    return nome.includes("resident")||nome.includes("evil");
+
+                return true;
+
+            });
+
+        }
+
+        renderizar(jogosFiltrados);
+
+    });
+
+});

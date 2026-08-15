@@ -32,20 +32,15 @@
 <a href="index.html" class="logo">GAVIX</a>
 
 <nav>
-
 <a href="#ofertas">Ofertas</a>
 <a href="#categorias">Categorias</a>
 <a href="#top10">Top 10</a>
 <a href="stats.html">Estatísticas</a>
-
+<a href="admin.html">Admin</a>
 </nav>
 
 <div class="search-top">
-
-<input
-id="campo-pesquisa-topo"
-placeholder="Pesquisar jogo...">
-
+<input id="campo-pesquisa-topo" placeholder="Pesquisar jogo...">
 </div>
 
 </div>
@@ -58,7 +53,7 @@ placeholder="Pesquisar jogo...">
 
 <div>
 
-<span class="tag">🎮 GAVIX V12</span>
+<span class="tag">🎮 GAVIX V13</span>
 
 <h1>As melhores promoções de jogos para PC</h1>
 
@@ -81,7 +76,7 @@ VER OFERTAS
 <strong>Ofertas atualizadas</strong>
 
 <p id="status-gavix">
-179 jogos disponíveis
+Carregando jogos...
 </p>
 
 </div>
@@ -92,14 +87,14 @@ VER OFERTAS
 
 </section>
 
+<!-- CARROSSEL -->
+
 <section class="container">
 
 <div class="carousel" id="carousel">
 
 <div class="carousel-image">
-
-<img id="carousel-img" src="">
-
+<img id="carousel-img" src="" alt="">
 </div>
 
 <div class="carousel-info">
@@ -112,7 +107,9 @@ VER OFERTAS
 Carregando...
 </h2>
 
-<p id="carousel-desc"></p>
+<p id="carousel-desc">
+Aguarde...
+</p>
 
 <div id="carousel-price" class="carousel-price">
 R$ 0,00
@@ -128,12 +125,12 @@ VER OFERTA →
 
 </section>
 
+<!-- CATEGORIAS -->
+
 <section id="categorias" class="container">
 
 <div class="title-row">
-
 <h2>🏷️ Categorias</h2>
-
 </div>
 
 <div class="category-grid">
@@ -149,17 +146,19 @@ VER OFERTA →
 
 </section>
 
+<!-- TOP 10 -->
+
 <section id="top10" class="container">
 
 <div class="title-row">
-
 <h2>🏆 Top 10 Descontos</h2>
-
 </div>
 
 <div id="top10-lista"></div>
 
 </section>
+
+<!-- OFERTAS -->
 
 <section id="ofertas" class="container">
 
@@ -168,7 +167,7 @@ VER OFERTA →
 <h2>🔥 Todas as Ofertas</h2>
 
 <span id="contador-ofertas">
-179 ofertas
+0 ofertas
 </span>
 
 </div>
@@ -180,30 +179,15 @@ id="campo-pesquisa"
 placeholder="Pesquisar jogo...">
 
 <select id="filtro-loja">
-
-<option value="todas">
-Todas as lojas
-</option>
-
+<option value="todas">Todas as lojas</option>
 </select>
 
 <select id="ordenacao">
 
-<option value="desconto">
-Maior desconto
-</option>
-
-<option value="menor-preco">
-Menor preço
-</option>
-
-<option value="maior-preco">
-Maior preço
-</option>
-
-<option value="nome">
-A-Z
-</option>
+<option value="desconto">Maior desconto</option>
+<option value="menor-preco">Menor preço</option>
+<option value="maior-preco">Maior preço</option>
+<option value="nome">A-Z</option>
 
 </select>
 
@@ -226,7 +210,7 @@ A-Z
 </footer>
 
 <script src="analytics.js"></script>
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 
 </body>
 </html>

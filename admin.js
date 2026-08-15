@@ -1,126 +1,59 @@
-// ======================================
-// GAVIX ADMIN V9
-// ======================================
+// ===========================================
+// GAVIX V13 - ADMIN FIREBASE
+// ===========================================
 
-let jogos = [];
+import { salvarJogo } from "./firebase.js";
 
-// Carregar ofertas
-async function carregar(){
+const form = document.getElementById("formJogo");
+const status = document.getElementById("status");
 
-    const resposta = await fetch("data/ofertas.json?" + Date.now());
-
-    jogos = await resposta.json();
-
-    renderizar(jogos);
-
-}
-
-carregar();
-
-// ---------------------------
-// TABELA
-// ---------------------------
-
-function renderizar(lista){
-
-    const tabela = document.getElementById("tabela");
-
-    tabela.innerHTML = "";
-
-    lista.forEach(j=>{
-
-        tabela.innerHTML += `
-        <tr>
-            <td>${j.nome}</td>
-            <td>${j.loja}</td>
-            <td>R$ ${Number(j.preco).toFixed(2)}</td>
-            <td>${j.desconto}%</td>
-        </tr>`;
-    });
-
-}
-
-// ---------------------------
-// PESQUISA
-// ---------------------------
-
-document.getElementById("pesquisa")
-.addEventListener("input", e=>{
-
-    const texto = e.target.value.toLowerCase();
-
-    const filtrado = jogos.filter(j=>
-        j.nome.toLowerCase().includes(texto)
-    );
-
-    renderizar(filtrado);
-
-});
-
-// ---------------------------
-// NOVO JOGO
-// ---------------------------
-
-document.getElementById("formJogo")
-.addEventListener("submit", e=>{
+form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
     const jogo = {
 
-        nome: nome.value,
+        nome: document.getElementById("nome").value.trim(),
 
-        loja: loja.value,
+        loja: document.getElementById("loja").value,
 
-        plataforma: plataforma.value,
+        preco: Number(document.getElementById("preco").value),
 
-        desconto: Number(desconto.value),
+        preco_antigo: Number(document.getElementById("precoAntigo").value),
 
-        preco_antigo: Number(antigo.value),
+        desconto: Number(document.getElementById("desconto").value),
 
-        preco: Number(preco.value),
+        plataforma: document.getElementById("plataforma").value,
 
-        imagem: imagem.value,
+        imagem: document.getElementById("imagem").value.trim(),
 
-        link: link.value
+        link: document.getElementById("link").value.trim(),
+
+        descricao: document.getElementById("descricao").value.trim(),
+
+        criadoEm: new Date().toISOString()
 
     };
 
-    jogos.unshift(jogo);
+    try{
 
-    renderizar(jogos);
+        status.style.color = "#ffd54a";
+        status.textContent = "Enviando para o Firebase...";
 
-    gerarJSON();
+        await salvarJogo(jogo);
 
-    formJogo.reset();
+        status.style.color = "#72ff91";
+        status.textContent = "✅ Jogo salvo com sucesso!";
 
-    alert("Jogo adicionado com sucesso!");
+        form.reset();
+
+    }catch(err){
+
+        console.error(err);
+
+        status.style.color = "#ff6b6b";
+        status.textContent = "❌ Erro ao salvar no Firebase.";
+
+    }
 
 });
-
-// ---------------------------
-// GERAR JSON
-// ---------------------------
-
-function gerarJSON(){
-
-    const texto = JSON.stringify(jogos,null,4);
-
-    const blob = new Blob(
-        [texto],
-        {type:"application/json"}
-    );
-
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-
-    a.href = url;
-
-    a.download = "ofertas.json";
-
-    a.click();
-
-    URL.revokeObjectURL(url);
-
-}

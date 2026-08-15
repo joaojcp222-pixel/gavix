@@ -1,130 +1,278 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GAVIX Admin</title>
 
-<link rel="stylesheet" href="admin.css">
+<title>GAVIX | Painel Admin</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+    background:#070b12;
+}
+
+.admin{
+    max-width:900px;
+    margin:40px auto;
+}
+
+.panel{
+    background:#101826;
+    border:1px solid #22304a;
+    border-radius:18px;
+    padding:28px;
+}
+
+.panel h1{
+    margin-bottom:8px;
+}
+
+.panel p{
+    color:#9db0ce;
+    margin-bottom:25px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.full{
+    grid-column:1/3;
+}
+
+label{
+    display:block;
+    color:#cfd8ea;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #2d3d5d;
+    background:#18233b;
+    color:white;
+    outline:none;
+    box-sizing:border-box;
+}
+
+textarea{
+    resize:vertical;
+    min-height:100px;
+}
+
+button{
+    background:#2f6df6;
+    color:white;
+    border:none;
+    padding:15px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+    font-size:15px;
+}
+
+button:hover{
+    background:#2458ca;
+}
+
+#status{
+    margin-top:18px;
+    font-weight:700;
+    color:#72ff91;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.voltar{
+    color:white;
+    text-decoration:none;
+    background:#1b2942;
+    padding:10px 16px;
+    border-radius:8px;
+}
+
+@media(max-width:700px){
+
+.form-grid{
+    grid-template-columns:1fr;
+}
+
+.full{
+    grid-column:auto;
+}
+
+}
+
+</style>
 
 </head>
+
 <body>
 
-<header>
+<div class="container admin">
 
-<div class="container topo">
+<div class="topbar">
 
-<div>
-<h1>🎮 GAVIX ADMIN</h1>
-<p>Painel de gerenciamento de ofertas</p>
-</div>
+<h2>🎮 GAVIX ADMIN</h2>
 
-<a href="index.html" class="voltar">
-Voltar ao Site
+<a class="voltar" href="index.html">
+Voltar ao site
 </a>
 
 </div>
 
-</header>
+<div class="panel">
 
-<main class="container">
+<h1>Adicionar Novo Jogo</h1>
 
-<section class="box">
-
-<h2>➕ Adicionar novo jogo</h2>
+<p>
+Tudo que você cadastrar aqui será enviado para o banco de dados Firebase.
+</p>
 
 <form id="formJogo">
 
-<div class="grid">
+<div class="form-grid">
 
 <div>
+
 <label>Nome do jogo</label>
-<input id="nome" required>
+
+<input
+id="nome"
+required
+placeholder="Ex: Red Dead Redemption 2">
+
 </div>
 
 <div>
+
 <label>Loja</label>
+
 <select id="loja">
+
 <option>Steam</option>
 <option>Nuuvem</option>
 <option>Epic Games</option>
 <option>GOG</option>
+
 </select>
+
 </div>
 
 <div>
-<label>Plataforma</label>
-<select id="plataforma">
-<option>PC</option>
-<option>PlayStation</option>
-<option>Xbox</option>
-<option>Nintendo</option>
-</select>
-</div>
 
-<div>
-<label>Desconto (%)</label>
-<input id="desconto" type="number" required>
-</div>
-
-<div>
-<label>Preço antigo</label>
-<input id="antigo" type="number" step="0.01" required>
-</div>
-
-<div>
 <label>Preço atual</label>
-<input id="preco" type="number" step="0.01" required>
-</div>
+
+<input
+id="preco"
+type="number"
+step="0.01"
+required>
 
 </div>
+
+<div>
+
+<label>Preço antigo</label>
+
+<input
+id="precoAntigo"
+type="number"
+step="0.01"
+required>
+
+</div>
+
+<div>
+
+<label>Desconto (%)</label>
+
+<input
+id="desconto"
+type="number"
+required>
+
+</div>
+
+<div>
+
+<label>Plataforma</label>
+
+<select id="plataforma">
+
+<option>PC</option>
+<option>Steam</option>
+<option>Epic</option>
+
+</select>
+
+</div>
+
+<div class="full">
 
 <label>Imagem (URL)</label>
-<input id="imagem" placeholder="https://...">
 
-<label>Link da oferta</label>
-<input id="link" placeholder="https://store.steampowered.com/...">
+<input
+id="imagem"
+required
+placeholder="https://...">
+
+</div>
+
+<div class="full">
+
+<label>Link da Oferta</label>
+
+<input
+id="link"
+required
+placeholder="https://store.steampowered.com/...">
+
+</div>
+
+<div class="full">
+
+<label>Descrição</label>
+
+<textarea
+id="descricao"
+placeholder="Descrição do jogo..."></textarea>
+
+</div>
+
+<div class="full">
 
 <button type="submit">
-Salvar Jogo
+💾 Salvar no Firebase
 </button>
+
+</div>
+
+</div>
 
 </form>
 
-</section>
-
-<section class="box">
-
-<div class="linha">
-
-<h2>📚 Jogos cadastrados</h2>
-
-<input id="pesquisa" placeholder="Pesquisar...">
+<div id="status"></div>
 
 </div>
 
-<table>
+</div>
 
-<thead>
-
-<tr>
-<th>Jogo</th>
-<th>Loja</th>
-<th>Preço</th>
-<th>Desconto</th>
-</tr>
-
-</thead>
-
-<tbody id="tabela"></tbody>
-
-</table>
-
-</section>
-
-</main>
-
-<script src="admin.js"></script>
+<script type="module" src="admin.js"></script>
 
 </body>
 </html>

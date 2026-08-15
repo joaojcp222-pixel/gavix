@@ -15,11 +15,13 @@ async function carregar(){
 
     document.title = "GAVIX | " + jogo.nome;
 
-    document.getElementById("game-page").innerHTML = `
+    const hero = document.getElementById("game-page");
+
+    hero.innerHTML = `
     <section class="game-hero">
 
         <div class="game-cover">
-            <img src="${jogo.imagem}">
+            <img src="${jogo.imagem}" alt="${jogo.nome}">
         </div>
 
         <div class="game-content">
@@ -40,6 +42,10 @@ async function carregar(){
                 R$ ${Number(jogo.preco).toFixed(2)}
             </div>
 
+            <div class="game-save">
+                Economize R$ ${(jogo.preco_antigo-jogo.preco).toFixed(2)}
+            </div>
+
             <a class="buy-btn"
                href="${jogo.link}"
                target="_blank">
@@ -52,30 +58,24 @@ async function carregar(){
 
     </section>`;
 
-    // Galeria
     ["g1","g2","g3","g4"].forEach(i=>{
         document.getElementById(i).src = jogo.imagem;
     });
 
-    // Informações
     document.getElementById("spec-plataforma").textContent = jogo.plataforma;
     document.getElementById("spec-loja").textContent = jogo.loja;
     document.getElementById("spec-desconto").textContent = jogo.desconto + "%";
     document.getElementById("spec-preco").textContent = "R$ " + Number(jogo.preco).toFixed(2);
 
-    // Tags
-    const tags = ["Ação","RPG","Mundo Aberto"];
-    const box = document.getElementById("tags");
-    box.innerHTML = "";
-    tags.forEach(t=>{
-        box.innerHTML += `<div class="tag-item">${t}</div>`;
+    const tags = document.getElementById("tags");
+    tags.innerHTML = "";
+    ["Ação","RPG","Mundo Aberto"].forEach(t=>{
+        tags.innerHTML += `<div class="tag-item">${t}</div>`;
     });
 
-    // Descrição
     document.getElementById("descricao").textContent =
-    `Explore um universo cheio de ação e aproveite esta oferta da ${jogo.loja} com ${jogo.desconto}% de desconto.`;
+        `Explore um universo cheio de ação e aproveite esta oferta da ${jogo.loja}.`;
 
-    // Relacionados
     const rel = document.getElementById("rel-grid");
     rel.innerHTML = "";
 
@@ -91,9 +91,7 @@ async function carregar(){
 
             <div class="card-body">
 
-                <span class="discount">
-                    🔥 ${j.desconto}% OFF
-                </span>
+                <span class="discount">🔥 ${j.desconto}% OFF</span>
 
                 <h3>${j.nome}</h3>
 
@@ -101,11 +99,8 @@ async function carregar(){
                     R$ ${Number(j.preco).toFixed(2)}
                 </div>
 
-                <a class="btn"
-                   href="game.html?id=${jogos.indexOf(j)}">
-
-                   VER JOGO
-
+                <a class="btn" href="game.html?id=${jogos.indexOf(j)}">
+                    VER JOGO
                 </a>
 
             </div>

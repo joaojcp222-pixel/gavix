@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,99 +11,107 @@
 <body>
 
 <header class="header">
-  <div class="container header-content">
+  <div class="container nav">
+
     <a href="index.html" class="logo">GAVIX</a>
 
-    <nav class="menu">
-      <a href="#ofertas">Ofertas</a>
+    <nav>
+      <a href="#ofertas">Início</a>
+      <a href="#top10">Top 10</a>
       <a href="#lojas">Lojas</a>
       <a href="#sobre">Sobre</a>
     </nav>
+
+    <div class="search-top">
+      <input id="campo-pesquisa-topo" type="text" placeholder="Buscar jogo...">
+    </div>
+
   </div>
 </header>
 
 <section class="hero">
-  <div class="container hero-content">
+  <div class="container hero-grid">
 
-    <span class="hero-tag">
-      🎮 179 OFERTAS AUTOMÁTICAS
-    </span>
+    <div>
 
-    <h1>Economize nos seus jogos favoritos</h1>
+      <span class="tag">🎮 PROMOÇÕES DIÁRIAS</span>
 
-    <p>
-      As melhores promoções de PC reunidas em um só lugar.
-    </p>
+      <h1>
+        Os melhores jogos pelos
+        <span>menores preços</span>
+      </h1>
 
-    <a href="#ofertas" class="hero-button">
-      VER OFERTAS
-    </a>
+      <p>
+        Ofertas atualizadas todos os dias com os melhores descontos para PC.
+      </p>
+
+      <a href="#ofertas" class="btn">
+        VER TODAS AS OFERTAS
+      </a>
+
+    </div>
+
+    <div class="status-box">
+
+      <div class="status-dot"></div>
+
+      <div>
+        <strong>GAVIX ATUALIZADO</strong>
+        <p id="status-gavix">Carregando...</p>
+      </div>
+
+    </div>
 
   </div>
 </section>
 
 <main class="container">
 
-  <!-- Banner -->
-  <section class="banner-destaque">
+  <section class="banner">
 
     <img id="banner-imagem" src="" alt="Banner">
 
     <div class="banner-info">
 
-      <span class="banner-tag">🔥 DESTAQUE DO DIA</span>
+      <span class="tag-small">🔥 MAIOR DESCONTO</span>
 
       <h2 id="banner-titulo">Carregando...</h2>
 
-      <p id="banner-descricao">
-        Carregando promoção...
-      </p>
+      <p id="banner-descricao"></p>
 
-      <a
-        id="banner-botao"
-        class="banner-botao"
-        href="#">
-        VER JOGO →
+      <div class="banner-price" id="banner-preco"></div>
+
+      <a id="banner-botao" href="#" class="btn">
+        VER OFERTA →
       </a>
 
     </div>
 
   </section>
 
-  <!-- Top 10 -->
-  <section class="top10">
+  <section id="top10">
 
-    <div class="section-header">
-      <h2>🏆 Top 10 Maiores Descontos</h2>
+    <div class="title-row">
+      <h2>🏆 Top 10 Descontos</h2>
     </div>
 
-    <div id="top10-lista" class="top10-lista"></div>
+    <div id="top10-lista"></div>
 
   </section>
 
-  <!-- Ofertas -->
   <section id="ofertas">
 
-    <div class="section-header">
+    <div class="title-row">
 
-      <h2>Todos os Jogos</h2>
+      <h2>🎮 Todas as Ofertas</h2>
 
-      <span id="contador-ofertas">
-        179 ofertas
-      </span>
+      <span id="contador-ofertas">0 ofertas</span>
 
-    </div>
-
-    <div id="status-gavix" class="status-gavix">
-      Carregando...
     </div>
 
     <div class="filtros">
 
-      <input
-        id="campo-pesquisa"
-        type="text"
-        placeholder="Pesquisar jogo...">
+      <input id="campo-pesquisa" type="text" placeholder="Pesquisar jogo...">
 
       <select id="filtro-loja">
         <option value="todas">Todas as lojas</option>
@@ -117,30 +126,47 @@
 
     </div>
 
-    <div id="lista-ofertas" class="lista-ofertas"></div>
+    <div id="lista-ofertas" class="grid"></div>
 
   </section>
 
-  <!-- Lojas -->
   <section id="lojas">
 
-    <div class="section-header">
-      <h2>🏪 Lojas</h2>
+    <div class="title-row">
+      <h2>🏪 Lojas em Destaque</h2>
     </div>
 
-    <div id="lista-lojas" class="lista-lojas"></div>
+    <div id="lista-lojas" class="stores"></div>
 
   </section>
 
-  <!-- Sobre -->
   <section id="sobre" class="about">
 
     <h2>Sobre o GAVIX</h2>
 
     <p>
-      O GAVIX reúne promoções reais de jogos para PC, atualizadas automaticamente,
-      mostrando descontos, preços em reais e links para as lojas oficiais.
+      O GAVIX reúne promoções reais de jogos em um único lugar, trazendo preços atualizados,
+      descontos e links para as lojas oficiais.
     </p>
+
+    <div class="about-grid">
+
+      <div class="info-card">
+        <h3>⚡ Atualização diária</h3>
+        <p>Novas ofertas automaticamente.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>💰 Economia</h3>
+        <p>Selecionamos os maiores descontos.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>🆓 Gratuito</h3>
+        <p>O Gavix sempre será gratuito.</p>
+      </div>
+
+    </div>
 
   </section>
 
@@ -148,11 +174,11 @@
 
 <footer>
 
-  <div class="container footer-content">
+  <div class="container footer">
 
-    <strong>GAVIX</strong>
+    <strong>© 2026 GAVIX</strong>
 
-    <span>gavix.app.br</span>
+    <span>Feito para gamers.</span>
 
   </div>
 

@@ -1,9 +1,9 @@
-let jogos = [];
-let favoritos = JSON.parse(localStorage.getItem("gavix_favoritos") || "[]");
 
-// =======================
-// CARREGAR DADOS
-// =======================
+let jogos = [];
+
+// =============================
+// INICIAR
+// =============================
 
 async function iniciar(){
 
@@ -14,45 +14,19 @@ async function iniciar(){
     const info = await status.json();
 
     document.getElementById("status-gavix").textContent =
-        `🟢 ${info.quantidade_ofertas} jogos • Atualizado em ${info.ultima_atualizacao}`;
+        `${info.quantidade_ofertas} jogos • Atualizado em ${info.ultima_atualizacao}`;
 
     preencherLojas();
     atualizarBanner();
     atualizarTop10();
     renderizar(jogos);
-
 }
 
 iniciar();
 
-// =======================
-// FAVORITOS
-// =======================
-
-function favorito(nome){
-    return favoritos.includes(nome);
-}
-
-function alternarFavorito(nome){
-
-    if(favorito(nome)){
-        favoritos = favoritos.filter(x=>x!==nome);
-    }else{
-        favoritos.push(nome);
-    }
-
-    localStorage.setItem(
-        "gavix_favoritos",
-        JSON.stringify(favoritos)
-    );
-
-    renderizar(jogos);
-
-}
-
-// =======================
+// =============================
 // BANNER
-// =======================
+// =============================
 
 function atualizarBanner(){
 
@@ -60,181 +34,151 @@ function atualizarBanner(){
         .sort((a,b)=>b.desconto-a.desconto)[0];
 
     document.getElementById("banner-imagem").src = destaque.imagem;
-
     document.getElementById("banner-titulo").textContent = destaque.nome;
-
     document.getElementById("banner-descricao").textContent =
         `${destaque.desconto}% OFF • ${destaque.loja}`;
 
+    document.getElementById("banner-preco").textContent =
+        `R$ ${Number(destaque.preco).toFixed(2)}`;
+
     document.getElementById("banner-botao").href =
         `game.html?id=${jogos.indexOf(destaque)}`;
-
 }
 
-// =======================
+// =============================
 // TOP 10
-// =======================
+// =============================
 
 function atualizarTop10(){
 
     const lista = document.getElementById("top10-lista");
-
     lista.innerHTML = "";
 
     [...jogos]
         .sort((a,b)=>b.desconto-a.desconto)
         .slice(0,10)
-        .forEach((jogo,i)=>{
+        .forEach((j,i)=>{
 
-            let medalha = "";
-
-            if(i===0) medalha="🥇";
-            else if(i===1) medalha="🥈";
-            else if(i===2) medalha="🥉";
-            else medalha=`#${i+1}`;
+            const medalhas=["🥇","🥈","🥉"];
 
             lista.innerHTML += `
-            <div class="top10-card">
+            <div class="top-item">
 
-                <div class="rank">${medalha}</div>
-
-                <img
-                    class="top10-img"
-                    src="${jogo.imagem}">
-
-                <div class="top10-info">
-
-                    <h3>${jogo.nome}</h3>
-
-                    <div class="top10-desconto">
-                        ${jogo.desconto}% OFF
-                    </div>
-
+                <div class="top-rank">
+                    ${medalhas[i] || "#" + (i+1)}
                 </div>
 
-                <div class="top10-preco">
-                    R$ ${Number(jogo.preco).toFixed(2)}
+                <img src="${j.imagem}">
+
+                <div class="top-info">
+                    <strong>${j.nome}</strong><br>
+                    ${j.desconto}% OFF
+                </div>
+
+                <div class="top-price">
+                    R$ ${Number(j.preco).toFixed(2)}
                 </div>
 
             </div>
             `;
-
         });
-
 }
 
-// =======================
+// =============================
 // LOJAS
-// =======================
+// =============================
 
 function preencherLojas(){
 
     const select = document.getElementById("filtro-loja");
+    const grid = document.getElementById("lista-lojas");
 
     const lojas = [...new Set(jogos.map(j=>j.loja))].sort();
 
     lojas.forEach(loja=>{
 
-        select.innerHTML +=
-            `<option value="${loja}">${loja}</option>`;
+        select.innerHTML += `<option value="${loja}">${loja}</option>`;
 
+        grid.innerHTML += `
+        <div class="store-box">
+            <div style="font-size:40px">🏪</div>
+            <h3>${loja}</h3>
+        </div>`;
     });
-
 }
 
-// =======================
+// =============================
 // CARD
-// =======================
+// =============================
 
-function card(jogo){
+function criarCard(j){
 
-    const id = jogos.indexOf(jogo);
-
-    const coracao = favorito(jogo.nome) ? "❤️" : "🤍";
+    const id = jogos.indexOf(j);
 
     return `
     <div class="card">
 
-        <div
-            class="favorito"
-            onclick="alternarFavorito('${jogo.nome.replace(/'/g,"\\'")}')">
+        <img src="${j.imagem}" alt="${j.nome}">
 
-            ${coracao}
+        <div class="card-body">
 
-        </div>
+            <span class="discount">
+                🔥 ${j.desconto}% OFF
+            </span>
 
-        <img src="${jogo.imagem}">
+            <h3>${j.nome}</h3>
 
-        <div class="card-content">
-
-            <div class="desconto">
-                🔥 ${jogo.desconto}% OFF
+            <div class="old">
+                R$ ${Number(j.preco_antigo).toFixed(2)}
             </div>
 
-            <h3>${jogo.nome}</h3>
-
-            <div class="preco-antigo">
-                R$ ${Number(jogo.preco_antigo).toFixed(2)}
+            <div class="price">
+                R$ ${Number(j.preco).toFixed(2)}
             </div>
 
-            <div class="preco">
-                R$ ${Number(jogo.preco).toFixed(2)}
+            <div class="store">
+                🏪 ${j.loja}
             </div>
 
-            <div class="economia">
-                Economize R$ ${(jogo.preco_antigo-jogo.preco).toFixed(2)}
-            </div>
-
-            <div class="loja">
-                🏪 ${jogo.loja}
-            </div>
-
-            <div class="plataforma">
-                🎮 ${jogo.plataforma}
-            </div>
-
-            <a
-                class="botao"
-                href="game.html?id=${id}">
-
-                VER OFERTA →
-
+            <a class="btn" href="game.html?id=${id}">
+                VER OFERTA
             </a>
 
         </div>
 
-    </div>
-    `;
-
+    </div>`;
 }
 
-// =======================
+// =============================
 // RENDER
-// =======================
+// =============================
 
 function renderizar(lista){
 
     const grid = document.getElementById("lista-ofertas");
 
     document.getElementById("contador-ofertas").textContent =
-        `${lista.length} ofertas`;
+        `${lista.length} ofertas encontradas`;
 
     grid.innerHTML = "";
 
-    lista.forEach(j=>{
-
-        grid.innerHTML += card(j);
-
-    });
-
+    lista.forEach(j=> grid.innerHTML += criarCard(j));
 }
 
-// =======================
+// =============================
 // FILTROS
-// =======================
+// =============================
 
 document.getElementById("campo-pesquisa")
 .addEventListener("input", aplicarFiltros);
+
+document.getElementById("campo-pesquisa-topo")
+.addEventListener("input", e=>{
+
+    document.getElementById("campo-pesquisa").value = e.target.value;
+    aplicarFiltros();
+
+});
 
 document.getElementById("filtro-loja")
 .addEventListener("change", aplicarFiltros);
@@ -256,14 +200,13 @@ function aplicarFiltros(){
 
     let lista = jogos.filter(j=>{
 
-        const nome =
+        const okNome =
             j.nome.toLowerCase().includes(texto);
 
         const okLoja =
             loja==="todas" || j.loja===loja;
 
-        return nome && okLoja;
-
+        return okNome && okLoja;
     });
 
     if(ordem==="desconto")
@@ -279,5 +222,4 @@ function aplicarFiltros(){
         lista.sort((a,b)=>a.nome.localeCompare(b.nome));
 
     renderizar(lista);
-
 }

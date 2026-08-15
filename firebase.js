@@ -1,19 +1,10 @@
-// =======================================
-// GAVIX V13 - FIREBASE
-// =======================================
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
 import {
   getFirestore,
   collection,
-  addDoc,
   getDocs,
-  query,
-  orderBy
+  addDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-// CONFIGURAÇÃO DO GAVIX
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLzySzl60i0kCjEwhN7mkvvWMrn9saekw",
@@ -24,49 +15,52 @@ const firebaseConfig = {
   appId: "1:700020636007:web:63fdfb79f360dea41897c2"
 };
 
-// Inicializa Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-// Banco de dados
-export const db = getFirestore(app);
+const CACHE = "gavix_v15_cache";
 
-// ============================
 // BUSCAR JOGOS
-// ============================
-
 export async function buscarJogos(){
 
-  const q = query(
-    collection(db,"jogos"),
-    orderBy("desconto","desc")
-  );
+  try{
 
-  const snapshot = await getDocs(q);
+    const snap = await getDocs(collection(db,"jogos"));
 
-  const lista = [];
+    const jogos = [];
 
-  snapshot.forEach(doc=>{
+    snap.forEach(doc=>{
 
-    lista.push({
-      id: doc.id,
-      ...doc.data()
+      jogos.push({
+        id:doc.id,
+        ...doc.data()
+      });
+
     });
 
-  });
+    jogos.sort((a,b)=>b.desconto-a.desconto);
 
-  return lista;
+    localStorage.setItem(CACHE,JSON.stringify(jogos));
+
+    return jogos;
+
+  }catch(e){
+
+    console.log("Firebase indisponível, usando cache.");
+
+    const cache = localStorage.getItem(CACHE);
+
+    if(cache) return JSON.parse(cache);
+
+    return [];
+
+  }
 
 }
 
-// ============================
-// ADICIONAR JOGO
-// ============================
-
+// SALVAR JOGO
 export async function salvarJogo(jogo){
 
-  await addDoc(
-    collection(db,"jogos"),
-    jogo
-  );
+  await addDoc(collection(db,"jogos"),jogo);
 
 }

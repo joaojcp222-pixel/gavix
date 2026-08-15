@@ -1,85 +1,133 @@
-// ==========================================
-// GAVIX V13 - FIREBASE
-// ==========================================
-
 import { buscarJogos } from "./firebase.js";
 
+// ===========================
+// GAVIX V15
+// ===========================
+
+const listaOfertas = document.getElementById("lista-ofertas");
+const contador = document.getElementById("contador-ofertas");
+const status = document.getElementById("status-gavix");
+
+const pesquisa = document.getElementById("campo-pesquisa");
+const pesquisaTopo = document.getElementById("campo-pesquisa-topo");
+const filtroLoja = document.getElementById("filtro-loja");
+const ordenacao = document.getElementById("ordenacao");
+
+const cImg = document.getElementById("carousel-img");
+const cTitulo = document.getElementById("carousel-title");
+const cDesc = document.getElementById("carousel-desc");
+const cPreco = document.getElementById("carousel-price");
+const cBotao = document.getElementById("carousel-btn");
+
+const top10 = document.getElementById("top10-lista");
+
 let jogos = [];
-let jogosFiltrados = [];
-let destaques = [];
+let exibidos = [];
 let slide = 0;
+
+// ===========================
+// INICIAR
+// ===========================
 
 async function iniciar(){
 
+    status.textContent = "Carregando jogos...";
+
     jogos = await buscarJogos();
 
-    jogosFiltrados = [...jogos];
+    if(jogos.length === 0){
 
-    preencherLojas();
+        status.textContent = "Nenhum jogo encontrado";
+        return;
 
-    destaques = [...jogos]
-        .sort((a,b)=>b.desconto-a.desconto)
-        .slice(0,5);
+    }
 
-    atualizarCarousel();
+    exibidos = [...jogos];
 
-    setInterval(proximoSlide,5000);
+    status.textContent = `${jogos.length} jogos carregados`;
+
+    montarLojas();
+
+    render();
 
     atualizarTop10();
 
-    renderizar(jogosFiltrados);
+    atualizarCarousel();
+
+    setInterval(()=>{
+
+        slide++;
+
+        if(slide >= Math.min(5,jogos.length))
+            slide = 0;
+
+        atualizarCarousel();
+
+    },5000);
 
 }
 
-iniciar();
+// ===========================
+// LOJAS
+// ===========================
+
+function montarLojas(){
+
+    const lojas = [...new Set(jogos.map(j=>j.loja))].sort();
+
+    filtroLoja.innerHTML =
+    `<option value="todas">Todas as lojas</option>`;
+
+    lojas.forEach(loja=>{
+
+        filtroLoja.innerHTML +=
+        `<option value="${loja}">${loja}</option>`;
+
+    });
+
+}
+
+// ===========================
+// CARROSSEL
+// ===========================
 
 function atualizarCarousel(){
 
-    if(destaques.length===0) return;
+    const destaques =
+    [...jogos]
+    .sort((a,b)=>b.desconto-a.desconto)
+    .slice(0,5);
 
     const j = destaques[slide];
 
-    carouselImg.src = j.imagem;
+    if(!j) return;
 
-    carouselTitle.textContent = j.nome;
+    cImg.src = j.imagem;
+    cTitulo.textContent = j.nome;
+    cDesc.textContent = `${j.desconto}% OFF • ${j.loja}`;
+    cPreco.textContent = `R$ ${Number(j.preco).toFixed(2)}`;
 
-    carouselDesc.textContent =
-        `${j.desconto}% OFF • ${j.loja}`;
-
-    carouselPrice.textContent =
-        `R$ ${Number(j.preco).toFixed(2)}`;
-
-    carouselBtn.href =
-        `game.html?id=${jogos.indexOf(j)}`;
+    cBotao.href = `game.html?id=${j.id}`;
 
 }
 
-function proximoSlide(){
-
-    slide++;
-
-    if(slide>=destaques.length)
-        slide=0;
-
-    atualizarCarousel();
-
-}
+// ===========================
+// TOP 10
+// ===========================
 
 function atualizarTop10(){
 
-    top10Lista.innerHTML="";
+    top10.innerHTML = "";
 
     [...jogos]
     .sort((a,b)=>b.desconto-a.desconto)
     .slice(0,10)
     .forEach((j,i)=>{
 
-        top10Lista.innerHTML += `
+        top10.innerHTML += `
         <div class="top-item">
 
-            <div class="top-rank">
-                ${i+1}
-            </div>
+            <div class="top-rank">${i+1}</div>
 
             <img src="${j.imagem}">
 
@@ -98,32 +146,16 @@ function atualizarTop10(){
 
 }
 
-function preencherLojas(){
-
-    filtroLoja.innerHTML =
-    `<option value="todas">
-        Todas as lojas
-     </option>`;
-
-    [...new Set(jogos.map(j=>j.loja))]
-    .sort()
-    .forEach(loja=>{
-
-        filtroLoja.innerHTML += `
-        <option value="${loja}">
-            ${loja}
-        </option>`;
-
-    });
-
-}
+// ===========================
+// CARDS
+// ===========================
 
 function card(j){
 
     return `
     <div class="card">
 
-        <img src="${j.imagem}">
+        <img src="${j.imagem}" alt="${j.nome}">
 
         <div class="card-body">
 
@@ -146,7 +178,7 @@ function card(j){
             </div>
 
             <a class="btn"
-               href="game.html?id=${jogos.indexOf(j)}">
+               href="game.html?id=${j.id}">
 
                VER OFERTA
 
@@ -155,49 +187,23 @@ function card(j){
         </div>
 
     </div>`;
-}
-
-function renderizar(lista){
-
-    contadorOfertas.textContent =
-        `${lista.length} ofertas`;
-
-    listaOfertas.innerHTML="";
-
-    lista.forEach(j=>{
-
-        listaOfertas.innerHTML += card(j);
-
-    });
 
 }
 
-campoPesquisa.oninput = aplicar;
+// ===========================
+// RENDER
+// ===========================
 
-campoPesquisaTopo.oninput = e=>{
+function render(){
 
-    campoPesquisa.value = e.target.value;
+    const texto = pesquisa.value.toLowerCase();
 
-    aplicar();
+    const loja = filtroLoja.value;
 
-};
-
-filtroLoja.onchange = aplicar;
-
-ordenacao.onchange = aplicar;
-
-function aplicar(){
-
-    const txt =
-        campoPesquisa.value.toLowerCase();
-
-    const loja =
-        filtroLoja.value;
-
-    jogosFiltrados = jogos.filter(j=>{
+    exibidos = jogos.filter(j=>{
 
         const okNome =
-        j.nome.toLowerCase().includes(txt);
+        j.nome.toLowerCase().includes(texto);
 
         const okLoja =
         loja==="todas" || j.loja===loja;
@@ -208,25 +214,54 @@ function aplicar(){
 
     switch(ordenacao.value){
 
-        case "desconto":
-            jogosFiltrados.sort((a,b)=>b.desconto-a.desconto);
-            break;
-
         case "menor-preco":
-            jogosFiltrados.sort((a,b)=>a.preco-b.preco);
+            exibidos.sort((a,b)=>a.preco-b.preco);
             break;
 
         case "maior-preco":
-            jogosFiltrados.sort((a,b)=>b.preco-a.preco);
+            exibidos.sort((a,b)=>b.preco-a.preco);
             break;
 
         case "nome":
-            jogosFiltrados.sort((a,b)=>
-                a.nome.localeCompare(b.nome));
+            exibidos.sort((a,b)=>a.nome.localeCompare(b.nome));
             break;
+
+        default:
+            exibidos.sort((a,b)=>b.desconto-a.desconto);
 
     }
 
-    renderizar(jogosFiltrados);
+    contador.textContent =
+    `${exibidos.length} ofertas`;
+
+    listaOfertas.innerHTML = "";
+
+    exibidos.forEach(j=>{
+
+        listaOfertas.innerHTML += card(j);
+
+    });
 
 }
+
+// ===========================
+// EVENTOS
+// ===========================
+
+pesquisa.addEventListener("input",render);
+
+pesquisaTopo.addEventListener("input",e=>{
+
+    pesquisa.value = e.target.value;
+
+    render();
+
+});
+
+filtroLoja.addEventListener("change",render);
+
+ordenacao.addEventListener("change",render);
+
+// ===========================
+
+iniciar();

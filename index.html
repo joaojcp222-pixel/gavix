@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,81 +8,66 @@
 
 <meta name="description" content="As melhores promoções de jogos para PC. Steam, Nuuvem, Epic Games e GOG.">
 
-<meta name="keywords" content="steam, nuuvem, jogos baratos, promoções">
-
-<meta name="author" content="GAVIX">
-
-<meta property="og:title" content="GAVIX | Jogos em Promoção">
-<meta property="og:description" content="Economize com as melhores ofertas de jogos.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://gavix.app.br">
-
-<link rel="icon" href="favicon.ico">
 <link rel="stylesheet" href="style.css">
-
+<link rel="icon" href="favicon.ico">
 </head>
 
 <body>
 
 <header class="header">
+  <div class="container nav">
 
-<div class="container nav">
+    <a href="index.html" class="logo">GAVIX</a>
 
-<a href="index.html" class="logo">GAVIX</a>
+    <nav>
+      <a href="#ofertas">Ofertas</a>
+      <a href="#top10">Top 10</a>
+      <a href="stats.html">Estatísticas</a>
+      <a href="admin.html">Admin</a>
+    </nav>
 
-<nav>
-<a href="#ofertas">Ofertas</a>
-<a href="#categorias">Categorias</a>
-<a href="#top10">Top 10</a>
-<a href="stats.html">Estatísticas</a>
-<a href="admin.html">Admin</a>
-</nav>
+    <div class="search-top">
+      <input id="campo-pesquisa-topo" placeholder="Pesquisar jogo...">
+    </div>
 
-<div class="search-top">
-<input id="campo-pesquisa-topo" placeholder="Pesquisar jogo...">
-</div>
-
-</div>
-
+  </div>
 </header>
 
 <section class="hero">
 
-<div class="container hero-grid">
+  <div class="container hero-grid">
 
-<div>
+    <div>
 
-<span class="tag">🎮 GAVIX V13</span>
+      <span class="tag">🎮 GAVIX V13</span>
 
-<h1>As melhores promoções de jogos para PC</h1>
+      <h1>As melhores promoções de jogos para PC</h1>
 
-<p>
-Steam • Nuuvem • Epic Games • GOG
-</p>
+      <p>Steam • Nuuvem • Epic Games • GOG</p>
 
-<a href="#ofertas" class="btn">
-VER OFERTAS
-</a>
+      <a href="#ofertas" class="btn">
+        VER OFERTAS
+      </a>
 
-</div>
+    </div>
 
-<div class="status-box">
+    <div class="status-box">
 
-<div class="status-dot"></div>
+      <div class="status-dot"></div>
 
-<div>
+      <div>
 
-<strong>Ofertas atualizadas</strong>
+        <strong>Banco de dados online</strong>
 
-<p id="status-gavix">
-Carregando jogos...
-</p>
+        <p id="status-gavix">
+          Carregando jogos...
+        </p>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
 
@@ -91,58 +75,37 @@ Carregando jogos...
 
 <section class="container">
 
-<div class="carousel" id="carousel">
+  <div class="carousel">
 
-<div class="carousel-image">
-<img id="carousel-img" src="" alt="">
-</div>
+    <div class="carousel-image">
 
-<div class="carousel-info">
+      <img id="carousel-img" src="" alt="">
 
-<span class="carousel-tag">
-🔥 JOGO EM DESTAQUE
-</span>
+    </div>
 
-<h2 id="carousel-title">
-Carregando...
-</h2>
+    <div class="carousel-info">
 
-<p id="carousel-desc">
-Aguarde...
-</p>
+      <span class="carousel-tag">
+        🔥 DESTAQUE
+      </span>
 
-<div id="carousel-price" class="carousel-price">
-R$ 0,00
-</div>
+      <h2 id="carousel-title">
+        Carregando...
+      </h2>
 
-<a id="carousel-btn" class="btn" href="#">
-VER OFERTA →
-</a>
+      <p id="carousel-desc"></p>
 
-</div>
+      <div id="carousel-price" class="carousel-price">
+        R$ 0,00
+      </div>
 
-</div>
+      <a id="carousel-btn" class="btn" href="#">
+        VER OFERTA →
+      </a>
 
-</section>
+    </div>
 
-<!-- CATEGORIAS -->
-
-<section id="categorias" class="container">
-
-<div class="title-row">
-<h2>🏷️ Categorias</h2>
-</div>
-
-<div class="category-grid">
-
-<button class="cat active" data-cat="Todos">Todos</button>
-<button class="cat" data-cat="RPG">RPG</button>
-<button class="cat" data-cat="FPS">FPS</button>
-<button class="cat" data-cat="Ação">Ação</button>
-<button class="cat" data-cat="Corrida">Corrida</button>
-<button class="cat" data-cat="Terror">Terror</button>
-
-</div>
+  </div>
 
 </section>
 
@@ -150,11 +113,13 @@ VER OFERTA →
 
 <section id="top10" class="container">
 
-<div class="title-row">
-<h2>🏆 Top 10 Descontos</h2>
-</div>
+  <div class="title-row">
 
-<div id="top10-lista"></div>
+    <h2>🏆 Top 10 Descontos</h2>
+
+  </div>
+
+  <div id="top10-lista"></div>
 
 </section>
 
@@ -162,57 +127,69 @@ VER OFERTA →
 
 <section id="ofertas" class="container">
 
-<div class="title-row">
+  <div class="title-row">
 
-<h2>🔥 Todas as Ofertas</h2>
+    <h2>🔥 Todas as Ofertas</h2>
 
-<span id="contador-ofertas">
-0 ofertas
-</span>
+    <span id="contador-ofertas">
+      0 ofertas
+    </span>
 
-</div>
+  </div>
 
-<div class="filtros">
+  <div class="filtros">
 
-<input
-id="campo-pesquisa"
-placeholder="Pesquisar jogo...">
+    <input
+      id="campo-pesquisa"
+      placeholder="Pesquisar jogo...">
 
-<select id="filtro-loja">
-<option value="todas">Todas as lojas</option>
-</select>
+    <select id="filtro-loja">
 
-<select id="ordenacao">
+      <option value="todas">
+        Todas as lojas
+      </option>
 
-<option value="desconto">Maior desconto</option>
-<option value="menor-preco">Menor preço</option>
-<option value="maior-preco">Maior preço</option>
-<option value="nome">A-Z</option>
+    </select>
 
-</select>
+    <select id="ordenacao">
 
-</div>
+      <option value="desconto">
+        Maior desconto
+      </option>
 
-<div id="lista-ofertas" class="grid"></div>
+      <option value="menor-preco">
+        Menor preço
+      </option>
+
+      <option value="maior-preco">
+        Maior preço
+      </option>
+
+      <option value="nome">
+        A-Z
+      </option>
+
+    </select>
+
+  </div>
+
+  <div id="lista-ofertas" class="grid"></div>
 
 </section>
 
 <footer>
 
-<div class="container footer">
+  <div class="container footer">
 
-<strong>© 2026 GAVIX</strong>
+    <strong>© 2026 GAVIX</strong>
 
-<span>gavix.app.br</span>
+    <span>gavix.app.br</span>
 
-</div>
+  </div>
 
 </footer>
 
 <script src="analytics.js"></script>
 <script type="module" src="script.js"></script>
-
 </body>
 </html>
-<script src="analytics.js"></script>
-<script type="module" src="script.js"></script>

@@ -5,8 +5,6 @@
     font-family:Arial,Helvetica,sans-serif;
 }
 
-html{scroll-behavior:smooth;}
-
 body{
     background:#0b0d12;
     color:#fff;
@@ -18,21 +16,19 @@ body{
     margin:auto;
 }
 
-/* HEADER */
-
 .header{
-    background:#11151d;
-    border-bottom:1px solid #252b35;
+    background:#11161f;
+    border-bottom:1px solid #252c36;
     position:sticky;
     top:0;
     z-index:999;
 }
 
 .header-content{
+    height:70px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    height:70px;
 }
 
 .logo{
@@ -44,33 +40,27 @@ body{
 
 .menu{
     display:flex;
-    gap:25px;
+    gap:24px;
 }
 
 .menu a{
-    color:#bbb;
+    color:#c5cada;
     text-decoration:none;
 }
 
-.menu a:hover{
-    color:#fff;
-}
-
-/* HERO */
-
 .hero{
     padding:70px 0;
-    background:linear-gradient(135deg,#131827,#1d2435);
+    background:linear-gradient(135deg,#141b28,#202b42);
 }
 
 .hero-tag{
     display:inline-block;
-    background:#24314d;
+    background:#25324d;
+    color:#89b2ff;
     padding:8px 14px;
     border-radius:30px;
-    margin-bottom:18px;
     font-size:12px;
-    font-weight:700;
+    margin-bottom:18px;
 }
 
 .hero h1{
@@ -79,9 +69,9 @@ body{
 }
 
 .hero p{
-    color:#b9c1d2;
-    margin-bottom:30px;
+    color:#b8c0d3;
     font-size:18px;
+    margin-bottom:28px;
 }
 
 .hero-button{
@@ -94,130 +84,80 @@ body{
     font-weight:700;
 }
 
-/* BANNER */
-
 .banner-destaque{
-    margin:45px 0;
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:30px;
-    background:#141922;
-    padding:25px;
+    gap:28px;
+    background:#151b24;
+    padding:24px;
     border-radius:18px;
-    align-items:center;
+    margin:40px 0;
 }
 
 .banner-destaque img{
     width:100%;
-    border-radius:14px;
+    border-radius:12px;
+}
+
+.banner-info{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 .banner-tag{
-    color:#6ea7ff;
+    color:#72a7ff;
     font-size:13px;
-    font-weight:700;
+    margin-bottom:10px;
 }
 
 .banner-info h2{
-    font-size:36px;
-    margin:14px 0;
+    font-size:34px;
+    margin-bottom:12px;
 }
 
 .banner-info p{
-    color:#b5bfd3;
-    margin-bottom:25px;
+    color:#bcc5d6;
+    margin-bottom:24px;
 }
 
 .banner-botao{
     background:#4f8cff;
     color:#fff;
-    padding:14px 22px;
-    border-radius:10px;
     text-decoration:none;
-    display:inline-block;
+    padding:13px 20px;
+    border-radius:10px;
+    width:max-content;
 }
-
-/* TÍTULOS */
 
 .section-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin:35px 0 20px;
+    margin:40px 0 20px;
 }
-
-/* TOP10 */
-
-.top10-lista{
-    display:grid;
-    gap:12px;
-}
-
-.top10-card{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    background:#141922;
-    padding:14px;
-    border-radius:12px;
-}
-
-.rank{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:900;
-    background:#2d3648;
-}
-
-.rank1{background:#d4af37;color:#000;}
-.rank2{background:#c0c0c0;color:#000;}
-.rank3{background:#cd7f32;}
-
-.top10-img{
-    width:90px;
-    height:50px;
-    object-fit:cover;
-    border-radius:8px;
-}
-
-.top10-info{flex:1;}
-
-.top10-preco{
-    font-size:22px;
-    font-weight:900;
-}
-
-/* FILTROS */
 
 .filtros{
     display:grid;
     grid-template-columns:2fr 1fr 1fr;
     gap:12px;
-    margin-bottom:25px;
+    margin-bottom:24px;
 }
 
 .filtros input,
 .filtros select{
-    padding:13px;
-    border:none;
-    border-radius:10px;
-    background:#181e29;
+    background:#171d28;
     color:#fff;
+    border:none;
+    padding:13px;
+    border-radius:10px;
 }
-
-/* GRID */
 
 .lista-ofertas{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
     gap:18px;
 }
-
-/* CARD */
 
 .card{
     background:#151b24;
@@ -241,38 +181,33 @@ body{
     position:absolute;
     top:10px;
     right:10px;
-    width:38px;
-    height:38px;
+    width:36px;
+    height:36px;
     border-radius:50%;
-    background:rgba(0,0,0,.65);
+    background:rgba(0,0,0,.7);
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     cursor:pointer;
 }
 
 .card-content{
-    padding:15px;
+    padding:14px;
 }
 
 .desconto{
     display:inline-block;
-    background:#1d3b24;
-    color:#6dff8f;
+    background:#1d3a25;
+    color:#7cff9d;
     padding:5px 8px;
     border-radius:8px;
     font-size:12px;
-    font-weight:700;
-}
-
-.card-content h3{
-    margin:12px 0;
-    font-size:17px;
 }
 
 .preco-antigo{
-    color:#8c96a9;
+    color:#8d97aa;
     text-decoration:line-through;
+    margin-top:8px;
 }
 
 .preco{
@@ -282,31 +217,68 @@ body{
 }
 
 .economia{
-    color:#77ff9f;
+    color:#72ff97;
     font-size:13px;
-    margin-bottom:8px;
 }
 
 .loja,
 .plataforma{
-    color:#b0bacd;
+    color:#b7c0d2;
     font-size:13px;
-    margin-top:3px;
+    margin-top:6px;
 }
 
 .botao{
     display:block;
     margin-top:14px;
-    text-align:center;
     background:#4f8cff;
     color:#fff;
+    text-align:center;
+    text-decoration:none;
     padding:12px;
     border-radius:9px;
-    text-decoration:none;
-    font-weight:700;
 }
 
-/* LOJAS */
+.top10-lista{
+    display:grid;
+    gap:12px;
+}
+
+.top10-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#151b24;
+    padding:12px;
+    border-radius:12px;
+}
+
+.rank{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#2f3748;
+    font-weight:900;
+}
+
+.top10-img{
+    width:85px;
+    height:48px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.top10-info{
+    flex:1;
+}
+
+.top10-preco{
+    font-size:22px;
+    font-weight:900;
+}
 
 .lista-lojas{
     display:grid;
@@ -318,65 +290,146 @@ body{
     background:#151b24;
     padding:16px;
     border-radius:12px;
-    cursor:pointer;
 }
-
-/* STATUS */
 
 .status-gavix{
     background:#151b24;
     padding:14px;
     border-radius:10px;
-    margin-bottom:20px;
+    margin-bottom:18px;
 }
-
-/* SOBRE */
 
 .about{
     margin:60px 0;
 }
 
-.about p{
-    color:#b7bfd1;
-    line-height:1.8;
-    margin-top:12px;
-}
-
-/* FOOTER */
-
-footer{
-    border-top:1px solid #222933;
-    padding:25px 0;
-}
-
 .footer-content{
     display:flex;
     justify-content:space-between;
+    padding:24px 0;
+    border-top:1px solid #242c36;
 }
 
-/* RESPONSIVO */
+/* ===========================
+   GAME PAGE
+=========================== */
 
-@media(max-width:850px){
+.game-hero{
+    display:grid;
+    grid-template-columns:380px 1fr;
+    gap:40px;
+    margin:45px 0;
+    align-items:center;
+}
 
-.banner-destaque{
-grid-template-columns:1fr;
+.game-capa{
+    width:100%;
+    border-radius:16px;
+    box-shadow:0 20px 40px rgba(0,0,0,.45);
+}
+
+.game-info{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.game-tag{
+    background:#24314b;
+    color:#7fb0ff;
+    width:max-content;
+    padding:8px 14px;
+    border-radius:30px;
+}
+
+.game-info h1{
+    font-size:44px;
+    line-height:1.1;
+}
+
+.game-desconto{
+    color:#6fff93;
+    font-size:18px;
+    font-weight:700;
+}
+
+.game-preco-antigo{
+    color:#96a0b5;
+    text-decoration:line-through;
+    font-size:20px;
+}
+
+.game-preco{
+    font-size:52px;
+    font-weight:900;
+}
+
+.game-economia{
+    color:#74ff99;
+    font-size:16px;
+}
+
+.game-botao{
+    background:#4f8cff;
+    color:#fff;
+    text-decoration:none;
+    padding:16px 26px;
+    border-radius:12px;
+    width:max-content;
+    margin-top:10px;
+}
+
+.galeria-section{
+    margin:60px 0;
+}
+
+.galeria-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.galeria-grid img{
+    width:100%;
+    border-radius:12px;
+    object-fit:cover;
+}
+
+.sobre-jogo{
+    margin-bottom:50px;
+}
+
+.sobre-jogo p{
+    color:#c0c8d9;
+    line-height:1.8;
+}
+
+@media(max-width:900px){
+
+.banner-destaque,
+.game-hero{
+    grid-template-columns:1fr;
 }
 
 .hero h1{
-font-size:36px;
+    font-size:36px;
 }
 
 .filtros{
-grid-template-columns:1fr;
+    grid-template-columns:1fr;
 }
 
 .menu{
-display:none;
+    display:none;
+}
+
+.galeria-grid{
+    grid-template-columns:1fr;
 }
 
 .footer-content{
-flex-direction:column;
-gap:10px;
+    flex-direction:column;
+    gap:10px;
 }
 
 }

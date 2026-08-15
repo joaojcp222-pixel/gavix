@@ -1,17 +1,25 @@
-// ===========================
-// GAVIX - PÁGINA DO JOGO
-// ===========================
+// =====================================
+// GAVIX V6 - PÁGINA DO JOGO
+// =====================================
 
 const params = new URLSearchParams(window.location.search);
 const id = Number(params.get("id"));
 
 let jogos = [];
 
+const descricoes = [
+"Explore um mundo incrível repleto de ação, desafios e gráficos impressionantes.",
+"Enfrente inimigos poderosos e evolua seu personagem durante uma grande aventura.",
+"Corra em alta velocidade com veículos detalhados e física realista.",
+"Viva uma campanha envolvente e aproveite modos online cheios de adrenalina.",
+"Um dos jogos mais populares da atualidade com excelente custo-benefício."
+];
+
 async function iniciar(){
 
-    const r = await fetch("data/ofertas.json?" + Date.now());
+    const resposta = await fetch("data/ofertas.json?" + Date.now());
 
-    jogos = await r.json();
+    jogos = await resposta.json();
 
     const jogo = jogos[id];
 
@@ -19,22 +27,21 @@ async function iniciar(){
         document.body.innerHTML = `
         <div style="padding:40px;color:white;background:#0b0d12;height:100vh">
             <h1>Jogo não encontrado</h1>
-            <a href="index.html" style="color:#4f8cff">
-                Voltar ao GAVIX
-            </a>
+            <a href="index.html" style="color:#4f8cff">Voltar ao GAVIX</a>
         </div>`;
         return;
     }
 
-    renderizar(jogo);
-    relacionados(jogo);
+    renderizarHero(jogo);
+    renderizarGaleria(jogo);
+    renderizarDescricao(jogo);
+    renderizarRelacionados(jogo);
 
 }
 
-function renderizar(j){
+function renderizarHero(j){
 
-    const economia =
-    (j.preco_antigo - j.preco).toFixed(2);
+    const economia = (j.preco_antigo - j.preco).toFixed(2);
 
     document.title = `GAVIX | ${j.nome}`;
 
@@ -66,28 +73,41 @@ function renderizar(j){
                 Você economiza R$ ${economia}
             </div>
 
-            <p>
-                Plataforma: <strong>${j.plataforma}</strong>
-            </p>
+            <p><strong>Plataforma:</strong> ${j.plataforma}</p>
 
-            <a
-            class="game-botao"
-            href="${j.link}"
-            target="_blank">
-
-            COMPRAR AGORA →
-
+            <a class="game-botao"
+               href="${j.link}"
+               target="_blank">
+                COMPRAR AGORA →
             </a>
 
         </div>
 
     </section>
-
     `;
 
 }
 
-function relacionados(jogoAtual){
+function renderizarGaleria(j){
+
+    document.getElementById("galeria1").src = j.imagem;
+    document.getElementById("galeria2").src = j.imagem;
+    document.getElementById("galeria3").src = j.imagem;
+    document.getElementById("galeria4").src = j.imagem;
+
+}
+
+function renderizarDescricao(j){
+
+    const texto =
+    descricoes[id % descricoes.length];
+
+    document.getElementById("descricao-jogo").textContent =
+    `${texto} Aproveite esta oferta na ${j.loja} com ${j.desconto}% de desconto.`;
+
+}
+
+function renderizarRelacionados(atual){
 
     const grid =
     document.getElementById("jogos-relacionados");
@@ -95,8 +115,8 @@ function relacionados(jogoAtual){
     grid.innerHTML = "";
 
     const lista = jogos
-    .filter(j=>j.nome!==jogoAtual.nome)
-    .sort(()=>Math.random()-0.5)
+    .filter(j => j.nome !== atual.nome)
+    .sort(() => Math.random() - 0.5)
     .slice(0,4);
 
     lista.forEach(j=>{
@@ -107,7 +127,7 @@ function relacionados(jogoAtual){
 
         <div class="card">
 
-            <img src="${j.imagem}">
+            <img src="${j.imagem}" alt="${j.nome}">
 
             <div class="card-content">
 
@@ -121,12 +141,9 @@ function relacionados(jogoAtual){
                     R$ ${Number(j.preco).toFixed(2)}
                 </div>
 
-                <a
-                class="botao"
-                href="game.html?id=${indice}">
-
-                VER JOGO
-
+                <a class="botao"
+                   href="game.html?id=${indice}">
+                   VER JOGO
                 </a>
 
             </div>

@@ -1,5 +1,5 @@
 // =======================================
-// GAVIX V7 - PÁGINA DO JOGO
+// GAVIX V8 - GAME PAGE
 // =======================================
 
 const params = new URLSearchParams(window.location.search);
@@ -8,49 +8,66 @@ const id = Number(params.get("id"));
 let jogos = [];
 
 const descricoes = [
-"Explore um universo cheio de ação, gráficos incríveis e uma campanha envolvente. Ideal para quem procura dezenas de horas de diversão.",
-"Viva batalhas intensas, evolução de personagem e um mundo rico em detalhes. Uma excelente escolha para fãs de aventura.",
-"Entre em corridas, combates e desafios com jogabilidade moderna e ótima otimização para PC.",
-"Uma experiência imersiva com trilha sonora marcante, personagens memoráveis e excelente custo-benefício.",
-"Um dos títulos mais populares dos últimos anos, perfeito para aproveitar com um grande desconto."
+"Explore um universo repleto de ação, gráficos impressionantes e dezenas de horas de conteúdo.",
+"Enfrente desafios intensos em uma campanha envolvente com excelente jogabilidade.",
+"Um dos títulos mais populares dos últimos anos, ideal para quem procura aventura e desempenho.",
+"Descubra um mundo aberto rico em detalhes, missões e personagens inesquecíveis.",
+"Combates, exploração e uma experiência premium com ótimo custo-benefício."
+];
+
+const trailers = [
+"https://www.youtube.com/embed/E3Huy2cdih0",
+"https://www.youtube.com/embed/1Heta7s3GJI",
+"https://www.youtube.com/embed/4WnO93TQkE0",
+"https://www.youtube.com/embed/QkkoHAzjnUs",
+"https://www.youtube.com/embed/F63h3v9QV7w"
+];
+
+const tagsLista = [
+["Ação","RPG","Mundo Aberto"],
+["FPS","Multiplayer","Online"],
+["Corrida","Simulação","Esportes"],
+["Terror","Sobrevivência","Co-op"],
+["Aventura","História","Single Player"]
 ];
 
 async function iniciar(){
 
     const resposta = await fetch("data/ofertas.json?" + Date.now());
+
     jogos = await resposta.json();
 
     const jogo = jogos[id];
 
     if(!jogo){
-        document.body.innerHTML = `
-        <div style="padding:40px;color:white">
-            <h1>Jogo não encontrado</h1>
-            <a href="index.html" style="color:#4f8cff">Voltar ao Gavix</a>
-        </div>`;
+        document.body.innerHTML =
+        "<h1 style='padding:40px'>Jogo não encontrado.</h1>";
         return;
     }
 
-    renderizarHero(jogo);
-    renderizarGaleria(jogo);
-    renderizarInfo(jogo);
-    renderizarDescricao(jogo);
-    renderizarRelacionados(jogo);
+    hero(jogo);
+    galeria(jogo);
+    info(jogo);
+    descricao(jogo);
+    score(jogo);
+    tags(jogo);
+    trailer(jogo);
+    relacionados(jogo);
 
 }
 
-function renderizarHero(j){
+function hero(j){
 
-    const economia = (j.preco_antigo - j.preco).toFixed(2);
+    const economia = (j.preco_antigo-j.preco).toFixed(2);
 
     document.title = "GAVIX | " + j.nome;
 
-    document.getElementById("game-page").innerHTML = `
+    game_page.innerHTML = `
 
     <section class="game-hero">
 
         <div class="game-cover">
-            <img src="${j.imagem}" alt="${j.nome}">
+            <img src="${j.imagem}">
         </div>
 
         <div class="game-content">
@@ -59,7 +76,7 @@ function renderizarHero(j){
 
             <h1>${j.nome}</h1>
 
-            <div style="color:#72ff91;font-size:20px;font-weight:700;">
+            <div style="color:#6dff92;font-size:20px;font-weight:700">
                 🔥 ${j.desconto}% OFF
             </div>
 
@@ -72,14 +89,15 @@ function renderizarHero(j){
             </div>
 
             <div class="game-save">
-                Você economiza R$ ${economia}
+                Economize R$ ${economia}
             </div>
 
-            <a class="buy-btn"
-               href="${j.link}"
-               target="_blank">
+            <a
+            class="buy-btn"
+            href="${j.link}"
+            target="_blank">
 
-               COMPRAR AGORA →
+            COMPRAR AGORA →
 
             </a>
 
@@ -91,45 +109,78 @@ function renderizarHero(j){
 
 }
 
-function renderizarGaleria(j){
+function galeria(j){
 
-    g1.src = j.imagem;
-    g2.src = j.imagem;
-    g3.src = j.imagem;
-    g4.src = j.imagem;
-
-}
-
-function renderizarInfo(j){
-
-    spec_plataforma.textContent = j.plataforma;
-    spec_loja.textContent = j.loja;
-    spec_desconto.textContent = j.desconto + "%";
-    spec_preco.textContent = "R$ " + Number(j.preco).toFixed(2);
+    g1.src=j.imagem;
+    g2.src=j.imagem;
+    g3.src=j.imagem;
+    g4.src=j.imagem;
 
 }
 
-function renderizarDescricao(j){
+function info(j){
 
-    const texto = descricoes[id % descricoes.length];
+    spec_plataforma.textContent=j.plataforma;
+    spec_loja.textContent=j.loja;
+    spec_desconto.textContent=j.desconto+"%";
+    spec_preco.textContent="R$ "+Number(j.preco).toFixed(2);
+
+}
+
+function descricao(j){
 
     descricao.textContent =
-    `${texto} Disponível na ${j.loja} com ${j.desconto}% de desconto. Aproveite esta oferta enquanto ela estiver ativa.`;
+    descricoes[id%descricoes.length] +
+    " Aproveite esta promoção disponível na " +
+    j.loja + ".";
 
 }
 
-function renderizarRelacionados(atual){
+function score(){
 
-    rel_grid.innerHTML = "";
+    const nota = 88 + (id%11);
 
-    const lista = jogos
-    .filter(x => x.nome !== atual.nome)
-    .sort(() => Math.random() - 0.5)
-    .slice(0,4);
+    score.textContent = nota;
 
-    lista.forEach(j=>{
+    if(nota>=95)
+        avaliacao.textContent="Extremamente Positivo";
+    else if(nota>=90)
+        avaliacao.textContent="Muito Positivo";
+    else
+        avaliacao.textContent="Positivo";
 
-        const indice = jogos.indexOf(j);
+}
+
+function tags(){
+
+    tags.innerHTML="";
+
+    tagsLista[id%tagsLista.length].forEach(t=>{
+
+        tags.innerHTML += `
+        <div class="tag-item">${t}</div>
+        `;
+
+    });
+
+}
+
+function trailer(){
+
+    trailer_frame.src =
+    trailers[id%trailers.length];
+
+}
+
+function relacionados(atual){
+
+    rel_grid.innerHTML="";
+
+    jogos
+    .filter(j=>j.nome!==atual.nome)
+    .sort(()=>Math.random()-0.5)
+    .slice(0,4)
+    .forEach(j=>{
 
         rel_grid.innerHTML += `
 
@@ -140,7 +191,7 @@ function renderizarRelacionados(atual){
             <div class="card-body">
 
                 <span class="discount">
-                    🔥 ${j.desconto}% OFF
+                    ${j.desconto}% OFF
                 </span>
 
                 <h3>${j.nome}</h3>
@@ -149,10 +200,11 @@ function renderizarRelacionados(atual){
                     R$ ${Number(j.preco).toFixed(2)}
                 </div>
 
-                <a class="btn"
-                   href="game.html?id=${indice}">
+                <a
+                class="btn"
+                href="game.html?id=${jogos.indexOf(j)}">
 
-                   VER JOGO
+                VER JOGO
 
                 </a>
 

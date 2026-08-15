@@ -10,95 +10,186 @@
 <body>
 
 <header class="header">
-<div class="container nav">
+    <div class="container nav">
+        <a href="index.html" class="logo">GAVIX</a>
 
-<a href="index.html" class="logo">GAVIX</a>
-
-<nav>
-<a href="index.html">Início</a>
-<a href="#relacionados">Relacionados</a>
-</nav>
-
-</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="#trailer">Trailer</a>
+            <a href="#relacionados">Relacionados</a>
+        </nav>
+    </div>
 </header>
 
 <main class="container">
 
-<!-- HERO -->
-<div id="game-page"></div>
+    <!-- HERO -->
+    <section id="game-page"></section>
 
-<!-- GALERIA -->
-<section class="gallery">
+    <!-- TAGS -->
+    <section class="tags-section">
 
-<div class="title-row">
-<h2>📸 Galeria</h2>
-</div>
+        <div class="title-row">
+            <h2>🏷️ Categorias</h2>
+        </div>
 
-<div class="gallery-grid">
+        <div id="tags" class="tags"></div>
 
-<img id="g1" src="">
-<img id="g2" src="">
-<img id="g3" src="">
-<img id="g4" src="">
+    </section>
 
-</div>
+    <!-- STEAM SCORE -->
+    <section class="score-section">
 
-</section>
+        <div class="title-row">
+            <h2>⭐ Steam Score</h2>
+        </div>
 
-<!-- ESPECIFICAÇÕES -->
-<section class="specs">
+        <div class="score-box">
 
-<div class="title-row">
-<h2>🎮 Informações</h2>
-</div>
+            <div class="score-circle" id="score">95</div>
 
-<div class="spec-grid">
+            <div>
 
-<div class="spec-card">
-<span>Plataforma</span>
-<strong id="spec-plataforma">PC</strong>
-</div>
+                <h3 id="avaliacao">Extremamente Positivo</h3>
 
-<div class="spec-card">
-<span>Loja</span>
-<strong id="spec-loja">Steam</strong>
-</div>
+                <p>
+                    Avaliação simulada baseada na recepção geral do jogo.
+                </p>
 
-<div class="spec-card">
-<span>Desconto</span>
-<strong id="spec-desconto">0%</strong>
-</div>
+            </div>
 
-<div class="spec-card">
-<span>Preço</span>
-<strong id="spec-preco">R$ 0,00</strong>
-</div>
+        </div>
 
-</div>
+    </section>
 
-</section>
+    <!-- TRAILER -->
+    <section id="trailer" class="trailer-section">
 
-<!-- DESCRIÇÃO -->
-<section class="description">
+        <div class="title-row">
+            <h2>🎥 Trailer Oficial</h2>
+        </div>
 
-<div class="title-row">
-<h2>📖 Sobre este jogo</h2>
-</div>
+        <div class="video-box">
 
-<p id="descricao"></p>
+            <iframe
+                id="trailer-frame"
+                src=""
+                allowfullscreen>
+            </iframe>
 
-</section>
+        </div>
 
-<!-- RELACIONADOS -->
-<section id="relacionados">
+    </section>
 
-<div class="title-row">
-<h2>🔥 Jogos Relacionados</h2>
-</div>
+    <!-- GALERIA -->
+    <section class="gallery">
 
-<div id="rel-grid" class="grid"></div>
+        <div class="title-row">
+            <h2>📸 Galeria</h2>
+        </div>
 
-</section>
+        <div class="gallery-grid">
+
+            <img id="g1" src="">
+            <img id="g2" src="">
+            <img id="g3" src="">
+            <img id="g4" src="">
+
+        </div>
+
+    </section>
+
+    <!-- ESPECIFICAÇÕES -->
+    <section class="specs">
+
+        <div class="title-row">
+            <h2>🎮 Informações</h2>
+        </div>
+
+        <div class="spec-grid">
+
+            <div class="spec-card">
+                <span>Plataforma</span>
+                <strong id="spec-plataforma"></strong>
+            </div>
+
+            <div class="spec-card">
+                <span>Loja</span>
+                <strong id="spec-loja"></strong>
+            </div>
+
+            <div class="spec-card">
+                <span>Desconto</span>
+                <strong id="spec-desconto"></strong>
+            </div>
+
+            <div class="spec-card">
+                <span>Preço</span>
+                <strong id="spec-preco"></strong>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- HISTÓRICO -->
+    <section class="history">
+
+        <div class="title-row">
+            <h2>📈 Histórico de Preço</h2>
+        </div>
+
+        <div class="chart-box">
+
+            <svg viewBox="0 0 320 120" width="100%" height="120">
+
+                <polyline
+                    fill="none"
+                    stroke="#2f6df6"
+                    stroke-width="3"
+                    points="10,80 70,70 130,62 190,48 250,36 310,28"/>
+
+                <line x1="10" y1="100" x2="310" y2="100"
+                    stroke="#334"/>
+
+            </svg>
+
+            <div class="chart-labels">
+
+                <span>Mar</span>
+                <span>Abr</span>
+                <span>Mai</span>
+                <span>Jun</span>
+                <span>Jul</span>
+                <span>Hoje</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- DESCRIÇÃO -->
+    <section class="description">
+
+        <div class="title-row">
+            <h2>📖 Sobre este jogo</h2>
+        </div>
+
+        <p id="descricao"></p>
+
+    </section>
+
+    <!-- RELACIONADOS -->
+    <section id="relacionados">
+
+        <div class="title-row">
+            <h2>🔥 Jogos Relacionados</h2>
+        </div>
+
+        <div id="rel-grid" class="grid"></div>
+
+    </section>
 
 </main>
 

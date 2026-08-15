@@ -1,514 +1,86 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Segoe UI,Arial,sans-serif;
-}
+/* ==========================================
+   GAVIX V8 - PÁGINA PREMIUM
+========================================== */
 
-body{
-    background:#070b12;
-    color:#fff;
-}
+/* TAGS */
 
-.container{
-    width:92%;
-    max-width:1350px;
-    margin:auto;
-}
-
-/* NAVBAR */
-
-.header{
-    position:sticky;
-    top:0;
-    z-index:999;
-    background:#0d1320;
-    border-bottom:1px solid #1b2333;
-}
-
-.nav{
-    height:78px;
-    display:flex;
-    align-items:center;
-    gap:40px;
-}
-
-.logo{
-    font-size:42px;
-    font-weight:900;
-    color:#fff;
-    text-decoration:none;
-    letter-spacing:1px;
-}
-
-nav{
-    display:flex;
-    gap:24px;
-}
-
-nav a{
-    color:#d4d8e5;
-    text-decoration:none;
-    font-weight:600;
-}
-
-nav a:hover{
-    color:#4f8cff;
-}
-
-.search-top{
-    margin-left:auto;
-}
-
-.search-top input{
-    width:280px;
-    padding:12px 16px;
-    background:#111827;
-    color:#fff;
-    border:1px solid #243149;
-    border-radius:12px;
-}
-
-/* HERO */
-
-.hero{
-    background:linear-gradient(90deg,#10192b,#1e2f55);
-    padding:70px 0;
-}
-
-.hero-grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:40px;
-    align-items:center;
-}
-
-.tag{
-    display:inline-block;
-    background:#23428d;
-    color:#cfe0ff;
-    padding:8px 14px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
-    margin-bottom:18px;
-}
-
-.hero h1{
-    font-size:58px;
-    line-height:1.1;
-    margin-bottom:18px;
-}
-
-.hero h1 span{
-    color:#4f8cff;
-}
-
-.hero p{
-    color:#d0d7e8;
-    font-size:19px;
-    margin-bottom:30px;
-    max-width:600px;
-}
-
-.btn{
-    display:inline-block;
-    background:#2f6df6;
-    color:#fff;
-    text-decoration:none;
-    padding:14px 24px;
-    border-radius:12px;
-    font-weight:700;
-    transition:.2s;
-}
-
-.btn:hover{
-    background:#4784ff;
-}
-
-.status-box{
-    background:#0f1625;
-    border:1px solid #243149;
-    border-radius:18px;
-    padding:24px;
-    display:flex;
-    gap:16px;
-    align-items:center;
-}
-
-.status-dot{
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    background:#36ff72;
-    box-shadow:0 0 15px #36ff72;
-}
-
-/* BANNER */
-
-.banner{
+.tags-section{
     margin:45px 0;
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:28px;
-    background:#0f1625;
-    border:1px solid #202b42;
-    border-radius:20px;
-    padding:22px;
 }
 
-.banner img{
-    width:100%;
-    border-radius:14px;
-    aspect-ratio:16/9;
-    object-fit:cover;
-}
-
-.banner-info{
+.tags{
     display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
-.tag-small{
-    color:#78b2ff;
-    font-size:13px;
-    font-weight:700;
-}
-
-.banner-info h2{
-    font-size:42px;
-    margin:12px 0;
-}
-
-.banner-info p{
-    color:#d4dbeb;
-    margin-bottom:18px;
-}
-
-.banner-price{
-    font-size:42px;
-    font-weight:900;
-    color:#71ff8d;
-    margin-bottom:22px;
-}
-
-/* TITLES */
-
-.title-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin:35px 0 18px;
-}
-
-/* TOP 10 */
-
-#top10-lista{
-    display:grid;
+    flex-wrap:wrap;
     gap:12px;
 }
 
-.top-item{
+.tag-item{
+    background:#18233b;
+    color:#8db7ff;
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:700;
+    border:1px solid #29406d;
+}
+
+/* SCORE */
+
+.score-section{
+    margin:55px 0;
+}
+
+.score-box{
+    background:#101826;
+    border:1px solid #22304a;
+    border-radius:18px;
+    padding:26px;
     display:flex;
     align-items:center;
-    gap:14px;
-    background:#0f1625;
-    border:1px solid #1d2740;
-    border-radius:14px;
-    padding:12px;
+    gap:26px;
 }
 
-.top-item img{
-    width:90px;
-    height:50px;
-    object-fit:cover;
-    border-radius:8px;
-}
-
-.top-rank{
-    width:42px;
-    height:42px;
+.score-circle{
+    width:110px;
+    height:110px;
     border-radius:50%;
-    background:#243149;
+    background:conic-gradient(#2f6df6 95%, #243149 0);
     display:flex;
-    justify-content:center;
     align-items:center;
-    font-weight:800;
-}
-
-.top-info{
-    flex:1;
-}
-
-.top-price{
-    color:#72ff91;
-    font-size:22px;
+    justify-content:center;
+    font-size:34px;
     font-weight:900;
-}
-
-/* FILTROS */
-
-.filtros{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:12px;
-    margin-bottom:24px;
-}
-
-.filtros input,
-.filtros select{
-    background:#101826;
-    border:1px solid #243149;
     color:#fff;
-    padding:13px;
-    border-radius:10px;
+    box-shadow:0 0 25px rgba(47,109,246,.35);
 }
 
-/* GRID */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-    gap:18px;
+.score-box h3{
+    font-size:28px;
+    margin-bottom:8px;
 }
 
-.card{
-    background:#101826;
-    border:1px solid #1f2a42;
-    border-radius:16px;
+.score-box p{
+    color:#c6d0e2;
+    line-height:1.6;
+}
+
+/* TRAILER */
+
+.trailer-section{
+    margin:55px 0;
+}
+
+.video-box{
     overflow:hidden;
-    transition:.25s;
+    border-radius:18px;
+    border:1px solid #22304a;
+    background:#000;
 }
 
-.card:hover{
-    transform:translateY(-6px);
-    border-color:#4f8cff;
-}
-
-.card img{
+.video-box iframe{
     width:100%;
     aspect-ratio:16/9;
-    object-fit:cover;
-}
-
-.card-body{
-    padding:15px;
-}
-
-.discount{
-    display:inline-block;
-    background:#14351f;
-    color:#73ff98;
-    padding:6px 9px;
-    border-radius:8px;
-    font-size:12px;
-    font-weight:700;
-}
-
-.card h3{
-    margin:12px 0;
-    font-size:18px;
-}
-
-.old{
-    color:#8d98ae;
-    text-decoration:line-through;
-}
-
-.price{
-    color:#72ff91;
-    font-size:30px;
-    font-weight:900;
-    margin:6px 0;
-}
-
-.store{
-    color:#c7d0e2;
-    font-size:13px;
-    margin-top:6px;
-}
-
-.card .btn{
-    width:100%;
-    text-align:center;
-    margin-top:14px;
-}
-
-/* LOJAS */
-
-.stores{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-    gap:14px;
-}
-
-.store-box{
-    background:#101826;
-    border:1px solid #1f2a42;
-    border-radius:14px;
-    padding:18px;
-    text-align:center;
-}
-
-.store-box h3{
-    margin-top:10px;
-}
-
-/* SOBRE */
-
-.about{
-    margin:60px 0;
-}
-
-.about p{
-    color:#c8d0e2;
-    margin:16px 0 28px;
-    line-height:1.7;
-}
-
-.about-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-}
-
-.info-card{
-    background:#101826;
-    border:1px solid #1f2a42;
-    border-radius:16px;
-    padding:22px;
-}
-
-.info-card h3{
-    margin-bottom:10px;
-}
-
-/* FOOTER */
-
-.footer{
-    border-top:1px solid #1c2434;
-    padding:24px 0;
-    display:flex;
-    justify-content:space-between;
-    color:#bfc7da;
-}
-
-/* RESPONSIVO */
-
-@media(max-width:950px){
-
-.hero-grid,
-.banner{
-grid-template-columns:1fr;
-}
-
-.filtros{
-grid-template-columns:1fr;
-}
-
-.about-grid{
-grid-template-columns:1fr;
-}
-
-nav{
-display:none;
-}
-
-.search-top{
-display:none;
-}
-
-.hero h1{
-font-size:42px;
-}
-
-.footer{
-flex-direction:column;
-gap:10px;
-}
-
-}/* =====================================
-   GAVIX V7 - GAME PAGE
-===================================== */
-
-.game-hero{
-    display:grid;
-    grid-template-columns:420px 1fr;
-    gap:40px;
-    margin:45px 0;
-    align-items:center;
-}
-
-.game-cover{
-    width:100%;
-    border-radius:18px;
-    overflow:hidden;
-    border:1px solid #243149;
-    background:#101826;
-}
-
-.game-cover img{
-    width:100%;
-    display:block;
-    aspect-ratio:3/4;
-    object-fit:cover;
-}
-
-.game-content{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-}
-
-.game-badge{
-    width:max-content;
-    padding:8px 14px;
-    border-radius:999px;
-    background:#1c2f55;
-    color:#9dc3ff;
-    font-size:13px;
-    font-weight:700;
-}
-
-.game-content h1{
-    font-size:48px;
-    line-height:1.1;
-}
-
-.game-price-old{
-    color:#8d98ae;
-    text-decoration:line-through;
-    font-size:20px;
-}
-
-.game-price{
-    font-size:54px;
-    font-weight:900;
-    color:#72ff91;
-}
-
-.game-save{
-    color:#7dff9d;
-    font-weight:700;
-}
-
-.buy-btn{
-    display:inline-block;
-    width:max-content;
-    background:#2f6df6;
-    color:#fff;
-    text-decoration:none;
-    padding:16px 28px;
-    border-radius:12px;
-    font-weight:700;
-    margin-top:10px;
-    transition:.2s;
-}
-
-.buy-btn:hover{
-    background:#4b86ff;
-    transform:translateY(-2px);
+    border:none;
 }
 
 /* GALERIA */
@@ -529,12 +101,17 @@ gap:10px;
     object-fit:cover;
     border-radius:14px;
     border:1px solid #22304a;
+    transition:.25s;
+}
+
+.gallery-grid img:hover{
+    transform:scale(1.02);
 }
 
 /* ESPECIFICAÇÕES */
 
 .specs{
-    margin:50px 0;
+    margin:60px 0;
 }
 
 .spec-grid{
@@ -558,19 +135,108 @@ gap:10px;
 }
 
 .spec-card strong{
+    font-size:22px;
+    color:#fff;
+}
+
+/* HISTÓRICO */
+
+.history{
+    margin:60px 0;
+}
+
+.chart-box{
+    background:#101826;
+    border:1px solid #22304a;
+    border-radius:18px;
+    padding:22px;
+}
+
+.chart-labels{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+    color:#8fa1c1;
+    font-size:13px;
+}
+
+/* HERO MELHORADO */
+
+.game-hero{
+    display:grid;
+    grid-template-columns:420px 1fr;
+    gap:42px;
+    align-items:center;
+    margin:45px 0;
+}
+
+.game-cover{
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid #22304a;
+    box-shadow:0 25px 45px rgba(0,0,0,.35);
+}
+
+.game-cover img{
+    width:100%;
+    aspect-ratio:3/4;
+    object-fit:cover;
+    display:block;
+}
+
+.game-content{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.game-badge{
+    width:max-content;
+    background:#1c2f55;
+    color:#9fc3ff;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.game-content h1{
+    font-size:48px;
+    line-height:1.1;
+}
+
+.game-price-old{
+    color:#909cb2;
+    text-decoration:line-through;
     font-size:20px;
 }
 
-/* DESCRIÇÃO */
-
-.description{
-    margin:50px 0;
+.game-price{
+    color:#72ff91;
+    font-size:54px;
+    font-weight:900;
 }
 
-.description p{
-    color:#c9d1e3;
-    line-height:1.9;
-    font-size:17px;
+.game-save{
+    color:#74ff98;
+    font-size:16px;
+    font-weight:700;
+}
+
+.buy-btn{
+    width:max-content;
+    background:#2f6df6;
+    color:#fff;
+    text-decoration:none;
+    padding:16px 28px;
+    border-radius:12px;
+    font-weight:700;
+    transition:.25s;
+}
+
+.buy-btn:hover{
+    background:#4a84ff;
+    transform:translateY(-2px);
 }
 
 /* RESPONSIVO */
@@ -578,19 +244,24 @@ gap:10px;
 @media(max-width:900px){
 
 .game-hero{
-grid-template-columns:1fr;
-}
-
-.game-content h1{
-font-size:36px;
-}
-
-.spec-grid{
-grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr;
 }
 
 .gallery-grid{
-grid-template-columns:1fr;
+    grid-template-columns:1fr;
+}
+
+.spec-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.score-box{
+    flex-direction:column;
+    text-align:center;
+}
+
+.game-content h1{
+    font-size:36px;
 }
 
 }

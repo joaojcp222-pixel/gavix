@@ -1,0 +1,155 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    background:#090d15;
+    color:#fff;
+}
+
+.container{
+    width:92%;
+    max-width:1200px;
+    margin:auto;
+}
+
+header{
+    background:#101826;
+    border-bottom:1px solid #22304a;
+    padding:22px 0;
+    margin-bottom:30px;
+}
+
+.topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.topo h1{
+    font-size:34px;
+}
+
+.topo p{
+    color:#aeb9cf;
+    margin-top:6px;
+}
+
+.voltar{
+    text-decoration:none;
+    background:#2f6df6;
+    color:#fff;
+    padding:12px 20px;
+    border-radius:10px;
+    font-weight:700;
+}
+
+.box{
+    background:#101826;
+    border:1px solid #22304a;
+    border-radius:18px;
+    padding:24px;
+    margin-bottom:28px;
+}
+
+.box h2{
+    margin-bottom:18px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    color:#c8d2e4;
+    font-size:14px;
+}
+
+input,select{
+    width:100%;
+    background:#161f31;
+    color:#fff;
+    border:1px solid #2b3a57;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:16px;
+}
+
+button{
+    width:100%;
+    background:#2f6df6;
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#4b86ff;
+}
+
+.linha{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.linha input{
+    width:260px;
+    margin:0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#18233b;
+}
+
+th,td{
+    text-align:left;
+    padding:14px;
+    border-bottom:1px solid #22304a;
+}
+
+tbody tr:hover{
+    background:#151f31;
+}
+
+@media(max-width:800px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.topo,
+.linha{
+flex-direction:column;
+align-items:flex-start;
+gap:16px;
+}
+
+.linha input{
+width:100%;
+}
+
+table{
+display:block;
+overflow:auto;
+}
+
+}

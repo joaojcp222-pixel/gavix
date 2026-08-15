@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAVIX Admin</title>
+
+<link rel="stylesheet" href="admin.css">
+
+</head>
+<body>
+
+<header>
+
+<div class="container topo">
+
+<div>
+<h1>🎮 GAVIX ADMIN</h1>
+<p>Painel de gerenciamento de ofertas</p>
+</div>
+
+<a href="index.html" class="voltar">
+Voltar ao Site
+</a>
+
+</div>
+
+</header>
+
+<main class="container">
+
+<section class="box">
+
+<h2>➕ Adicionar novo jogo</h2>
+
+<form id="formJogo">
+
+<div class="grid">
+
+<div>
+<label>Nome do jogo</label>
+<input id="nome" required>
+</div>
+
+<div>
+<label>Loja</label>
+<select id="loja">
+<option>Steam</option>
+<option>Nuuvem</option>
+<option>Epic Games</option>
+<option>GOG</option>
+</select>
+</div>
+
+<div>
+<label>Plataforma</label>
+<select id="plataforma">
+<option>PC</option>
+<option>PlayStation</option>
+<option>Xbox</option>
+<option>Nintendo</option>
+</select>
+</div>
+
+<div>
+<label>Desconto (%)</label>
+<input id="desconto" type="number" required>
+</div>
+
+<div>
+<label>Preço antigo</label>
+<input id="antigo" type="number" step="0.01" required>
+</div>
+
+<div>
+<label>Preço atual</label>
+<input id="preco" type="number" step="0.01" required>
+</div>
+
+</div>
+
+<label>Imagem (URL)</label>
+<input id="imagem" placeholder="https://...">
+
+<label>Link da oferta</label>
+<input id="link" placeholder="https://store.steampowered.com/...">
+
+<button type="submit">
+Salvar Jogo
+</button>
+
+</form>
+
+</section>
+
+<section class="box">
+
+<div class="linha">
+
+<h2>📚 Jogos cadastrados</h2>
+
+<input id="pesquisa" placeholder="Pesquisar...">
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Jogo</th>
+<th>Loja</th>
+<th>Preço</th>
+<th>Desconto</th>
+</tr>
+
+</thead>
+
+<tbody id="tabela"></tbody>
+
+</table>
+
+</section>
+
+</main>
+
+<script src="admin.js"></script>
+
+</body>
+</html>

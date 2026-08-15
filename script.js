@@ -1,51 +1,85 @@
 let todasAsOfertas = [];
+let favoritos = JSON.parse(localStorage.getItem("gavix_favoritos") || "[]");
 
-/* =========================
-   CARREGAR OFERTAS
-========================= */
+// ===============================
+// FAVORITOS
+// ===============================
+
+function favoritado(nome){
+    return favoritos.includes(nome);
+}
+
+function alternarFavorito(nome){
+
+    if(favoritado(nome)){
+        favoritos = favoritos.filter(j => j !== nome);
+    }else{
+        favoritos.push(nome);
+    }
+
+    localStorage.setItem(
+        "gavix_favoritos",
+        JSON.stringify(favoritos)
+    );
+
+    mostrarImperdiveis();
+    filtrarOfertas();
+}
+
+// ===============================
+// CARREGAR DADOS
+// ===============================
 
 async function carregarOfertas(){
 
-    const resposta = await fetch(
-        "data/ofertas.json?nocache=" + Date.now()
-    );
+    const r = await fetch("data/ofertas.json?" + Date.now());
 
-    todasAsOfertas = await resposta.json();
+    todasAsOfertas = await r.json();
+mostrarBanner();
 
-    mostrarBanner();
+mostrarImperdiveis();
 
-    mostrarImperdiveis();
+mostrarTop10();
 
-    carregarLojas();
-
+carregarLojas();
     criarCardsDeLojas();
 
     filtrarOfertas();
 }
 
-/* =========================
-   BANNER PREMIUM
-========================= */
+async function carregarStatus(){
 
-let bannerAtual = 0;
+    const r = await fetch("data/status.json?" + Date.now());
+
+    const status = await r.json();
+
+    document.getElementById("status-gavix").innerHTML =
+        `🟢 ${status.quantidade_ofertas} jogos • Atualizado em ${status.ultima_atualizacao}`;
+}
+
+// ===============================
+// BANNER
+// ===============================
+
+let bannerIndex = 0;
 
 function mostrarBanner(){
 
-    const melhores = [...todasAsOfertas]
+    const destaques = [...todasAsOfertas]
     .sort((a,b)=>b.desconto-a.desconto)
     .slice(0,5);
 
-    atualizarBanner(melhores);
+    atualizarBanner(destaques);
 
     setInterval(()=>{
 
-        bannerAtual++;
+        bannerIndex++;
 
-        if(bannerAtual>=melhores.length){
-            bannerAtual=0;
+        if(bannerIndex >= destaques.length){
+            bannerIndex = 0;
         }
 
-        atualizarBanner(melhores);
+        atualizarBanner(destaques);
 
     },5000);
 
@@ -53,50 +87,54 @@ function mostrarBanner(){
 
 function atualizarBanner(lista){
 
-    const jogo = lista[bannerAtual];
+    const jogo = lista[bannerIndex];
 
     document.getElementById("banner-titulo").textContent = jogo.nome;
 
     document.getElementById("banner-descricao").textContent =
-    `${jogo.desconto}% OFF • ${jogo.loja}`;
+        `${jogo.desconto}% OFF • ${jogo.loja}`;
 
     document.getElementById("banner-imagem").src = jogo.imagem;
 
     document.getElementById("banner-botao").href = jogo.link;
-
 }
 
-/* =========================
-   OFERTAS IMPERDÍVEIS
-========================= */
+// ===============================
+// IMPERDÍVEIS
+// ===============================
 
 function mostrarImperdiveis(){
 
-    const lista =
-    document.getElementById("lista-imperdiveis");
+    const grid = document.getElementById("lista-imperdiveis");
 
-    lista.innerHTML = "";
+    grid.innerHTML = "";
 
-    const jogos = [...todasAsOfertas]
+    [...todasAsOfertas]
     .sort((a,b)=>b.desconto-a.desconto)
-    .slice(0,4);
+    .slice(0,4)
+    .forEach(jogo=>{
 
-    jogos.forEach(jogo=>{
-
-        lista.innerHTML += criarCard(jogo);
+        grid.innerHTML += criarCard(jogo);
 
     });
 
 }
 
-/* =========================
-   CARD
-========================= */
+// ===============================
+// CARD
+// ===============================
 
 function criarCard(jogo){
 
-return `
+    const coracao = favoritado(jogo.nome) ? "❤️" : "🤍";
+
+    return `
 <div class="card">
+
+<div class="favorito"
+onclick="alternarFavorito('${jogo.nome.replace(/'/g,"\\\\'")}')">
+${coracao}
+</div>
 
 <img src="${jogo.imagem}" alt="${jogo.nome}">
 
@@ -128,8 +166,7 @@ Economize R$ ${(jogo.preco_antigo-jogo.preco).toFixed(2)}
 🎮 ${jogo.plataforma}
 </div>
 
-<a
-class="botao"
+<a class="botao"
 href="${jogo.link}"
 target="_blank">
 
@@ -144,65 +181,53 @@ VER OFERTA →
 
 }
 
-/* =========================
-   LOJAS
-========================= */
+// ===============================
+// LOJAS
+// ===============================
 
 function carregarLojas(){
 
-const select =
-document.getElementById("filtro-loja");
+    const select = document.getElementById("filtro-loja");
 
-select.innerHTML =
-'<option value="todas">Todas lojas</option>';
+    select.innerHTML =
+        `<option value="todas">Todas as lojas</option>`;
 
-const lojas = [
-...new Set(
-todasAsOfertas.map(x=>x.loja)
-)
-].sort();
+    const lojas = [...new Set(todasAsOfertas.map(j=>j.loja))].sort();
 
-lojas.forEach(loja=>{
+    lojas.forEach(loja=>{
 
-select.innerHTML +=
-`<option value="${loja}">${loja}</option>`;
+        select.innerHTML +=
+            `<option value="${loja}">${loja}</option>`;
 
-});
+    });
 
-}/* =========================
-   CARDS DAS LOJAS
-========================= */
+}
 
 function criarCardsDeLojas(){
 
-const container =
-document.getElementById("lista-lojas");
+    const container = document.getElementById("lista-lojas");
 
-container.innerHTML="";
+    container.innerHTML = "";
 
-const mapa={};
+    const mapa = {};
 
-todasAsOfertas.forEach(j=>{
+    todasAsOfertas.forEach(j=>{
 
-if(!mapa[j.loja]){
-mapa[j.loja]=0;
-}
+        mapa[j.loja] = (mapa[j.loja] || 0) + 1;
 
-mapa[j.loja]++;
+    });
 
-});
+    Object.keys(mapa)
+    .sort()
+    .forEach(loja=>{
 
-Object.keys(mapa)
-.sort()
-.forEach(loja=>{
-
-container.innerHTML+=`
-
-<button
-class="store-card"
+        container.innerHTML += `
+<div class="store-card"
 onclick="filtrarLoja('${loja}')">
 
-<div class="store-icon">🏪</div>
+<div class="store-icon">
+🏪
+</div>
 
 <div class="store-info">
 
@@ -212,148 +237,167 @@ onclick="filtrarLoja('${loja}')">
 
 </div>
 
-</button>
-
+</div>
 `;
 
-});
+    });
 
 }
 
 function filtrarLoja(loja){
 
-document.getElementById("filtro-loja").value=loja;
+    document.getElementById("filtro-loja").value = loja;
 
-filtrarOfertas();
+    filtrarOfertas();
 
-window.location.href="#ofertas";
-
+    location.href="#ofertas";
 }
 
-/* =========================
-   FILTROS
-========================= */
+// ===============================
+// FILTROS
+// ===============================
 
 function filtrarOfertas(){
 
-const pesquisa =
-document.getElementById("campo-pesquisa")
-.value.toLowerCase();
+    const pesquisa =
+        document.getElementById("campo-pesquisa")
+        .value
+        .toLowerCase();
 
-const plataforma =
-document.getElementById("filtro-plataforma")
-.value;
+    const loja =
+        document.getElementById("filtro-loja").value;
 
-const loja =
-document.getElementById("filtro-loja")
-.value;
+    const ordem =
+        document.getElementById("ordenacao").value;
 
-const ordem =
-document.getElementById("ordenacao")
-.value;
+    let lista = todasAsOfertas.filter(j=>{
 
-let lista =
-todasAsOfertas.filter(j=>{
+        const nome =
+            j.nome.toLowerCase().includes(pesquisa);
 
-const okNome =
-j.nome.toLowerCase().includes(pesquisa);
+        const okLoja =
+            loja==="todas" || j.loja===loja;
 
-const okPlat =
-plataforma==="todas" ||
-j.plataforma===plataforma;
+        return nome && okLoja;
 
-const okLoja =
-loja==="todas" ||
-j.loja===loja;
+    });
 
-return okNome && okPlat && okLoja;
+    switch(ordem){
 
-});
+        case "desconto":
+            lista.sort((a,b)=>b.desconto-a.desconto);
+            break;
 
-if(ordem==="desconto"){
-lista.sort((a,b)=>b.desconto-a.desconto);
-}
+        case "menor-preco":
+            lista.sort((a,b)=>a.preco-b.preco);
+            break;
 
-if(ordem==="menor-preco"){
-lista.sort((a,b)=>a.preco-b.preco);
-}
+        case "maior-preco":
+            lista.sort((a,b)=>b.preco-a.preco);
+            break;
 
-if(ordem==="maior-preco"){
-lista.sort((a,b)=>b.preco-a.preco);
-}
+        case "nome":
+            lista.sort((a,b)=>a.nome.localeCompare(b.nome));
+            break;
 
-if(ordem==="nome"){
-lista.sort((a,b)=>a.nome.localeCompare(b.nome));
-}
+    }
 
-document.getElementById("contador-ofertas")
-.textContent=`${lista.length} ofertas encontradas`;
+    document.getElementById("contador-ofertas").textContent =
+        `${lista.length} ofertas encontradas`;
 
-const grid =
-document.getElementById("lista-ofertas");
+    const grid = document.getElementById("lista-ofertas");
 
-grid.innerHTML="";
+    grid.innerHTML = "";
 
-lista.forEach(j=>{
+    lista.forEach(j=>{
 
-grid.innerHTML+=criarCard(j);
+        grid.innerHTML += criarCard(j);
 
-});
+    });
 
 }
 
-/* =========================
-   CATEGORIAS
-========================= */
+// ===============================
+// CATEGORIAS
+// ===============================
 
-function selecionarPlataforma(p){
+function selecionarPlataforma(){
 
-document.getElementById("filtro-plataforma").value=p;
-
-filtrarOfertas();
-
-window.location.href="#ofertas";
+    location.href="#ofertas";
 
 }
 
-/* =========================
-   STATUS
-========================= */
-
-async function carregarStatus(){
-
-const r = await fetch(
-"data/status.json?"+Date.now()
-);
-
-const status = await r.json();
-
-document.getElementById("status-gavix")
-.innerHTML=`
-🟢 ${status.quantidade_ofertas} jogos • Atualizado em ${status.ultima_atualizacao}
-`;
-
-}
-
-/* =========================
-   EVENTOS
-========================= */
+// ===============================
+// EVENTOS
+// ===============================
 
 document.getElementById("campo-pesquisa")
 .addEventListener("input",filtrarOfertas);
 
-document.getElementById("filtro-plataforma")
-.addEventListener("change",filtrarOfertas);
-
 document.getElementById("filtro-loja")
 .addEventListener("change",filtrarOfertas);
 
 document.getElementById("ordenacao")
 .addEventListener("change",filtrarOfertas);
 
-/* =========================
-   INICIAR
-========================= */
+// ===============================
+// INICIAR
+// ===============================
 
 carregarStatus();
+
 carregarOfertas();
+// ===============================
+// TOP 10 MAIORES DESCONTOS
+// ===============================
+
+function mostrarTop10() {
+
+    const lista = document.getElementById("top10-lista");
+
+    if (!lista) return;
+
+    lista.innerHTML = "";
+
+    const jogos = [...todasAsOfertas]
+        .sort((a, b) => b.desconto - a.desconto)
+        .slice(0, 10);
+
+    jogos.forEach((jogo, index) => {
+
+        let classe = "";
+
+        if (index === 0) classe = "rank1";
+        if (index === 1) classe = "rank2";
+        if (index === 2) classe = "rank3";
+
+        lista.innerHTML += `
+        <div class="top10-card">
+
+            <div class="rank ${classe}">
+                ${index + 1}
+            </div>
+
+            <img
+                class="top10-img"
+                src="${jogo.imagem}"
+                alt="${jogo.nome}">
+
+            <div class="top10-info">
+                <h3>${jogo.nome}</h3>
+
+                <div class="top10-desconto">
+                    🔥 ${jogo.desconto}% OFF
+                </div>
+            </div>
+
+            <div class="top10-preco">
+                R$ ${Number(jogo.preco).toFixed(2)}
+            </div>
+
+        </div>
+        `;
+
+    });
+
+}

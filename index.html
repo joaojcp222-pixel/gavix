@@ -1,17 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta name="impact-site-verification" value="fd54b8d5-6d1c-45b5-8f93-27b1410b1b5d">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>GAVIX | Promoções de Jogos</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header class="header">
@@ -28,41 +22,37 @@
             <a href="#sobre">Sobre</a>
         </nav>
 
-        <button class="menu-button">☰</button>
-
     </div>
 </header>
 
 <section class="hero">
-    <div class="container">
 
-        <div class="hero-content">
+    <div class="container hero-content">
 
-            <span class="hero-tag">
-                🎮 PROMOÇÕES DE JOGOS
-            </span>
+        <span class="hero-tag">
+            🎮 PROMOÇÕES DE JOGOS
+        </span>
 
-            <h1>
-                Economize nos seus
-                <span>jogos favoritos.</span>
-            </h1>
+        <h1>
+            Economize nos seus
+            <span>jogos favoritos</span>
+        </h1>
 
-            <p>
-                Compare preços, encontre os maiores descontos e compre pagando menos.
-            </p>
+        <p>
+            Os maiores descontos em jogos de PC atualizados automaticamente.
+        </p>
 
-            <a href="#ofertas" class="hero-button">
-                VER OFERTAS
-            </a>
-
-        </div>
+        <a href="#ofertas" class="hero-button">
+            VER OFERTAS
+        </a>
 
     </div>
+
 </section>
 
 <main class="container">
 
-    <!-- BANNER PREMIUM -->
+    <!-- BANNER -->
     <section class="banner-destaque">
 
         <div class="banner-info">
@@ -76,13 +66,12 @@
             </h2>
 
             <p id="banner-descricao">
-                Os melhores descontos atualizados automaticamente.
+                As melhores promoções do dia.
             </p>
 
             <a
                 id="banner-botao"
                 class="banner-botao"
-                href="#"
                 target="_blank">
                 VER OFERTA →
             </a>
@@ -92,28 +81,49 @@
         <img
             id="banner-imagem"
             src=""
-            alt="Jogo destaque">
+            alt="Banner">
 
     </section>
 
-    <!-- OFERTAS IMPERDÍVEIS -->
-    <section class="imperdiveis-section" id="imperdiveis">
+    <!-- TOP 10 -->
+    <section class="top10">
 
         <div class="section-header">
 
             <div>
+
+                <span class="section-tag">
+                    🏆 RANKING
+                </span>
+
+                <h2>Top 10 Maiores Descontos</h2>
+
+            </div>
+
+            <span class="offer-count">
+                Atualizado automaticamente
+            </span>
+
+        </div>
+
+        <div id="top10-lista" class="top10-lista"></div>
+
+    </section>
+
+    <!-- IMPERDÍVEIS -->
+    <section class="imperdiveis-section">
+
+        <div class="section-header">
+
+            <div>
+
                 <span class="section-tag">
                     🔥 DESTAQUES
                 </span>
 
-                <h2>
-                    Ofertas Imperdíveis
-                </h2>
-            </div>
+                <h2>Ofertas Imperdíveis</h2>
 
-            <span class="offer-count">
-                Maiores descontos
-            </span>
+            </div>
 
         </div>
 
@@ -124,31 +134,33 @@
 
     </section>
 
-    <!-- OFERTAS -->
-    <section id="ofertas" class="offers-section">
+    <!-- TODAS AS OFERTAS -->
+    <section id="ofertas">
 
         <div class="section-header">
 
             <div>
+
                 <span class="section-tag">
                     TODAS AS OFERTAS
                 </span>
 
-                <h2>
-                    179 Jogos em Promoção
-                </h2>
+                <h2>Jogos em Promoção</h2>
+
             </div>
 
             <span
                 id="contador-ofertas"
                 class="offer-count">
-                Carregando...
+                0 ofertas
             </span>
 
         </div>
 
-        <div id="status-gavix" class="status-gavix">
-            Atualizando...
+        <div
+            id="status-gavix"
+            class="status-gavix">
+            Carregando...
         </div>
 
         <div class="filtros">
@@ -158,24 +170,30 @@
                 type="text"
                 placeholder="Pesquisar jogo...">
 
-            <select id="filtro-plataforma">
-                <option value="todas">Todas plataformas</option>
-                <option value="PC">PC</option>
-                <option value="PlayStation">PlayStation</option>
-                <option value="Xbox">Xbox</option>
-                <option value="Nintendo">Nintendo</option>
-            </select>
-
             <select id="filtro-loja">
-                <option value="todas">Todas lojas</option>
+                <option value="todas">
+                    Todas as lojas
+                </option>
             </select>
 
             <select id="ordenacao">
-                <option value="padrao">Ordenar</option>
-                <option value="desconto">Maior desconto</option>
-                <option value="menor-preco">Menor preço</option>
-                <option value="maior-preco">Maior preço</option>
-                <option value="nome">A-Z</option>
+
+                <option value="desconto">
+                    Maior desconto
+                </option>
+
+                <option value="menor-preco">
+                    Menor preço
+                </option>
+
+                <option value="maior-preco">
+                    Maior preço
+                </option>
+
+                <option value="nome">
+                    A-Z
+                </option>
+
             </select>
 
         </div>
@@ -188,18 +206,20 @@
     </section>
 
     <!-- LOJAS -->
-    <section id="lojas" class="stores-section">
+    <section id="lojas">
 
         <div class="section-header">
+
             <div>
+
                 <span class="section-tag">
                     LOJAS
                 </span>
 
-                <h2>
-                    Navegue por Loja
-                </h2>
+                <h2>Navegue por Loja</h2>
+
             </div>
+
         </div>
 
         <div
@@ -210,51 +230,45 @@
     </section>
 
     <!-- CATEGORIAS -->
-    <section id="categorias" class="categories">
+    <section
+        id="categorias"
+        class="categories">
 
         <span class="section-tag">
-            CATEGORIAS
+            PLATAFORMAS
         </span>
 
-        <h2>
-            Escolha sua Plataforma
-        </h2>
+        <h2>Escolha sua Plataforma</h2>
 
         <div class="category-list">
 
-            <button onclick="selecionarPlataforma('PC')">
-                🎮 PC
-            </button>
+            <button>🎮 PC</button>
 
-            <button onclick="selecionarPlataforma('PlayStation')">
-                🕹️ PlayStation
-            </button>
+            <button>🟢 Xbox</button>
 
-            <button onclick="selecionarPlataforma('Xbox')">
-                🟢 Xbox
-            </button>
+            <button>🔵 PlayStation</button>
 
-            <button onclick="selecionarPlataforma('Nintendo')">
-                🔴 Nintendo
-            </button>
+            <button>🔴 Nintendo</button>
 
         </div>
 
     </section>
 
     <!-- SOBRE -->
-    <section id="sobre" class="about">
+    <section
+        id="sobre"
+        class="about">
 
         <span class="section-tag">
             SOBRE
         </span>
 
         <h2>
-            O Gavix reúne promoções reais de jogos em um só lugar.
+            O Gavix reúne promoções reais em um só lugar.
         </h2>
 
         <p>
-            Atualizado automaticamente para mostrar os maiores descontos disponíveis em lojas digitais.
+            Atualizado automaticamente com ofertas em reais.
         </p>
 
     </section>
@@ -267,9 +281,9 @@
 
         <strong>GAVIX</strong>
 
-        <span>179 ofertas atualizadas automaticamente</span>
-
-        <span>© 2026 GAVIX</span>
+        <span>
+            gavix.app.br
+        </span>
 
     </div>
 
